@@ -73,7 +73,7 @@
         <aside>
             <nav class="sidebar sidebar-open">
                 <ul class="nav nav-pills">
-                    <li class="nav-item"><a class="nav-link " href="#"> <i class="oi oi-home"></i> <span>Bem
+                    <li class="nav-item"><a class="nav-link " href="{% url 'index' %}"> <i class="oi oi-home"></i> <span>Bem
                                 vindo</span>
                         </a></li>
                 </ul>
@@ -81,19 +81,20 @@
                 <ul class="nav nav-pills">
                     <li class="nav-item"><span class="nav-link active">Usuários</span></li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"> <i class="oi oi-plus"></i>
-                            <span>Cadastrar</span>
+                        <a class="nav-link" href="{% url 'sobre' %}"> <i class="oi oi-plus"></i>
+                            <span>Sobre</span>
                         </a>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="#"> <i class="oi oi-spreadsheet"></i> <span>Listar
+                    <li class="nav-item"><a class="nav-link" href="{% url 'ajuda' %}"> <i class="oi oi-spreadsheet"></i> <span>Ajuda
                             </span>
                         </a></li>
                 </ul>
             </nav>
         </aside>
 
-
         {% endblock %}
+
+        
         {% block conteudo %}
         <section class="layout-content">
 
@@ -113,7 +114,6 @@
                     </ul>
                 </div>
             </nav>
-
             <div class="container">
                 <div id="list-home" class="row">
                     <div class="col-4">
@@ -151,8 +151,9 @@
                     </div>
                 </div>
             </div>
-
+            
         </section>
+        
         {% endblock %}
     </div>
     {% block rodape %}

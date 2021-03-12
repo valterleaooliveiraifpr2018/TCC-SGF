@@ -20,5 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('', include('paginas.urls')),
-    path('/cadastrar', include('cadastros.urls')),
+    path('', include('cadastros.urls')),
 ]
