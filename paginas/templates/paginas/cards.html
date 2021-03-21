@@ -1,0 +1,74 @@
+{% extends 'paginas/modelo.html' %}
+{% load static %}
+
+{% block titulo %}
+<title>Home</title>
+{% endblock %}
+
+{% block conteudo %}
+<div class="container col-8">
+    <div class="card-group">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h5 class="card-title">Cadastrar Produto</h5>
+                <p class="card-text">Campo para se cadastrar os produtos.</p>
+                <a href="{% url 'cadastrar-produto' %}" class="btn btn-primary">Cadastrar</a>
+            </div>
+        </div>
+        <div class="card text-white bg-dark">
+            
+                <div class="card-body">
+                    <h5 class="card-title">Cadastrar Máquina</h5>
+                    <p class="card-text">Campo para se cadastrar as Máquinas.</p>
+                    <a href="{% url 'cadastrar-prefixomaquina' %}" class="btn btn-primary">Cadastrar</a>
+                </div>
+            
+        </div>
+        <div class="card text-white bg-dark">
+
+            <div class="card-body">
+                <h5 class="card-title">Cadastrar o Funcionário</h5>
+                <p class="card-text">Campo para se cadastrar os Funcionários.</p>
+                <a href="{% url 'cadastrar-funcionario' %}" class="btn btn-primary">Cadastrar</a>
+            </div>
+
+        </div>
+        <div class="card text-white bg-dark">
+
+            <div class="card-body">
+                <h5 class="card-title">Cadastrar Fornecedor</h5>
+                <p class="card-text">Campo para se cadastrar as Fornecedores.</p>
+                <a href="{% url 'cadastrar-fornecedor' %}" class="btn btn-primary">Cadastrar</a>
+            </div>
+
+        </div>
+        
+        <div class="card text-white bg-dark">
+
+            <div class="card-body">
+                <h5 class="card-title">Cadastrar Estados</h5>
+                <p class="card-text">Campo para se cadastrar os Estados.</p>
+                <a href="{% url 'cadastrar-estado' %}" class="btn btn-primary">Cadastrar</a>
+            </div>
+
+        </div>
+        <div class="card text-white bg-dark">
+
+            <div class="card-body">
+                <h5 class="card-title">Cadastrar Cidade</h5>
+                <p class="card-text">Campo para se cadastrar as Cidades.</p>
+                <a href="{% url 'cadastrar-cidade' %}" class="btn btn-primary">Cadastrar</a>
+            </div>
+
+        </div>
+    </div>
+    
+
+
+</div>
+{% endblock %}
+
+
+
+{% block rodape %}
+{% endblock %}

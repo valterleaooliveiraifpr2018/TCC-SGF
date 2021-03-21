@@ -13,3 +13,6 @@ class SobreView(TemplateView):
 
 class AjudaView(TemplateView):
     template_name = "paginas/ajuda.html"
+
+class CardsView(TemplateView):
+    template_name = "paginas/cards.html"

@@ -40,9 +40,13 @@ INSTALLED_APPS = [
 
     'paginas.apps.PaginasConfig',
     'cadastros.apps.CadastrosConfig',
+    'usuarios.apps.UsuariosConfig',
 
+    'django_cleanup.apps.CleanupConfig',
     'crispy_forms',
 ]
+# Crispy Forms
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -124,9 +128,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-
-
+    os.path.join(BASE_DIR, "static"),
 ]
+
+# Arquivos de Media/upload
+MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
+MEDIA_URL = "/uploads/"
+
+# Configurações de Autenticação
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'login'
+LOGIN_URL = 'login'

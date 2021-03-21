@@ -23,6 +23,7 @@
     <link href="{% static 'css\style.css' %}" rel="stylesheet" />
 
     <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="{% static 'css\font-awesome.min.css' %}" rel="stylesheet" />
 </head>
 
 <body>
@@ -36,21 +37,48 @@
                     </button>
                     <a class="navbar-brand " href="#">Painel do Sistema de Gerenciamento de Frotas</a>
                 </div>
+                {% if request.user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-primary pull-left mb-0" href="#" id="navbarDropdownMenuLink" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle"
+                            viewBox="0 0 16 16">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                            <path fill-rule="evenodd"
+                                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                        </svg>
+                        <span id="username">{{ request.user }}</span>
+                    </a>
+                    &nbsp; &nbsp; &nbsp; &nbsp;
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{% url 'atualizar-dados' %}">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            Meus dados</a>
+                        <a class="dropdown-item" href="#">
+                            <i class="fa fa-lock" aria-hidden="true"></i>
+                            Alterar senha</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'logout' %}">
+                            <i class="fa fa-sign-out" aria-hidden="true"></i>
+                            Sair</a>
+                    </div>
+                </li>
+                {% else %}
                 <div class="navbar-header ml-auto">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="{% url 'registrar' %}">
                         <i class="fa fa-user-plus" aria-hidden="true"></i>
                         Registrar
 
                     </a>
                 </div>
                 <div class="navbar-header">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="{% url 'login' %}">
                         <i class="fa fa-sign-in" aria-hidden="true"></i>
                         Login
 
                     </a>
                 </div>
-
+                {% endif %}
 
 
 
@@ -67,26 +95,27 @@
     {% endblock %}
 
     <div class="layout-main">
-
+        
         {% block menuEsquerdo%}
 
         <aside>
             <nav class="sidebar sidebar-open">
                 <ul class="nav nav-pills">
-                    <li class="nav-item"><a class="nav-link " href="{% url 'index' %}"> <i class="oi oi-home"></i> <span>Bem
-                                vindo</span>
+                    <li class="nav-item"><a class="nav-link " href="{% url 'index' %}"> <i class="oi oi-home"></i>
+                            <span>Bem vindo</span>
                         </a></li>
                 </ul>
-
                 <ul class="nav nav-pills">
                     <li class="nav-item"><span class="nav-link active">Usuários</span></li>
+                    {% if request.user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'sobre' %}"> <i class="oi oi-plus"></i>
-                            <span>Sobre</span>
+                        <a class="nav-link" href="{% url 'cards' %}"> <i class="oi oi-plus"></i>
+                            <span>Cadastrar</span>
                         </a>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'ajuda' %}"> <i class="oi oi-spreadsheet"></i> <span>Ajuda
-                            </span>
+                    {% endif %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'ajuda' %}"> <i class="oi oi-spreadsheet"></i>
+                            <span>Ajuda</span>
                         </a></li>
                 </ul>
             </nav>
@@ -94,7 +123,6 @@
 
         {% endblock %}
 
-        
         {% block conteudo %}
         <section class="layout-content">
 
@@ -120,9 +148,9 @@
                         <div class="list-group" id="list-tab" role="tablist">
                             <a class="list-group-item list-group-item-action active" id="list-spring-boot-list"
                                 data-toggle="list" href="#sobre-sgf" role="tab" aria-controls="sobre-sgf">Sobre</a>
-                            <a class="list-group-item list-group-item-action" id="list-sgf-list" 
-                                data-toggle="list" href="#sgf" role="tab" aria-controls="sgf">Ajuda</a>
-                            
+                            <a class="list-group-item list-group-item-action" id="list-sgf-list" data-toggle="list"
+                                href="#sgf" role="tab" aria-controls="sgf">Ajuda</a>
+
                         </div>
                     </div>
                     <div class="col-8">
@@ -144,16 +172,19 @@
 
                             </div>
                             <div class="tab-pane fade" id="sgf" role="tabpanel" aria-labelledby="list-sts-list">
-                                 Se tiver algum problema por favor enviar um email para nossa equipe de suporte <span style="color: #4286f4"><a href="">leodiceo@gmail.com</a></span>  que entraremos em contato com você obrigado pela sua preferência 
+                                Se tiver algum problema por favor enviar um email para nossa equipe de suporte <span
+                                    style="color: #4286f4"><a
+                                        href="{% url 'cadastrar-EmailSuport' %}">leodiceo@gmail.com</a></span> que
+                                entraremos em contato com você obrigado pela sua preferência
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
             </div>
-            
+
         </section>
-        
+
         {% endblock %}
     </div>
     {% block rodape %}
