@@ -35,8 +35,7 @@ class Cargo(models.Model):
 class Funcionario(models.Model):
     nome = models.CharField(max_length=50)
     data_nascimento = models.DateField()
-    setor = models.CharField(
-        max_length=5, choices=SETOR_CHOICES, verbose_name="Setor de Trabalho")
+    setor = models.CharField(max_length=5, choices=SETOR_CHOICES, verbose_name="Setor de Trabalho")
     telefone_celular = models.CharField(max_length=15, blank=True, null=True)
     telefone_fixo = models.CharField(max_length=15, blank=True, null=True)
     cpf = models.CharField(max_length=14, verbose_name="CPF")
@@ -49,88 +48,87 @@ class Funcionario(models.Model):
 
     
     def __str__(self):
-        return "{} {} está lotado na secretaria da {} - celular para contato {}".format(self.nome, self.cargo, self.setor, self.telefoneCelular)
+        return "{} -- {}/{}".format(self.nome, self.cargo, self.setor)
 
     class Meta:
-        verbose_name="Funcionário"        
-        ordering=['nome']
-
-
-class Prefixo_Maquina(models.Model):
-    ndescricao= models.CharField(max_length=50, verbose_name="MDescrição), help_text="Descreva a máquina em detalhes, ex: modelo, marca, nome, etc."
-    tipo = models.CharField(max_length=50, verbose_name="Tipo de Maquina")
-    ano = models.CharField(max_length=50, verbose_name="Ano da Maquina")
-    horimetro = models.IntegerField(verbose_name="Horimetro")
-    prefixoMaquina = models.CharField(max_length=100, verbose_name="Prefixo")
-
-    idcid = models.ForeignKey(Cidade, on_delete=models.PROTECT)
-
-    def __str__(self):
-        return "Maáuina {} {} ano de {}".format(self.tipo, self.nome, self.ano)
-
-    class Meta:
-        verbose_name = "Prefixo da Máquina"
+        verbose_name = "Funcionário"        
         ordering = ['nome']
 
 
-class Saida(models.Model):
-    data_Retirada = models.DateField(verbose_name="Data Retirada")
-    quatidadeRetirada = models.DecimalField(
-        decimal_places=2, max_digits=5, verbose_name="Quantidade Retirada")
+class Maquina(models.Model):
+    descricao= models.CharField(max_length=50, verbose_name="Descrição", 
+        help_text="Descreva a máquina em detalhes, ex: modelo, marca, nome, etc.")
+    ano = models.CharField(max_length=4, verbose_name="Ano da Máquina")
+    horimetro = models.IntegerField(verbose_name="Horímetro")
+    prefixo = models.CharField(max_length=20)
 
-    idmaquina = models.ForeignKey(PrefixoMaquina, on_delete=models.PROTECT)
-    idfuncionario = models.ForeignKey(Funcionario, on_delete=models.PROTECT)
+    cidade = models.ForeignKey(Cidade, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return "Máquina: {}/{} ({})".format(self.descricao, self.prefixo, self.ano)
+
+    class Meta:
+        verbose_name = "Máquina"
+        ordering = ['-ano']
 
 
 class Fornecedor(models.Model):
-
     cnpj = models.CharField(max_length=18, verbose_name="CNPJ")
-    nomedocontribuinte = models.CharField(
-        max_length=50, verbose_name="Nome da Razão Social")
-    nome = models.CharField(max_length=50, verbose_name="Funcionario")
-    email = models.CharField(max_length=50, verbose_name="Email")
-    telefoneCelular = models.IntegerField(verbose_name="TelefoneCelular")
-    telefoneFixo = models.IntegerField(verbose_name="TelefoneFixo")
-    site = models.CharField(
-        max_length=50, verbose_name="URL", null=True, blank=True)
-    idcid = models.ForeignKey(Cidade, on_delete=models.PROTECT)
+    razao_social = models.CharField(max_length=50, verbose_name="Razão Social")
+    nome_fantasia = models.CharField(max_length=50, verbose_name="Nome Fantasia")
+    vendedor = models.CharField(max_length=50, verbose_name="Nome do vendedor")
+    email = models.CharField(max_length=50)
+    telefone = models.CharField(max_length=15)
+    site = models.CharField(max_length=50, verbose_name="URL do Site", null=True, blank=True)
+    
+    cidade = models.ForeignKey(Cidade, on_delete=models.PROTECT)
 
     def __str__(self):
-        return "fornecedor {} de cnpj n°{} email para contato {} telefone cel{}/fixo{} site http://{}".format(self.nome, self.cnpj, self.email, self.telefoneCelular, self.telefoneFixo, self.site)
-
-
-class Entrada(models.Model):
-    dataVenda = models.DateField(verbose_name="Data da Venda")
-    idLoteProduto = models.IntegerField(verbose_name="Data da Venda")
-    preco_Total = models.IntegerField(verbose_name="Preço total")
-    idform = models.ForeignKey(Fornecedor, on_delete=models.PROTECT)
-
-
-class Itens_Mov(models.Model):
-    saida = models.ForeignKey(Saida, on_delete=models.PROTECT)
-    entrada = models.ForeignKey(Entrada, on_delete=models.PROTECT)
-
-    qtde = models.DecimalField(
-        decimal_places=2, max_digits=5, verbose_name="Quantidade")
-    preco = models.DecimalField(
-        decimal_places=2, max_digits=5, verbose_name="Preço")
-    idloteprod = models.IntegerField(verbose_name="Lote do produto")
+        return "{} -- {}".format(self.cnpj, self.nome_fantasia)
 
 
 class Produto(models.Model):
-    nome = models.CharField(max_length=50, verbose_name="Nome do Produto")
-    qtdeatual = models.IntegerField(verbose_name="Quantidade atual")
-    qtdemin = models.IntegerField(verbose_name="Quantidade minima")
-    precoProduto = models.DecimalField(
-        max_digits=6, decimal_places=2, verbose_name="Preço do Produto")
-
-    saida = models.ForeignKey(Saida, on_delete=models.PROTECT)
-    entrada = models.ForeignKey(Entrada, on_delete=models.PROTECT)
+    nome = models.CharField(max_length=50, help_text="Nome ou descrição do produto.")
+    quantidade_atual = models.DecimalField(decimal_places=2, max_digits=6)
+    quantidade_minima = models.IntegerField(verbose_name="Quantidade mínima", 
+        help_text="Informe a quantidade mínima para gerar um alerta de estoque.")
 
     def __str__(self):
-        return "".format(self.nome, self.qtdeatual, self.qtdemin, self.precoProduto, self.entrada.idLoteProduto)
+        return "{}".format(self.nome)
 
 
+class Entrada(models.Model):
+    data = models.DateField(verbose_name="Data de entrada")
+    produto = models.ForeignKey(Produto, on_delete=models.PROTECT)
+    quantidade = models.IntegerField()
+    preco = models.IntegerField(verbose_name="Preço unitário")
+    fornecedor = models.ForeignKey(Fornecedor, on_delete=models.PROTECT)
+
+
+class Saida(models.Model):
+    data = models.DateField(auto_now=True)
+    produto = models.ForeignKey(Produto, on_delete=models.PROTECT)
+    quantidade = models.DecimalField(decimal_places=2, max_digits=6, verbose_name="Quantidade retirada")
+
+    maquina = models.ForeignKey(Maquina, on_delete=models.PROTECT)
+    funcionario = models.ForeignKey(Funcionario, on_delete=models.PROTECT)
+
+    class Meta:
+        verbose_name = "Data da retirada/saída"
+
+
+# class Itens_Mov(models.Model):
+#     saida = models.ForeignKey(Saida, on_delete=models.PROTECT)
+#     entrada = models.ForeignKey(Entrada, on_delete=models.PROTECT)
+
+#     qtde = models.DecimalField(
+#         decimal_places=2, max_digits=5, verbose_name="Quantidade")
+#     preco = models.DecimalField(
+#         decimal_places=2, max_digits=5, verbose_name="Preço")
+#     idloteprod = models.IntegerField(verbose_name="Lote do produto")
+
+
+"""
 class EmailSuport(models.Model):
 
     nome = models.CharField(max_length=50,
@@ -147,3 +145,4 @@ class EmailSuport(models.Model):
 
     def __str__(self):
         return "".format(self.nome, self.email, self.telefoneCelular, self.telefoneFixo, self.descricao)
+"""
