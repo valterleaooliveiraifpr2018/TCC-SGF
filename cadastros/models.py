@@ -8,6 +8,13 @@ SETOR_CHOICES = (
 )
 
 
+CARGO_CHOICES = (
+    ('1', 'Operador de Maquinas Pesadas'),
+    ('2', 'Administrativos'),
+    ('3', 'Ajudante Geral'),
+)
+
+
 # Create your models here.
 class Estado(models.Model):
     nome = models.CharField(max_length=50)
@@ -20,19 +27,20 @@ class Estado(models.Model):
 class Cidade(models.Model):
     nome = models.CharField(max_length=50)
     estado = models.ForeignKey(Estado, on_delete=models.PROTECT)
-
+    
     def __str__(self):
         return "{}/{}".format(self.nome, self.estado)
 
 
-class Cargo(models.Model):
-    nome = models.CharField(max_length=50)
+# class Cargo(models.Model):
 
-    def __str__(self):
-        return "{}".format(self.nome)
+#     def __str__(self):
+#         return "{}".format(self.nome)
 
 
 class Funcionario(models.Model):
+    cargo = models.CharField(max_length=5, choices=CARGO_CHOICES, verbose_name="Cargo do Trabalhador")
+
     nome = models.CharField(max_length=50)
     data_nascimento = models.DateField()
     setor = models.CharField(max_length=5, choices=SETOR_CHOICES, verbose_name="Setor de Trabalho")
@@ -42,13 +50,11 @@ class Funcionario(models.Model):
     rg = models.CharField(max_length=14, verbose_name="RG")
     email = models.CharField(max_length=50, blank=True, null=True)
     cnh = models.CharField(max_length=13, verbose_name="CNH")
-
-    cargo = models.ForeignKey(Cargo, on_delete=models.PROTECT)
+    # cargo = models.ForeignKey(Cargo, on_delete=models.PROTECT)
     cidade = models.ForeignKey(Cidade, on_delete=models.PROTECT)
-
     
     def __str__(self):
-        return "{} -- {}/{}".format(self.nome, self.cargo, self.setor)
+        return "{} -- {}/{}".format(self.nome, self.cargo, self.setor, self.cidade)
 
     class Meta:
         verbose_name = "Funcionário"        
@@ -92,29 +98,38 @@ class Produto(models.Model):
     quantidade_atual = models.DecimalField(decimal_places=2, max_digits=6)
     quantidade_minima = models.IntegerField(verbose_name="Quantidade mínima", 
         help_text="Informe a quantidade mínima para gerar um alerta de estoque.")
-
     def __str__(self):
         return "{}".format(self.nome)
 
 
 class Entrada(models.Model):
     data = models.DateField(verbose_name="Data de entrada")
-    produto = models.ForeignKey(Produto, on_delete=models.PROTECT)
-    quantidade = models.IntegerField()
-    preco = models.IntegerField(verbose_name="Preço unitário")
     fornecedor = models.ForeignKey(Fornecedor, on_delete=models.PROTECT)
+    valor_Total = models.FloatField()
+
+
+class Produtos_Entrada(models.Model):
+    entrada = models.ForeignKey(Entrada, on_delete=models.PROTECT)
+    quantidade = models.IntegerField()
+    produto = models.ForeignKey(Produto, on_delete=models.PROTECT)
+    preco_Unitario = models.FloatField(verbose_name="Preço unitário")
 
 
 class Saida(models.Model):
     data = models.DateField(auto_now=True)
-    produto = models.ForeignKey(Produto, on_delete=models.PROTECT)
-    quantidade = models.DecimalField(decimal_places=2, max_digits=6, verbose_name="Quantidade retirada")
-
     maquina = models.ForeignKey(Maquina, on_delete=models.PROTECT)
     funcionario = models.ForeignKey(Funcionario, on_delete=models.PROTECT)
-
     class Meta:
         verbose_name = "Data da retirada/saída"
+    
+
+class Produtos_Saida(models.Model):
+    saida = models.ForeignKey(Saida, on_delete= models.PROTECT) 
+    produto = models.ForeignKey(Produto, on_delete= models.PROTECT)
+    quantidade = models.DecimalField(decimal_places=2, max_digits=6, verbose_name="Quantidade retirada")
+    
+
+
 
 
 # class Itens_Mov(models.Model):
@@ -128,21 +143,21 @@ class Saida(models.Model):
 #     idloteprod = models.IntegerField(verbose_name="Lote do produto")
 
 
-"""
-class EmailSuport(models.Model):
 
-    nome = models.CharField(max_length=50,
-                            verbose_name="Funcionario")
-    email = models.CharField(max_length=50,
-                             verbose_name="Email")
-    telefoneCelular = models.IntegerField(
-        verbose_name="TelefoneCelular", null=True, blank=True)
-    telefoneFixo = models.IntegerField(
-        verbose_name="TelefoneFixo", null=True, blank=True)
+# class EmailSuport(models.Model):
 
-    descricao = models.CharField(
-        max_length=150, verbose_name="Descrição")
+#     nome = models.CharField(max_length=50,
+#                             verbose_name="Funcionario")
+#     email = models.CharField(max_length=50,
+#                              verbose_name="Email")
+#     telefoneCelular = models.IntegerField(
+#         verbose_name="TelefoneCelular", null=True, blank=True)
+#     telefoneFixo = models.IntegerField(
+#         verbose_name="TelefoneFixo", null=True, blank=True)
 
-    def __str__(self):
-        return "".format(self.nome, self.email, self.telefoneCelular, self.telefoneFixo, self.descricao)
-"""
+#     descricao = models.CharField(
+#         max_length=150, verbose_name="Descrição")
+
+#     def __str__(self):
+#         return "".format(self.nome, self.email, self.telefoneCelular, self.telefoneFixo, self.descricao)
+

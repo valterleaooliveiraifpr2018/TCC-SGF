@@ -1,51 +1,92 @@
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
-from .models import Estado, Fornecedor, Funcionario, Cidade, Maquina, Produto
+from .models import Estado, Fornecedor, Funcionario, Cidade, Maquina, Produto, Entrada, Saida, Produtos_Entrada, Produtos_Saida
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+from braces.views import GroupRequiredMixin
+from django.shortcuts import get_object_or_404
+
 
 # Create your views here.
-############################CREATE###########################################
+############################  CREATE  ############################
 class FornecedorCreate(CreateView):
     model = Fornecedor
-    fields = ["cnpj", "nomedocontribuinte", "nome",
-              "email", "telefoneCelular", "telefoneFixo", "site"]
+    fields = ["cnpj", "razao_social", "nome_fantasia",
+              "vendedor","email", "telefone", "site", "cidade"]
     template_name = "cadastros/form.html"
-    
-    # Tem que ter em todos inserir, alterar e excluir
-    success_url = reverse_lazy("nome_da_url_no_urls.py")
+    success_url = reverse_lazy("cadastrar-fornecedor")
 
 
 class FuncionarioCreate(CreateView):
     model = Funcionario
-    fields = ["nome", "dataNascimento", "setor",
-              "telefoneCelular", "telefoneFixo", "cpf", "rg", "email", "cnh", "cargo"]
+    fields = ["nome", "data_nascimento", "setor",
+              "telefone_celular", "telefone_fixo", "cpf", "rg", "email", "cnh", "cargo", "cidade"]
     template_name = "cadastros/form.html"
+    success_url = reverse_lazy("cadastrar-funcionario")
 
 
 class CidadeCreate(CreateView):
     model = Cidade
-    fields = ["nome"]
+    fields = ["nome","estado"]
     template_name = "cadastros/form.html"
+    success_url = reverse_lazy("cadastrar-cidade")
 
 
 class EstadoCreate(CreateView):
     model = Estado
     fields = ["nome","sigla"]
     template_name = "cadastros/form.html"
+    success_url = reverse_lazy("cadastrar-estado")
 
 
 class MaquinaCreate(CreateView):
     model = Maquina
-    fields = ["nome", "tipo", "ano", "horimetro", "prefixoMaquina"]
+    fields = ["descricao", "ano", "horimetro", "prefixo"]
     template_name = "cadastros/form.html"
+    success_url = reverse_lazy("cadastrar-maquina")
 
 
 class ProdutoCreate(CreateView):
     model = Produto
-    fields = ["nome", "qtdeatual", "qtdemin", "precoProduto"]
+    fields = ["nome", "quantidade_atual", "quantidade_minima"]
     template_name = "cadastros/form.html"
+    success_url = reverse_lazy("cadastrar-produto")
 
-    
+
+# class CargoCreate(CreateView):
+#     model = Cargo
+#     fields = ["nome"]
+#     template_name = "cadastros/form.html"
+#     success_url = reverse_lazy("cadastrar-cargo")
+
+
+class EntradaCreate(CreateView):    
+    model= Entrada
+    fields= ["data","fornecedor", "valor_Total"]
+    template_name ="cadastros/form.html"
+    success_url = reverse_lazy("cadastrar-entrada")
+
+
+class Produtos_EntradaCreate(CreateView): 
+    model = Produtos_Entrada
+    fields = ["entrada", "quantidade", "produto", "preco_Unitario"]
+    template_name = "cadastros/form.html"
+    success_url = reverse_lazy("cadastrar-produtos_entrada")
+
+
+class SaidaCreate(CreateView):    
+    model= Saida
+    fields= ["data", "maquina", "funcionario"]
+    template_name = "cadastros/form.html"
+    success_url = reverse_lazy("cadastrar-saida")
+
+
+class Produtos_SaidaCreate(CreateView):    
+    model= Produtos_Saida
+    fields= ["saida", "produto", "quantidade"]
+    template_name = "cadastros/form.html"
+    success_url = reverse_lazy("cadastrar-produtos_saida")
+
 
 """
 class EmailSuportCreate(CreateView):
@@ -53,3 +94,179 @@ class EmailSuportCreate(CreateView):
     fields = ["nome","email", "telefoneFixo", "telefoneCelular", "descricao"]
     template_name = "cadastros/form.html"
 """
+############################  UPDATE  ############################
+
+
+class FornecedorUpdate(UpdateView):
+    # login_url = reverse_lazy('login')
+    model = Fornecedor
+    fields = ["cnpj", "razao_social", "nome_fantasia",
+              "vendedor", "email", "telefone", "site"]
+    template_name = 'cadastros/form.html'
+    success_url = reverse_lazy('listar-fornecedor')
+
+
+class FuncionarioUpdate(UpdateView):
+    # login_url = reverse_lazy('login')
+    model = Funcionario
+    fields = ["nome", "data_Nascimento", "setor",
+              "telefone_Celular", "telefone_Fixo", "cpf", "rg", "email", "cnh", "cargo"]
+    template_name = 'cadastros/form.html'
+    success_url = reverse_lazy('listar-funcionario')
+
+
+class CidadeUpdate(UpdateView):
+    # login_url = reverse_lazy('login')
+    model = Cidade
+    fields = ["nome"]
+    template_name = 'cadastros/form.html'
+    success_url = reverse_lazy('listar-cidade')
+
+
+class EstadoUpdate(UpdateView):
+    # login_url = reverse_lazy('login')
+    model = Estado
+    fields = ["nome", "sigla"]
+    template_name = 'cadastros/form.html'
+    success_url = reverse_lazy('listar-estado')
+
+
+class MaquinaUpdate(UpdateView):
+    # login_url = reverse_lazy('login')
+    model = Maquina
+    fields = ["descricao", "ano", "horimetro", "prefixo"]
+    template_name = 'cadastros/form.html'
+    success_url = reverse_lazy('listar-maquina')
+
+
+class ProdutoUpdate(UpdateView):
+    # login_url = reverse_lazy('login')
+    model = Produto
+    fields = ["nome", "quantidade_atual", "quantidade_minima"]
+    template_name = 'cadastros/form.html'
+    success_url = reverse_lazy('listar-produto')
+
+
+# class CargoUpdate(UpdateView):
+#     # login_url = reverse_lazy('login')
+#     model = Cargo
+#     fields = ["nome"]
+#     template_name = 'cadastros/form.html'
+#     success_url = reverse_lazy('listar-cargo')
+
+
+class EntradaUpdate(UpdateView):
+    # login_url = reverse_lazy('login')
+    model = Entrada
+    fields = ["data", "fornecedor", "valor_Total"]
+    template_name = 'cadastros/form.html'
+    success_url = reverse_lazy('listar-entrada')
+
+
+class Produtos_EntradaUpdate(UpdateView):
+    # login_url = reverse_lazy('login')
+    model = Produtos_Entrada
+    fields = ["entrada", "quantidade", "produto", "preco_Unitario"]
+    template_name = 'cadastros/form.html'
+    success_url = reverse_lazy('listar-produtos_entrada')
+
+
+class SaidaUpdate(UpdateView):
+    # login_url = reverse_lazy('login')
+    model = Saida
+    fields = ["data", "maquina", "funcionario"]
+    template_name = 'cadastros/form.html'
+    success_url = reverse_lazy('listar-Saida')
+
+    
+class Produtos_SaidaUpdate(UpdateView):
+    # login_url = reverse_lazy('login')
+    model = Produtos_Saida
+    fields = ["saida", "produto", "quantidade"]
+    template_name = 'cadastros/form.html'
+    success_url = reverse_lazy('listar-produtos_saida')
+############################  DELETE  ############################
+
+
+class FornecedorDelete(DeleteView):
+    # login_url = reverse_lazy('login')
+    model = Fornecedor
+    template_name = 'cadastros/form-excluir.html'
+    success_url = reverse_lazy('listar-fornecedor')
+
+
+class FuncionarioDelete(DeleteView):
+    # login_url = reverse_lazy('login')
+    model = Funcionario
+    template_name = 'cadastros/form-excluir.html'
+    success_url = reverse_lazy('listar-funcionario')
+
+
+class CidadeDelete(DeleteView):
+    # login_url = reverse_lazy('login')
+    model = Cidade
+    template_name = 'cadastros/form-excluir.html'
+    success_url = reverse_lazy('listar-cidade')
+
+
+class EstadoDelete(DeleteView):
+    # login_url = reverse_lazy('login')
+    model = Estado
+    template_name = 'cadastros/form-excluir.html'
+    success_url = reverse_lazy('listar-estado')
+
+
+class MaquinaDelete(DeleteView):
+    # login_url = reverse_lazy('login')
+    model = Maquina
+    template_name = 'cadastros/form-excluir.html'
+    success_url = reverse_lazy('listar-maquina')
+
+
+class ProdutoDelete(DeleteView):
+    # login_url = reverse_lazy('login')
+    model = Produto
+    template_name = 'cadastros/form-excluir.html'
+    success_url = reverse_lazy('listar-produto')
+
+
+# class CargoDelete(DeleteView):
+#     # login_url = reverse_lazy('login')
+#     model = Cargo
+#     template_name = 'cadastros/form-excluir.html'
+#     success_url = reverse_lazy('listar-cargo')
+
+    
+class EntradaDelete(DeleteView):
+    # login_url = reverse_lazy('login')
+    model = Entrada
+    template_name = 'cadastros/form-excluir.html'
+    success_url = reverse_lazy('listar-entrada')
+
+
+class Produtos_EntradaDelete(DeleteView):
+    # login_url = reverse_lazy('login')
+    model = Produtos_Entrada
+    template_name = 'cadastros/form-excluir.html'
+    success_url = reverse_lazy('listar-produtos_entrada')
+
+
+class SaidaDelete(DeleteView):
+    # login_url = reverse_lazy('login')
+    model = Saida
+    template_name = 'cadastros/form-excluir.html'
+    success_url = reverse_lazy('listar-saida')
+
+
+class Produtos_SaidaDelete(DeleteView):
+    # login_url = reverse_lazy('login')
+    model = Produtos_Saida
+    template_name = 'cadastros/form-excluir.html'
+    success_url = reverse_lazy('listar-produtos_saida')
+############################  LISTA  ############################
+
+
+class FornecedorList(ListView):
+    # login_url = reverse_lazy('login')
+    model = Fornecedor
+    template_name = 'cadastros/listas/fornecedor.html'
