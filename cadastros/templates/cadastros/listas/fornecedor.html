@@ -20,12 +20,13 @@
             <thead>
                 <tr>
                     <th>CNPJ</th>
-                    <th>Razão Social</th>
+                    <!-- <th>Razão Social</th> -->
                     <th>Nome Fantasia</th>
                     <th>Vendedor da Empresa</th>
                     <th>Email</th>
                     <th>Telefone</th>
-                    <th>Site</th>
+                    <!-- <th>Site</th> -->
+                    <th>Opções</th>
 
                 </tr>
             </thead>
@@ -34,12 +35,12 @@
                 {% for fornecedor in object_list %}
                 <tr>
                     <td>{{ fornecedor.cnpj }}</td>
-                    <td>{{ fornecedor.razao_social }}</td>
+                    <!-- <td>{{ fornecedor.razao_social }}</td> -->
                     <td>{{ fornecedor.nome_fantasia }}</td>
                     <td>{{ fornecedor.vendedor }}</td>
                     <td>{{ fornecedor.email }}</td>
                     <td>{{ fornecedor.telefone }}</td>
-                    <td>{{ fornecedor.site }}</td>
+                    <!-- <td>{{ fornecedor.site }}</td> -->
 
                     <td>
                         <a href="{% url 'editar-fornecedor' fornecedor.pk %}" class="btn btn-warning btn-sm"
@@ -49,6 +50,10 @@
                         <a href="{% url 'excluir-fornecedor' fornecedor.pk %}" class="btn btn-danger btn-sm"
                             title="Excluir">
                             <i class="fa fa-trash" aria-hidden="true"></i>
+                        </a>
+                        <a href="{% url 'detalhar-fornecedor' fornecedor.pk %}" class="btn btn-info btn-sm"
+                            title="Ver dados completos">
+                            <i class="fa fa-search-plus" aria-hidden="true"></i>
                         </a>
                     </td>
                 </tr>

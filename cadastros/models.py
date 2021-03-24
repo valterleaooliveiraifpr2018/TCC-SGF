@@ -66,8 +66,7 @@ class Maquina(models.Model):
         help_text="Descreva a máquina em detalhes, ex: modelo, marca, nome, etc.")
     ano = models.CharField(max_length=4, verbose_name="Ano da Máquina")
     horimetro = models.IntegerField(verbose_name="Horímetro")
-    prefixo = models.CharField(max_length=20)
-
+    prefixo = models.CharField(max_length=50, help_text="Identificação da máquina, placa, número, etc.")
     cidade = models.ForeignKey(Cidade, on_delete=models.PROTECT)
 
     def __str__(self):
@@ -111,6 +110,10 @@ class Entrada(models.Model):
     def __str__(self):
         return "#{} - {}/{}".format(self.pk, self.detalhes, self.data)
 
+    class Meta:
+        verbose_name = "Movimentação da entrada"
+
+
 
 class Produtos_Entrada(models.Model):
     entrada = models.ForeignKey(Entrada, on_delete=models.PROTECT)
@@ -122,14 +125,14 @@ class Produtos_Entrada(models.Model):
 class Saida(models.Model):
     detalhes = models.CharField(max_length=100, help_text="Informe mais detalhes da saída, Nº do Pedido, Ordem de serviço, etc.")
     data = models.DateField(auto_now_add=True)
-    maquina = models.ForeignKey(Maquina, on_delete=models.PROTECT)
+    maquina = models.ForeignKey(Maquina, on_delete=models.PROTECT, verbose_name="máquina")
     funcionario = models.ForeignKey(Funcionario, on_delete=models.PROTECT, help_text="Informe o funcionário que fez esta solicitação de saída.")
     
     def __str__(self):
         return "#{} - {}/{}".format(self.pk, self.detalhes, self.data)
 
     class Meta:
-        verbose_name = "Data da retirada/saída"
+        verbose_name = "Movimentação de retirada/saída"
     
 
 class Produtos_Saida(models.Model):

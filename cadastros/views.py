@@ -1,5 +1,6 @@
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from .models import Estado, Fornecedor, Funcionario, Cidade, Maquina, Produto, Entrada, Saida, Produtos_Entrada, Produtos_Saida
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -41,7 +42,7 @@ class EstadoCreate(CreateView):
 
 class MaquinaCreate(CreateView):
     model = Maquina
-    fields = ["descricao", "ano", "horimetro", "prefixo"]
+    fields = ["descricao", "ano", "horimetro", "prefixo", "cidade"]
     template_name = "cadastros/form.html"
     success_url = reverse_lazy("cadastrar-maquina")
 
@@ -134,7 +135,7 @@ class EstadoUpdate(UpdateView):
 class MaquinaUpdate(UpdateView):
     # login_url = reverse_lazy('login')
     model = Maquina
-    fields = ["descricao", "ano", "horimetro", "prefixo"]
+    fields = ["descricao", "ano", "horimetro", "prefixo", "cidade"]
     template_name = 'cadastros/form.html'
     success_url = reverse_lazy('listar-maquina')
 
@@ -263,6 +264,8 @@ class Produtos_SaidaDelete(DeleteView):
     model = Produtos_Saida
     template_name = 'cadastros/form-excluir.html'
     success_url = reverse_lazy('listar-produtos_saida')
+
+
 ############################  LISTA  ############################
 
 
@@ -323,3 +326,9 @@ class Produtos_SaidaList(ListView):
     # login_url = reverse_lazy('login')
     model = Produtos_Saida
     template_name = 'cadastros/listas/produtos_saida.html'
+
+
+############################  DetailView  ############################
+class FornecedorDetalhes(DetailView):
+    model = Fornecedor
+    template_name = 'cadastros/detalhes/fornecedor.html'

@@ -1,0 +1,39 @@
+{% extends 'paginas/modelo.html' %}
+
+{% load static %}
+
+
+{% block titulo %}
+<title>Detalhamento de Fornecedor</title>
+{% endblock %}
+
+
+{% block conteudo %}
+<div class="container">
+    <h3>Fornecedor: {{ object }}</h3>
+    
+    <p class="lead">Todos os dados registrados deste fornecedor.</p>
+
+
+    <p>
+        <strong>CNPJ:</strong>
+        {{ object.cnpj }}
+    </p>
+    
+    
+    {% endblock %}
+
+
+    {% block script %}
+    <script>
+
+        // $("seletor").evento(function () {
+        // $("seletor").acao();
+        // });
+        $(document).ready(function () {
+
+            
+        })
+    </script>
+</div>
+{% endblock %}
