@@ -18,11 +18,11 @@ urlpatterns = [
     path('cadastrar/estados', EstadoCreate.as_view(), name='cadastrar-estado'),
     path('cadastrar/maquina', MaquinaCreate.as_view(), name='cadastrar-maquina'),
     path('cadastrar/produto', ProdutoCreate.as_view(), name='cadastrar-produto'),
-    # path('cadastrar/cargo', CargoCreate.as_view(), name='cadastrar-cargo'),
     path('cadastrar/entrada', EntradaCreate.as_view(), name='cadastrar-entrada'),
     path('cadastrar/produtos_entrada', Produtos_EntradaCreate.as_view(), name='cadastrar-produtos_entrada'),
     path('cadastrar/saida', SaidaCreate.as_view(), name='cadastrar-saida'),
     path('cadastrar/produtos_saida', Produtos_SaidaCreate.as_view(), name='cadastrar-produtos_saida'),
+    
     ############################  UPDATE  ############################
     
 
@@ -46,7 +46,6 @@ urlpatterns = [
     path('excluir/funcionario/<int:pk>/', FuncionarioDelete.as_view(), name="excluir-funcionario"),
     path('excluir/maquina/<int:pk>/', MaquinaDelete.as_view(), name="excluir-maquina"),
     path('excluir/produto/<int:pk>/', ProdutoDelete.as_view(), name="excluir-produto"),
-    # path('excluir/cargo/<int:pk>/', CargoDelete.as_view(), name="excluir-cargo"),
     path('excluir/entrada/<int:pk>/', EntradaDelete.as_view(), name="excluir-entrada"),
     path('excluir/produtos_entrada/<int:pk>/', Produtos_EntradaDelete.as_view(), name="excluir-produtos_entrada"),
     path('excluir/saida/<int:pk>/', SaidaDelete.as_view(), name="excluir-saida"),

@@ -9,26 +9,38 @@
 <div class="container col-8">
     <div class="card-group">
         <div class="card text-white bg-dark">
+
             <div class="card-body">
-                <h5 class="card-title">Cadastrar Produto</h5>
-                <p class="card-text">Campo para se cadastrar os produtos.</p>
-                <a href="{% url 'cadastrar-produto' %}" class="btn btn-primary">Cadastrar</a>
+                <h5 class="card-title">Estado</h5>
+                <p class="card-text"><h6>Campo para se cadastrar os Estados.</h6></p>
+                <a href="{% url 'cadastrar-estado' %}" class="btn btn-primary">Cadastrar</a>
             </div>
-        </div>
-        <div class="card text-white bg-dark">
-            
-                <div class="card-body">
-                    <h5 class="card-title">Cadastrar Máquina</h5>
-                    <p class="card-text">Campo para se cadastrar as Máquinas.</p>
-                    <a href="{% url 'cadastrar-maquina' %}" class="btn btn-primary">Cadastrar</a>
-                </div>
-            
+
         </div>
         <div class="card text-white bg-dark">
 
             <div class="card-body">
-                <h5 class="card-title">Cadastrar o Funcionário</h5>
-                <p class="card-text">Campo para se cadastrar os Funcionários.</p>
+                <h5 class="card-title">Cidade</h5>
+                <p class="card-text"><h6> Campo para se cadastrar as Cidades.</h6></p>
+                <a href="{% url 'cadastrar-cidade' %}" class="btn btn-primary">Cadastrar</a>
+            </div>
+
+        </div>
+
+        <div class="card text-white bg-dark">
+
+            <div class="card-body">
+                <h5 class="card-title">Máquina</h5>
+                <p class="card-text"><h7>Campo para se cadastrar as Máquinas.</h7></p>
+                <a href="{% url 'cadastrar-maquina' %}" class="btn btn-primary">Cadastrar</a>
+            </div>
+
+        </div>
+        <div class="card text-white bg-dark">
+
+            <div class="card-body">
+                <h5 class="card-title">Funcionário</h5>
+                <p class="card-text"><h6>Campo para se cadastrar os Funcionários.</h6></p>
                 <a href="{% url 'cadastrar-funcionario' %}" class="btn btn-primary">Cadastrar</a>
             </div>
 
@@ -37,32 +49,62 @@
 
             <div class="card-body">
                 <h5 class="card-title">Cadastrar Fornecedor</h5>
-                <p class="card-text">Campo para se cadastrar as Fornecedores.</p>
+                <p class="card-text"><h6>Campo para se cadastrar as Fornecedores.</h6></p>
                 <a href="{% url 'cadastrar-fornecedor' %}" class="btn btn-primary">Cadastrar</a>
             </div>
 
         </div>
+
+
+    </div>
+    <div class="card-group">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h5 class="card-title">Estoque</h5>
+                <p class="card-text"><h6>Campo para se cadastrar os produtos.</h6></p>
+                <a href="{% url 'cadastrar-produto' %}" class="btn btn-primary">Cadastrar</a>
+            </div>
+        </div>
+
         
         <div class="card text-white bg-dark">
+            
+            <div class="card-body">
+                <h5 class="card-title">Entrada</h5>
+                <p class="card-text"><h6>Campo para se cadastrar as Entrada de Produtos.</h6></p>
+                <a href="{% url 'cadastrar-entrada' %}" class="btn btn-primary">Cadastrar</a>
+            </div>
+            
+        </div>
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h5 class="card-title">Produtos_Entrada</h5>
+                <p class="card-text"><h6>Campo para se cadastrar os movimentos dos produtos.</h6></p>
+                <a href="{% url 'cadastrar-produtos_entrada' %}" class="btn btn-primary">Cadastrar</a>
+            </div>
+        </div>
+        <div class="card text-white bg-dark">
 
             <div class="card-body">
-                <h5 class="card-title">Cadastrar Estados</h5>
-                <p class="card-text">Campo para se cadastrar os Estados.</p>
-                <a href="{% url 'cadastrar-estado' %}" class="btn btn-primary">Cadastrar</a>
+                <h5 class="card-title">Baixa no Estoque</h5>
+                <p class="card-text"><h6>Campo para se cadastrar as Saida dos Produtos.</h6></p>
+                <a href="{% url 'cadastrar-saida' %}" class="btn btn-primary">Cadastrar</a>
             </div>
 
         </div>
         <div class="card text-white bg-dark">
 
             <div class="card-body">
-                <h5 class="card-title">Cadastrar Cidade</h5>
-                <p class="card-text">Campo para se cadastrar as Cidades.</p>
-                <a href="{% url 'cadastrar-cidade' %}" class="btn btn-primary">Cadastrar</a>
+                <h5 class="card-title">Produtos_Saida</h5>
+                <p class="card-text"><h6>Campo para se cadastrar os Controle da Saidas dos Produtos.</h6></p>
+                <a href="{% url 'cadastrar-produtos_saida' %}" class="btn btn-primary">Cadastrar</a>
             </div>
 
         </div>
+
+
     </div>
-    
+
 
 
 </div>
