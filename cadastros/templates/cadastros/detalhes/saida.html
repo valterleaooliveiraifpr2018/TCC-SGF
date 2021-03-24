@@ -1,0 +1,45 @@
+{% extends 'paginas/modelo.html' %}
+
+{% load static %}
+
+
+{% block titulo %}
+<title>Detalhamento de Fornecedor</title>
+{% endblock %}
+
+
+{% block conteudo %}
+<div class="container">
+    <h3>Saída: {{ object }}</h3>
+    
+    <p class="lead">Todos os dados registrados desta saída.</p>
+
+    <p>
+        Dados da saída
+    </p>
+
+    <h4>Produtos:</h4>
+    <p>
+        <strong>P:</strong>
+        <!-- nome que criou no get_context_data -->
+        <!-- fazer um for igual na no list para listar todos os produtos -->
+        {{ produtos }}
+    </p>
+    
+    
+    {% endblock %}
+
+
+    {% block script %}
+    <script>
+
+        // $("seletor").evento(function () {
+        // $("seletor").acao();
+        // });
+        $(document).ready(function () {
+
+            
+        })
+    </script>
+</div>
+{% endblock %}

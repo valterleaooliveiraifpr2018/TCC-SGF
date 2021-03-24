@@ -33,7 +33,7 @@
                     <td>{{produtos_entrada.entrada}}</td>
                     <td>{{produtos_entrada.quantidade}}</td>
                     <td>{{produtos_entrada.produto}}</td>
-                    <td>{{produtos_entrada.preco_Unitario}}</td>
+                    <td>{{produtos_entrada.preco_unitario}}</td>
                     
                     <td>
                         <a href="{% url 'editar-produtos_entrada' produtos_entrada.pk %}" class="btn btn-warning btn-sm" title="Editar">
@@ -46,7 +46,7 @@
                 </tr>
 
                 {% empty %}
-                <td colspan="3">Nenhum produtos_entrada registrado.</td>
+                <td colspan="100%">Nenhuma entrada de produtos registrada.</td>
                 {% endfor %}
             </tbody>
         </table>

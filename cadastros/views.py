@@ -332,3 +332,15 @@ class Produtos_SaidaList(ListView):
 class FornecedorDetalhes(DetailView):
     model = Fornecedor
     template_name = 'cadastros/detalhes/fornecedor.html'
+
+
+class SaidaDetalhes(DetailView):
+    model = Saida
+    template_name = 'cadastros/detalhes/saida.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        context['produtos'] = Produtos_Saida.objects.filter(saida=self.object)
+
+        return context
