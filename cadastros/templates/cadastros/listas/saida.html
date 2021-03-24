@@ -1,0 +1,122 @@
+{% extends 'paginas/modelo.html' %}
+{% load static %}
+
+
+{% block titulo %}
+<title>Lista de saida</title>
+{% endblock %}
+
+{% block destaque %}
+{% endblock %}
+
+
+
+{% block menuEsquerdo %}
+
+{% endblock %}
+
+
+{% block conteudo %}
+<div class="container">
+    <h3>{{ titulo }}</h3>
+    <a class="btn btn-primary btn-sm float-right" href="{% url 'cadastrar-saida' %}">Cadastrar um novo saida</a>
+    <p class="lead">aqui está apresentado todos as saidas registradas</p>
+    <hr>
+    <div class="table responsive">
+
+        <table class="table table-striped" id="tabela-saida">
+            <thead>
+                <tr>
+                    
+                    
+                    <th>Máquina</th>
+                    <th>Funcionário</th>
+                    
+                    <th>Opções</th>
+                </tr>
+            </thead>
+            {% for saida in object_list %}
+            <tbody>
+                <tr>
+                    <td>{{saida.maquina}}</td>
+                    <td>{{saida.funcionario}}</td>
+                              
+                    <td>
+                        <a href="{% url 'editar-saida' saida.pk %}" class="btn btn-warning btn-sm" title="Editar">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </a>
+                        <a href="{% url 'excluir-saida' saida.pk %}" class="btn btn-danger btn-sm" title="Excluir">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                </tr>
+
+                {% empty %}
+                <td colspan="3">Nenhum saida registrado.</td>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
+
+
+
+{% block menuDireito %}
+
+{% endblock %}
+
+
+
+
+
+{% block rodape %}
+{% endblock %}
+
+{% block script %}
+<script>
+
+    // $("seletor").evento(function () {
+    // $("seletor").acao();
+    // });
+    $(document).ready(function () {
+
+        $("#tabela-saida").DataTable({
+            responsive: true,
+            // "bSort": false,
+            "aaSorting": [],
+            "pageLength": 50,
+            "language": {
+                "decimal": "",
+                "emptyTable": "Sem dados disponíveis",
+                "info": "Mostrando de _START_ até _END_ de _TOTAL_ registos",
+                "infoEmpty": "Mostrando de 0 até 0 de 0 registos",
+                "infoFiltered": "(filtrado de _MAX_ registos no total)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ registos",
+                "loadingRecords": "A carregar dados...",
+                "processing": "A processar...",
+                "search": "Procurar:",
+                "zeroRecords": "Não foram encontrados resultados",
+                "paginate": {
+                    "first": "Primeiro",
+                    "last": "Último",
+                    "next": "Seguinte",
+                    "previous": "Anterior"
+                },
+                "aria": {
+                    "sortAscending": ": ordem crescente",
+                    "sortDescending": ": ordem decrescente"
+                }
+            }
+
+
+        });
+    })
+</script>
+
+
+
+{% endblock %}

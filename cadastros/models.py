@@ -62,7 +62,7 @@ class Funcionario(models.Model):
 
 
 class Maquina(models.Model):
-    descricao= models.CharField(max_length=50, verbose_name="Descrição", 
+    descricao = models.CharField(max_length=50, verbose_name="Descrição", 
         help_text="Descreva a máquina em detalhes, ex: modelo, marca, nome, etc.")
     ano = models.CharField(max_length=4, verbose_name="Ano da Máquina")
     horimetro = models.IntegerField(verbose_name="Horímetro")
@@ -95,7 +95,7 @@ class Fornecedor(models.Model):
 
 class Produto(models.Model):
     nome = models.CharField(max_length=50, help_text="Nome ou descrição do produto.")
-    quantidade_atual = models.DecimalField(decimal_places=2, max_digits=6)
+    quantidade_atual = models.DecimalField(decimal_places=2, max_digits=6, help_text="Litros")
     quantidade_minima = models.IntegerField(verbose_name="Quantidade mínima", 
         help_text="Informe a quantidade mínima para gerar um alerta de estoque.")
     def __str__(self):

@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "C:\\Users\\leodi\\envs\\tcc\\Scripts\\python.exe"
+    "python.pythonPath": "C:\\Users\\leodi\\envs\\tcc\\Scripts\\python.exe",
+    "git.ignoreLimitWarning": true
 }

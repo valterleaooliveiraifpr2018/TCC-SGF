@@ -118,7 +118,7 @@ class FuncionarioUpdate(UpdateView):
 class CidadeUpdate(UpdateView):
     # login_url = reverse_lazy('login')
     model = Cidade
-    fields = ["nome"]
+    fields = ["nome", "estado"]
     template_name = 'cadastros/form.html'
     success_url = reverse_lazy('listar-cidade')
 
@@ -270,3 +270,56 @@ class FornecedorList(ListView):
     # login_url = reverse_lazy('login')
     model = Fornecedor
     template_name = 'cadastros/listas/fornecedor.html'
+
+
+class FuncionarioList(ListView):
+    # login_url = reverse_lazy('login')
+    model = Funcionario
+    template_name = 'cadastros/listas/funcionario.html'
+
+
+class CidadeList(ListView):
+    # login_url = reverse_lazy('login')
+    model = Cidade
+    template_name = 'cadastros/listas/Cidade.html'
+
+
+class EstadoList(ListView):
+    # login_url = reverse_lazy('login')
+    model = Estado
+    template_name = 'cadastros/listas/estado.html'
+
+
+class EntradaList(ListView):
+    # login_url = reverse_lazy('login')
+    model = Entrada
+    template_name = 'cadastros/listas/entrada.html'
+
+
+class MaquinaList(ListView):
+    # login_url = reverse_lazy('login')
+    model = Maquina
+    template_name = 'cadastros/listas/maquina.html'
+
+
+class Produtos_EntradaList(ListView):
+    # login_url = reverse_lazy('login')
+    model = Produtos_Entrada
+    template_name = 'cadastros/listas/produtos_entrada.html'
+
+
+class SaidaList(ListView):
+    # login_url = reverse_lazy('login')
+    model = Saida
+    template_name = 'cadastros/listas/saida.html'
+
+
+class ProdutoList(ListView):
+    # login_url = reverse_lazy('login')
+    model = Produto
+    template_name = 'cadastros/listas/produto.html'
+
+class Produtos_SaidaList(ListView):
+    # login_url = reverse_lazy('login')
+    model = Produtos_Saida
+    template_name = 'cadastros/listas/produtos_saida.html'

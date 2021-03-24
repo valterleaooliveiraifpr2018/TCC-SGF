@@ -1,0 +1,125 @@
+{% extends 'paginas/modelo.html' %}
+{% load static %}
+
+
+{% block titulo %}
+<title>Lista de maquina</title>
+{% endblock %}
+
+{% block destaque %}
+{% endblock %}
+
+
+
+{% block menuEsquerdo %}
+
+{% endblock %}
+
+
+{% block conteudo %}
+<div class="container">
+    <h3>{{ titulo }}</h3>
+    <a class="btn btn-primary btn-sm float-right" href="{% url 'cadastrar-maquina' %}">Cadastrar um novo maquina</a>
+    <p class="lead">aqui está apresentado todos os maquinas registrados</p>
+    <hr>
+    <div class="table responsive">
+
+        <table class="table table-striped" id="tabela-maquina">
+            <thead>
+                <tr>
+                    <th>Descrição</th>
+                    <th>Ano</th>
+                    <th>Horímetro</th>
+                    <th>Prefixo</th>
+                    
+                    <th>Opções</th>
+                </tr>
+            </thead>
+            {% for maquina in object_list %}
+            <tbody>
+                <tr>
+                    ["", "", "", ""]
+                    <td>{{maquina.descricao}}</td>
+                    <td>{{maquina.ano}}</td>
+                    <td>{{maquina.horimetro}}</td>
+                    <td>{{maquina.prefixo}}</td>
+                    
+                    <td>
+                        <a href="{% url 'editar-maquina' maquina.pk %}" class="btn btn-warning btn-sm" title="Editar">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </a>
+                        <a href="{% url 'excluir-maquina' maquina.pk %}" class="btn btn-danger btn-sm" title="Excluir">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                </tr>
+
+                {% empty %}
+                <td colspan="3">Nenhum maquina registrado.</td>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
+
+
+
+{% block menuDireito %}
+
+{% endblock %}
+
+
+
+
+
+{% block rodape %}
+{% endblock %}
+
+{% block script %}
+<script>
+
+    // $("seletor").evento(function () {
+    // $("seletor").acao();
+    // });
+    $(document).ready(function () {
+
+        $("#tabela-maquina").DataTable({
+            responsive: true,
+            // "bSort": false,
+            "aaSorting": [],
+            "pageLength": 50,
+            "language": {
+                "decimal": "",
+                "emptyTable": "Sem dados disponíveis",
+                "info": "Mostrando de _START_ até _END_ de _TOTAL_ registos",
+                "infoEmpty": "Mostrando de 0 até 0 de 0 registos",
+                "infoFiltered": "(filtrado de _MAX_ registos no total)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ registos",
+                "loadingRecords": "A carregar dados...",
+                "processing": "A processar...",
+                "search": "Procurar:",
+                "zeroRecords": "Não foram encontrados resultados",
+                "paginate": {
+                    "first": "Primeiro",
+                    "last": "Último",
+                    "next": "Seguinte",
+                    "previous": "Anterior"
+                },
+                "aria": {
+                    "sortAscending": ": ordem crescente",
+                    "sortDescending": ": ordem decrescente"
+                }
+            }
+
+
+        });
+    })
+</script>
+
+
+
+{% endblock %}
