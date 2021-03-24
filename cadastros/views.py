@@ -62,21 +62,21 @@ class ProdutoCreate(CreateView):
 
 class EntradaCreate(CreateView):    
     model= Entrada
-    fields= ["data","fornecedor", "valor_Total"]
+    fields = ["detalhes", "data", "fornecedor", "valor_total"]
     template_name ="cadastros/form.html"
     success_url = reverse_lazy("cadastrar-entrada")
 
 
 class Produtos_EntradaCreate(CreateView): 
     model = Produtos_Entrada
-    fields = ["entrada", "quantidade", "produto", "preco_Unitario"]
+    fields = ["entrada", "produto", "quantidade", "preco_unitario"]
     template_name = "cadastros/form.html"
     success_url = reverse_lazy("cadastrar-produtos_entrada")
 
 
 class SaidaCreate(CreateView):    
     model= Saida
-    fields= ["data", "maquina", "funcionario"]
+    fields = ["detalhes", "maquina", "funcionario"]
     template_name = "cadastros/form.html"
     success_url = reverse_lazy("cadastrar-saida")
 
@@ -158,7 +158,7 @@ class ProdutoUpdate(UpdateView):
 class EntradaUpdate(UpdateView):
     # login_url = reverse_lazy('login')
     model = Entrada
-    fields = ["data", "fornecedor", "valor_Total"]
+    fields = ["detalhes", "data", "fornecedor", "valor_total"]
     template_name = 'cadastros/form.html'
     success_url = reverse_lazy('listar-entrada')
 
@@ -166,7 +166,7 @@ class EntradaUpdate(UpdateView):
 class Produtos_EntradaUpdate(UpdateView):
     # login_url = reverse_lazy('login')
     model = Produtos_Entrada
-    fields = ["entrada", "quantidade", "produto", "preco_Unitario"]
+    fields = ["entrada", "produto", "quantidade", "preco_unitario"]
     template_name = 'cadastros/form.html'
     success_url = reverse_lazy('listar-produtos_entrada')
 
@@ -174,7 +174,7 @@ class Produtos_EntradaUpdate(UpdateView):
 class SaidaUpdate(UpdateView):
     # login_url = reverse_lazy('login')
     model = Saida
-    fields = ["data", "maquina", "funcionario"]
+    fields = ["detalhes", "maquina", "funcionario"]
     template_name = 'cadastros/form.html'
     success_url = reverse_lazy('listar-Saida')
 

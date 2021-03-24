@@ -121,7 +121,7 @@ class Produtos_Entrada(models.Model):
 
 class Saida(models.Model):
     detalhes = models.CharField(max_length=100, help_text="Informe mais detalhes da saída, Nº do Pedido, Ordem de serviço, etc.")
-    data = models.DateField(auto_now=True)
+    data = models.DateField(auto_now_add=True)
     maquina = models.ForeignKey(Maquina, on_delete=models.PROTECT)
     funcionario = models.ForeignKey(Funcionario, on_delete=models.PROTECT, help_text="Informe o funcionário que fez esta solicitação de saída.")
     
