@@ -6,15 +6,6 @@
 <title>Lista de produto</title>
 {% endblock %}
 
-{% block destaque %}
-{% endblock %}
-
-
-
-{% block menuEsquerdo %}
-
-{% endblock %}
-
 
 {% block conteudo %}
 <div class="container">
@@ -39,8 +30,8 @@
                 <tr>
                     
                     <td>{{produto.nome}}</td>
-                    <td>{{produto.quantidade_atual}} Lts</td>
-                    <td>{{produto.quantidade_minima}} Lts</td>
+                    <td>{{produto.quantidade_atual}}</td>
+                    <td>{{produto.quantidade_minima}}</td>
                    
                     <td>
                         <a href="{% url 'editar-produto' produto.pk %}" class="btn btn-warning btn-sm" title="Editar">
@@ -59,21 +50,8 @@
         </table>
     </div>
 </div>
-
 {% endblock %}
 
-
-
-{% block menuDireito %}
-
-{% endblock %}
-
-
-
-
-
-{% block rodape %}
-{% endblock %}
 
 {% block script %}
 <script>
@@ -117,7 +95,6 @@
         });
     })
 </script>
-
-
-
 {% endblock %}
+
+

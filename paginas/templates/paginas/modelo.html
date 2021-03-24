@@ -96,7 +96,7 @@
 
     <div class="layout-main">
         
-        {% block menuEsquerdo%}
+        {% block menuEsquerdo %}
 
         <aside>
             <nav class="sidebar sidebar-open">
@@ -114,25 +114,58 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'cards' %}"> <i class="oi oi-spreadsheet"></i>
-                            <span>Produtos</span>
+                        <a class="nav-link" href="{% url 'listar-estado' %}"> <i class="oi oi-spreadsheet"></i>
+                            <span>Estado</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'cards' %}"> <i class="oi oi-spreadsheet"></i>
+                        <a class="nav-link" href="{% url 'listar-cidade' %}"> <i class="oi oi-spreadsheet"></i>
+                            <span>Cidade</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listar-maquina' %}"> <i class="oi oi-spreadsheet"></i>
                             <span>Máquinas</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'cards' %}"> <i class="oi oi-spreadsheet"></i>
+                        <a class="nav-link" href="{% url 'listar-funcionario' %}"> <i class="oi oi-spreadsheet"></i>
                             <span>Funcionários</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'cards' %}"> <i class="oi oi-spreadsheet"></i>
+                        <a class="nav-link" href="{% url 'listar-fornecedor' %}"> <i class="oi oi-spreadsheet"></i>
                             <span>Fornecedores</span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listar-produto' %}"> <i class="oi oi-spreadsheet"></i>
+                            <span>Produtos</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listar-entrada' %}"> <i class="oi oi-spreadsheet"></i>
+                            <span>Entrada</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listar-produtos_entrada' %}"> <i class="oi oi-spreadsheet"></i>
+                            <span>Produtos_Entrada</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listar-saida' %}"> <i class="oi oi-spreadsheet"></i>
+                            <span>Baixa nos Produtos</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listar-produtos_saida' %}"> <i class="oi oi-spreadsheet"></i>
+                            <span>Produtos Saida</span>
+                        </a>
+                    </li>
+                    
+                    
                     {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'ajuda' %}"> <i class="oi oi-spreadsheet"></i>
