@@ -341,6 +341,7 @@ class SaidaDetalhes(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
+        # Enviando uma lista de Produtos_Saide conforme o objeto de Saída que está neste detailview
         context['produtos'] = Produtos_Saida.objects.filter(saida=self.object)
 
         return context
