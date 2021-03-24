@@ -95,7 +95,7 @@ class Fornecedor(models.Model):
 
 class Produto(models.Model):
     nome = models.CharField(max_length=50, help_text="Nome ou descrição do produto.")
-    quantidade_atual = models.DecimalField(decimal_places=2, max_digits=6, help_text="Litros")
+    quantidade_atual = models.DecimalField(decimal_places=2, max_digits=6, help_text="Essa quantidade vai ser atualizada pelo movimento de entrada e saída.")
     quantidade_minima = models.IntegerField(verbose_name="Quantidade mínima", 
         help_text="Informe a quantidade mínima para gerar um alerta de estoque.")
     def __str__(self):
@@ -103,22 +103,31 @@ class Produto(models.Model):
 
 
 class Entrada(models.Model):
+    detalhes = models.CharField(max_length=100, help_text="Informe mais detalhes da entrada, como NF, Nº do Pedido, etc.")
     data = models.DateField(verbose_name="Data de entrada")
     fornecedor = models.ForeignKey(Fornecedor, on_delete=models.PROTECT)
-    valor_Total = models.FloatField()
+    valor_total = models.DecimalField(decimal_places=2, max_digits=6)
+
+    def __str__(self):
+        return "#{} - {}/{}".format(self.pk, self.detalhes, self.data)
 
 
 class Produtos_Entrada(models.Model):
     entrada = models.ForeignKey(Entrada, on_delete=models.PROTECT)
-    quantidade = models.IntegerField()
     produto = models.ForeignKey(Produto, on_delete=models.PROTECT)
-    preco_Unitario = models.FloatField(verbose_name="Preço unitário")
+    quantidade = models.IntegerField()
+    preco_unitario = models.DecimalField(decimal_places=2, max_digits=6, verbose_name="Preço unitário")
 
 
 class Saida(models.Model):
+    detalhes = models.CharField(max_length=100, help_text="Informe mais detalhes da saída, Nº do Pedido, Ordem de serviço, etc.")
     data = models.DateField(auto_now=True)
     maquina = models.ForeignKey(Maquina, on_delete=models.PROTECT)
-    funcionario = models.ForeignKey(Funcionario, on_delete=models.PROTECT)
+    funcionario = models.ForeignKey(Funcionario, on_delete=models.PROTECT, help_text="Informe o funcionário que fez esta solicitação de saída.")
+    
+    def __str__(self):
+        return "#{} - {}/{}".format(self.pk, self.detalhes, self.data)
+
     class Meta:
         verbose_name = "Data da retirada/saída"
     
