@@ -4,39 +4,46 @@
 
 
 {% block titulo %}
-<title>Detalhamento de Fornecedor</title>
+<title>Detalhamento de funcionario</title>
 {% endblock %}
 
 
 {% block conteudo %}
 <div class="container">
-    <h3>fornecedor: CNPJ{{ object }}</h3>
+    <h3>funcionario: {{ object }}</h3>
     <h3>{{ titulo }}</h3>
-    <p class="lead">Todos os dados registrados deste fornecedor.</p>
-    
+    <p class="lead">Todos os dados registrados deste funcionario.</p>    
 
     <div class="table-responsive">
         <table class="table table-striped" id="tabela-listar">
             <thead>
-                <tr>
-                    <th>CNPJ</th>
-                    <th>Razão Social</th>
-                    <th>Nome Fantasia</th>
-                    <th>Vendedor da Empresa</th>
-                    <th>Telefone</th>
+                <tr>                    
+                    <th>Nome</th>
+                    <th>Data de Nascimento</th>
+                    <th>Setor</th>
+                    <th>Telefone Celular</th>
+                    <th>Telefone Fixo</th>
+                    <th>CPF</th>
+                    <th>RG</th>
                     <th>Email</th>
-                    <th>Site</th>
+                    <th>CNH</th>
+                    <th>Cargo</th>
+                    <th>Cidade</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>{{ fornecedor.cnpj }}</td>
-                    <td>{{ fornecedor.razao_social }}</td>
-                    <td>{{ fornecedor.nome_fantasia }}</td>
-                    <td>{{ fornecedor.vendedor }}</td>
-                    <td>{{ fornecedor.telefone }}</td>
-                    <td>{{ fornecedor.email }}</td>
-                    <td>{{ fornecedor.site }}</td>
+                <tr>                    
+                    <td>{{ funcionario.nome }}</td>
+                    <td>{{ funcionario.data_nascimento }}</td>
+                    <td>{{ funcionario.setor }}</td>
+                    <td>{{ funcionario.telefone_celular }}</td>
+                    <td>{{ funcionario.telefone_fixo }}</td>
+                    <td>{{ funcionario.cpf }}</td>
+                    <td>{{ funcionario.rg }}</td>
+                    <td>{{ funcionario.email }}</td>
+                    <td>{{ funcionario.cnh }}</td>
+                    <td>{{ funcionario.cargo }}</td>
+                    <td>{{ funcionario.cidade }}</td>
                 </tr>
             </tbody>
         </table>

@@ -12,7 +12,7 @@
     <h3>{{ titulo }}</h3>
     <a class="btn btn-primary btn-sm float-right" href="{% url 'cadastrar-maquina' %}">Cadastrar um novo maquina</a>
     <p class="lead">aqui está apresentado todos os maquinas registrados</p>
-    <hr>
+    
     <div class="table responsive">
 
         <table class="table table-striped" id="tabela-maquina">
@@ -29,7 +29,7 @@
             {% for maquina in object_list %}
             <tbody>
                 <tr>
-                    ["", "", "", ""]
+                    
                     <td>{{maquina.descricao}}</td>
                     <td>{{maquina.ano}}</td>
                     <td>{{maquina.horimetro}}</td>
@@ -46,7 +46,7 @@
                 </tr>
 
                 {% empty %}
-                <td colspan="3">Nenhum maquina registrado.</td>
+                <td colspan="100%">Nenhum maquina registrado.</td>
                 {% endfor %}
             </tbody>
         </table>

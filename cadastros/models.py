@@ -13,30 +13,45 @@ CARGO_CHOICES = (
     ('2', 'Administrativos'),
     ('3', 'Ajudante Geral'),
 )
-
+UF_CHOICES = (
+    ('AC', 'Acre'),
+    ('AL', 'Alagoas'),
+    ('AP', 'Amapá'),
+    ('BA', 'Bahia'),
+    ('CE', 'Ceará'),
+    ('DF', 'Distrito Federal'),
+    ('ES', 'Espírito Santo'),
+    ('GO', 'Goiás'),
+    ('MA', 'Maranão'),
+    ('MG', 'Minas Gerais'),
+    ('MS', 'Mato Grosso do Sul'),
+    ('MT', 'Mato Grosso'),
+    ('PA', 'Pará'),
+    ('PB', 'Paraíba'),
+    ('PE', 'Pernanbuco'),
+    ('PI', 'Piauí'),
+    ('PR', 'Paraná'),
+    ('RJ', 'Rio de Janeiro'),
+    ('RN', 'Rio Grande do Norte'),
+    ('RO', 'Rondônia'),
+    ('RR', 'Roraima'),
+    ('RS', 'Rio Grande do Sul'),
+    ('SC', 'Santa Catarina'),
+    ('SE', 'Sergipe'),
+    ('SP', 'São Paulo'),
+    ('TO', 'Tocantins')
+)
 
 # Create your models here.
-class Estado(models.Model):
-    nome = models.CharField(max_length=50)
-    sigla = models.CharField(max_length=2)
-
-    def __str__(self):
-        return self.sigla
-
 
 class Cidade(models.Model):
+    
     nome = models.CharField(max_length=50)
-    estado = models.ForeignKey(Estado, on_delete=models.PROTECT)
+    estado = models.CharField(choices=UF_CHOICES, max_length=50)
+    
     
     def __str__(self):
         return "{}/{}".format(self.nome, self.estado)
-
-
-# class Cargo(models.Model):
-
-#     def __str__(self):
-#         return "{}".format(self.nome)
-
 
 class Funcionario(models.Model):
     cargo = models.CharField(max_length=5, choices=CARGO_CHOICES, verbose_name="Cargo do Trabalhador")
@@ -89,7 +104,7 @@ class Fornecedor(models.Model):
     cidade = models.ForeignKey(Cidade, on_delete=models.PROTECT)
 
     def __str__(self):
-        return "{} -- {}".format(self.cnpj, self.nome_fantasia)
+        return "CNPJ:{} -- Nome:{}".format(self.cnpj, self.nome_fantasia)
 
 
 class Produto(models.Model):
@@ -102,10 +117,11 @@ class Produto(models.Model):
 
 
 class Entrada(models.Model):
+    # detalhes = models.ForeignKey(Produto, on_delete=models.PROTECT)
     detalhes = models.CharField(max_length=100, help_text="Informe mais detalhes da entrada, como NF, Nº do Pedido, etc.")
     data = models.DateField(verbose_name="Data de entrada")
     fornecedor = models.ForeignKey(Fornecedor, on_delete=models.PROTECT)
-    valor_total = models.DecimalField(decimal_places=2, max_digits=6)
+    valor_total = models.DecimalField(decimal_places=2, max_digits=8)
 
     def __str__(self):
         return "#{} - {}/{}".format(self.pk, self.detalhes, self.data)
@@ -143,33 +159,4 @@ class Produtos_Saida(models.Model):
 
 
 
-
-# class Itens_Mov(models.Model):
-#     saida = models.ForeignKey(Saida, on_delete=models.PROTECT)
-#     entrada = models.ForeignKey(Entrada, on_delete=models.PROTECT)
-
-#     qtde = models.DecimalField(
-#         decimal_places=2, max_digits=5, verbose_name="Quantidade")
-#     preco = models.DecimalField(
-#         decimal_places=2, max_digits=5, verbose_name="Preço")
-#     idloteprod = models.IntegerField(verbose_name="Lote do produto")
-
-
-
-# class EmailSuport(models.Model):
-
-#     nome = models.CharField(max_length=50,
-#                             verbose_name="Funcionario")
-#     email = models.CharField(max_length=50,
-#                              verbose_name="Email")
-#     telefoneCelular = models.IntegerField(
-#         verbose_name="TelefoneCelular", null=True, blank=True)
-#     telefoneFixo = models.IntegerField(
-#         verbose_name="TelefoneFixo", null=True, blank=True)
-
-#     descricao = models.CharField(
-#         max_length=150, verbose_name="Descrição")
-
-#     def __str__(self):
-#         return "".format(self.nome, self.email, self.telefoneCelular, self.telefoneFixo, self.descricao)
 

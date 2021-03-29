@@ -1,9 +1,9 @@
 from django.urls import path
-from .views import EstadoCreate, CidadeCreate, FornecedorCreate, FuncionarioCreate, MaquinaCreate, ProdutoCreate, EntradaCreate, Produtos_EntradaCreate, SaidaCreate, Produtos_SaidaCreate
-from .views import EstadoUpdate, CidadeUpdate, FornecedorUpdate, FuncionarioUpdate, MaquinaUpdate, ProdutoUpdate, EntradaUpdate, Produtos_EntradaUpdate, SaidaUpdate, Produtos_SaidaUpdate   
-from .views import EstadoDelete, CidadeDelete, FornecedorDelete, FuncionarioDelete, MaquinaDelete, ProdutoDelete, EntradaDelete, Produtos_EntradaDelete, SaidaDelete, Produtos_SaidaDelete
-from .views import EstadoList  , CidadeList  , FornecedorList  , FuncionarioList  , MaquinaList  , ProdutoList  , EntradaList  , Produtos_EntradaList  , SaidaList  , Produtos_SaidaList
-from .views import FornecedorDetalhes, SaidaDetalhes
+from .views import CidadeCreate, FornecedorCreate, FuncionarioCreate, MaquinaCreate, ProdutoCreate, EntradaCreate, Produtos_EntradaCreate, SaidaCreate, Produtos_SaidaCreate
+from .views import CidadeUpdate, FornecedorUpdate, FuncionarioUpdate, MaquinaUpdate, ProdutoUpdate, EntradaUpdate, Produtos_EntradaUpdate, SaidaUpdate, Produtos_SaidaUpdate   
+from .views import CidadeDelete, FornecedorDelete, FuncionarioDelete, MaquinaDelete, ProdutoDelete, EntradaDelete, Produtos_EntradaDelete, SaidaDelete, Produtos_SaidaDelete
+from .views import CidadeList  , FornecedorList  , FuncionarioList  , MaquinaList  , ProdutoList  , EntradaList  , Produtos_EntradaList  , SaidaList  , Produtos_SaidaList
+from .views import FornecedorDetalhes, FuncionarioDetalhes, SaidaDetalhes
 # from .views import IndexView, SobreView, AjudaView, IndexAdmView
 
 
@@ -15,7 +15,7 @@ urlpatterns = [
     path('cadastrar/fornecedor', FornecedorCreate.as_view(), name='cadastrar-fornecedor'),
     path('cadastrar/funcionario', FuncionarioCreate.as_view(), name='cadastrar-funcionario'),
     path('cadastrar/cidade', CidadeCreate.as_view(), name='cadastrar-cidade'),
-    path('cadastrar/estados', EstadoCreate.as_view(), name='cadastrar-estado'),
+    # path('cadastrar/estados', EstadoCreate.as_view(), name='cadastrar-estado'),
     path('cadastrar/maquina', MaquinaCreate.as_view(), name='cadastrar-maquina'),
     path('cadastrar/produto', ProdutoCreate.as_view(), name='cadastrar-produto'),
     path('cadastrar/entrada', EntradaCreate.as_view(), name='cadastrar-entrada'),
@@ -26,7 +26,7 @@ urlpatterns = [
     ############################  UPDATE  ############################
     
 
-    path('editar/estado/<int:pk>/', EstadoUpdate.as_view(), name="editar-estado"),
+    # path('editar/estado/<int:pk>/', EstadoUpdate.as_view(), name="editar-estado"),
     path('editar/cidade/<int:pk>/', CidadeUpdate.as_view(), name="editar-cidade"),
     path('editar/fornecedor/<int:pk>/', FornecedorUpdate.as_view(), name="editar-fornecedor"),
     path('editar/funcionario/<int:pk>/', FuncionarioUpdate.as_view(), name="editar-funcionario"),
@@ -40,7 +40,7 @@ urlpatterns = [
     ############################  DELETE  ############################
         
 
-    path('excluir/estado/<int:pk>/', EstadoDelete.as_view(), name="excluir-estado"),
+    # path('excluir/estado/<int:pk>/', EstadoDelete.as_view(), name="excluir-estado"),
     path('excluir/cidade/<int:pk>/', CidadeDelete.as_view(), name="excluir-cidade"),
     path('excluir/fornecedor/<int:pk>/', FornecedorDelete.as_view(), name="excluir-fornecedor"),
     path('excluir/funcionario/<int:pk>/', FuncionarioDelete.as_view(), name="excluir-funcionario"),
@@ -56,7 +56,7 @@ urlpatterns = [
     path('listar/fornecedor', FornecedorList.as_view(), name="listar-fornecedor"),
     path('listar/funcionario', FuncionarioList.as_view(), name="listar-funcionario"),
     path('listar/cidade', CidadeList.as_view(), name="listar-cidade"),
-    path('listar/estado', EstadoList.as_view(), name="listar-estado"),
+    # path('listar/estado', EstadoList.as_view(), name="listar-estado"),
     path('listar/entrada', EntradaList.as_view(), name="listar-entrada"),
     path('listar/maquina',MaquinaList.as_view(), name="listar-maquina"),
     path('listar/produto', ProdutoList.as_view(), name="listar-produto"),
@@ -67,6 +67,7 @@ urlpatterns = [
     ############################  Detalhes  ############################
     
     path('detalhes/fornecedor/<int:pk>/', FornecedorDetalhes.as_view(), name="detalhar-fornecedor"),
+    path('detalhes/funcionario/<int:pk>/', FuncionarioDetalhes.as_view(), name="detalhar-funcionario"),
     path('detalhes/saida/<int:pk>/', SaidaDetalhes.as_view(), name="detalhar-saida"),
     
 

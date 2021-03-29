@@ -12,7 +12,7 @@
     <h3>{{ titulo }}</h3>
     <a class="btn btn-primary btn-sm float-right" href="{% url 'cadastrar-produto' %}">Cadastrar um novo produto</a>
     <p class="lead">aqui está apresentado todos os produtos registrados</p>
-    <hr>
+   
     <div class="table responsive">
 
         <table class="table table-striped" id="tabela-produto">
@@ -20,19 +20,15 @@
                 <tr>                    
                     <th>Nome</th>
                     <th>Quantidade Atual</th>
-                    <th>Quantidade Minima</th>
                     <th>Opções</th>
                 </tr>
             </thead>
             {% for produto in object_list %}
-                   
             <tbody>
                 <tr>
-                    
                     <td>{{produto.nome}}</td>
                     <td>{{produto.quantidade_atual}}</td>
-                    <td>{{produto.quantidade_minima}}</td>
-                   
+                    
                     <td>
                         <a href="{% url 'editar-produto' produto.pk %}" class="btn btn-warning btn-sm" title="Editar">
                             <i class="fa fa-pencil" aria-hidden="true"></i>
@@ -51,6 +47,10 @@
     </div>
 </div>
 {% endblock %}
+                   
+                    
+                   
+                    
 
 
 {% block script %}

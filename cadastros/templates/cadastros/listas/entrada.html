@@ -12,7 +12,7 @@
     <h3>{{ titulo }}</h3>
     <a class="btn btn-primary btn-sm float-right" href="{% url 'cadastrar-entrada' %}">Cadastrar um novo entrada</a>
     <p class="lead">aqui está apresentado todos os entradas registrados</p>
-    <hr>
+    
     <div class="table responsive">
 
         <table class="table table-striped" id="tabela-entrada">
@@ -32,7 +32,7 @@
                     
                     <td>{{entrada.data}}</td>
                     <td>{{entrada.fornecedor}}</td>
-                    <td>{{entrada.valor_Total}}</td>
+                    <td>{{entrada.valor_total}}</td>
                     
                     <td>
                         <a href="{% url 'editar-entrada' entrada.pk %}" class="btn btn-warning btn-sm" title="Editar">
@@ -45,7 +45,7 @@
                 </tr>
 
                 {% empty %}
-                <td colspan="3">Nenhum entrada registrado.</td>
+                <td colspan="100%">Nenhum entrada registrado.</td>
                 {% endfor %}
             </tbody>
         </table>

@@ -12,20 +12,17 @@
 <div class="container">
     <h3>{{ titulo }}</h3>
     <a class="btn btn-primary btn-sm float-right" href="{% url 'cadastrar-fornecedor' %}">Cadastrar um novo
-        funcionario</a>
+        fornecedor</a>
     <p class="lead">aqui está apresentado todos os fornecedores registrados</p>
     
     <div class="table-responsive">
         <table class="table table-striped" id="tabela-listar">
             <thead>
                 <tr>
-                    <th>CNPJ</th>
-                    <!-- <th>Razão Social</th> -->
+                    <th>CNPJ</th>                    
                     <th>Nome Fantasia</th>
-                    <th>Vendedor da Empresa</th>
-                    <th>Email</th>
-                    <th>Telefone</th>
-                    <!-- <th>Site</th> -->
+                    <th>Vendedor da Empresa</th>                    
+                    <th>Telefone</th>                    
                     <th>Opções</th>
 
                 </tr>
@@ -34,13 +31,11 @@
             <tbody>
                 {% for fornecedor in object_list %}
                 <tr>
-                    <td>{{ fornecedor.cnpj }}</td>
-                    <!-- <td>{{ fornecedor.razao_social }}</td> -->
+                    <td>{{ fornecedor.cnpj }}</td>                   
                     <td>{{ fornecedor.nome_fantasia }}</td>
-                    <td>{{ fornecedor.vendedor }}</td>
-                    <td>{{ fornecedor.email }}</td>
+                    <td>{{ fornecedor.vendedor }}</td>                    
                     <td>{{ fornecedor.telefone }}</td>
-                    <!-- <td>{{ fornecedor.site }}</td> -->
+                    
 
                     <td>
                         <a href="{% url 'editar-fornecedor' fornecedor.pk %}" class="btn btn-warning btn-sm"
@@ -59,7 +54,7 @@
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="3">Nenhuma fornecedor registrado.</td>
+                    <td colspan="100%">Nenhuma fornecedor registrado.</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -68,6 +63,8 @@
     </div>
     {% endblock %}
 
+    {% block rodape %}
+    {% endblock %}
     
     {% block script %}
     <script>

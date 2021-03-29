@@ -12,7 +12,7 @@
     <h3>{{ titulo }}</h3>
     <a class="btn btn-primary btn-sm float-right" href="{% url 'cadastrar-funcionario' %}">Cadastrar um novo funcionario</a>
     <p class="lead">aqui está apresentado todos os funcionarios registrados</p>
-    <hr>
+    
     <div class="table responsive">
 
         <table class="table table-striped" id="tabela-funcionario">
@@ -20,12 +20,7 @@
                 <tr>
                     <th>Nome</th>
                     <th>Data de Nascimento</th>
-                    <th>Setor</th>
-                    <th>Telefone Celular</th>
-                    <th>Telefone Fixo</th>
-                    <th>CPF</th>
-                    <th>RG</th>
-                    <th>Email</th>
+                    <th>Setor</th>                   
                     <th>CNH</th>
                     <th>Cargo</th>
                     <th>Cidade</th>
@@ -37,12 +32,7 @@
                 <tr>
                     <td>{{funcionario.nome}}</td>
                     <td>{{funcionario.data_nascimento}}</td>
-                    <td>{{funcionario.setor}}</td>
-                    <td>{{funcionario.telefone_celular}}</td>
-                    <td>{{funcionario.telefone_fixo}}</td>
-                    <td>{{funcionario.cpf}}</td>
-                    <td>{{funcionario.rg}}</td>
-                    <td>{{funcionario.email}}</td>
+                    <td>{{funcionario.setor}}</td>                    
                     <td>{{funcionario.cnh}}</td>
                     <td>{{funcionario.cargo}}</td>
                     <td>{{funcionario.cidade}}</td>
@@ -53,11 +43,14 @@
                         <a href="{% url 'excluir-funcionario' funcionario.pk %}" class="btn btn-danger btn-sm" title="Excluir">
                             <i class="fa fa-trash" aria-hidden="true"></i>
                         </a>
+                        <a href="{% url 'detalhar-funcionario' funcionario.pk %}" class="btn btn-info btn-sm" title="Ver dados completos">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </a>
                     </td>
                 </tr>
 
                 {% empty %}
-                <td colspan="3">Nenhum funcionario registrado.</td>
+                <td colspan="100%">Nenhum funcionario registrado.</td>
                 {% endfor %}
             </tbody>
         </table>
