@@ -22,8 +22,7 @@
     <!-- Custom styles for this template -->
     <link href="{% static 'css\style.css' %}" rel="stylesheet" />
 
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="{% static 'css\font-awesome.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'fontawesome\css\font-awesome.min.css' %}" rel="stylesheet" />
 </head>
 
 <body>
@@ -37,19 +36,16 @@
                     </button>
                     <a class="navbar-brand " href="#">Painel do Sistema de Gerenciamento de Frotas</a>
                 </div>
+                
                 {% if request.user.is_authenticated %}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-primary pull-left mb-0" href="#" id="navbarDropdownMenuLink"
+                    <a class="nav-link text-white dropdown-toggle pull-left mb-0" href="#" id="navbarDropdownMenuLink"
                         role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-person-circle" viewBox="0 0 16 16">
-                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-                            <path fill-rule="evenodd"
-                                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
-                        </svg>
+                        <i class="fa fa-user-circle" aria-hidden="true"></i>
                         <span id="username">{{ request.user }}</span>
                     </a>
                     &nbsp; &nbsp; &nbsp; &nbsp;
+
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="{% url 'atualizar-dados' %}">
                             <i class="fa fa-user" aria-hidden="true"></i>
@@ -65,17 +61,15 @@
                 </li>
                 {% else %}
                 <div class="navbar-header ml-auto">
-                    <a class="nav-link" href="{% url 'registrar' %}">
+                    <a class="nav-link text-white" href="{% url 'registrar' %}">
                         <i class="fa fa-user-plus" aria-hidden="true"></i>
                         Registrar
-
                     </a>
                 </div>
                 <div class="navbar-header">
-                    <a class="nav-link" href="{% url 'login' %}">
+                    <a class="nav-link text-white" href="{% url 'login' %}">
                         <i class="fa fa-sign-in" aria-hidden="true"></i>
                         Login
-
                     </a>
                 </div>
                 {% endif %}
@@ -179,25 +173,10 @@
 
         {% endblock %}
 
-        {% block conteudo %}
         <section class="layout-content">
-
-            <nav class="navbar navbar-expand-md bg-light">
-                <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
-                            <a href="{% url 'index' %}">
-
-                                <i class="oi oi-caret-right"></i>
-                                <i class="fa fa-home" aria-hidden="true"></i>
-
-                                Home
-
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+            
+            <div class="p-4">
+            {% block conteudo %}
             <div class="container">
                 <div id="list-home" class="row">
                     <div class="col-4">
@@ -237,10 +216,11 @@
                     </div>
                 </div>
             </div>
+            {% endblock %}
+            </div>
 
         </section>
 
-        {% endblock %}
     </div>
     {% block rodape %}
     <!-- <footer class="layout-footer">
