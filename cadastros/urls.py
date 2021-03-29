@@ -1,8 +1,8 @@
 from django.urls import path
-from .views import CidadeCreate, FornecedorCreate, FuncionarioCreate, MaquinaCreate, ProdutoCreate, EntradaCreate, Produtos_EntradaCreate, SaidaCreate, Produtos_SaidaCreate
-from .views import CidadeUpdate, FornecedorUpdate, FuncionarioUpdate, MaquinaUpdate, ProdutoUpdate, EntradaUpdate, Produtos_EntradaUpdate, SaidaUpdate, Produtos_SaidaUpdate   
-from .views import CidadeDelete, FornecedorDelete, FuncionarioDelete, MaquinaDelete, ProdutoDelete, EntradaDelete, Produtos_EntradaDelete, SaidaDelete, Produtos_SaidaDelete
-from .views import CidadeList  , FornecedorList  , FuncionarioList  , MaquinaList  , ProdutoList  , EntradaList  , Produtos_EntradaList  , SaidaList  , Produtos_SaidaList
+from .views import CidadeCreate, FornecedorCreate, FuncionarioCreate, MaquinaCreate, ProdutoCreate, EntradaCreate, Produtos_EntradaCreate, SaidaCreate, Produtos_SaidaCreate, Controle_MaquinaCreate
+from .views import CidadeUpdate, FornecedorUpdate, FuncionarioUpdate, MaquinaUpdate, ProdutoUpdate, EntradaUpdate, Produtos_EntradaUpdate, SaidaUpdate, Produtos_SaidaUpdate, Controle_MaquinaUpdate   
+from .views import CidadeDelete, FornecedorDelete, FuncionarioDelete, MaquinaDelete, ProdutoDelete, EntradaDelete, Produtos_EntradaDelete, SaidaDelete, Produtos_SaidaDelete, Controle_MaquinaDelete
+from .views import CidadeList, FornecedorList, FuncionarioList, MaquinaList, ProdutoList, EntradaList, Produtos_EntradaList, SaidaList, Produtos_SaidaList, Controle_MaquinaList
 from .views import FornecedorDetalhes, FuncionarioDetalhes, SaidaDetalhes
 # from .views import IndexView, SobreView, AjudaView, IndexAdmView
 
@@ -22,6 +22,7 @@ urlpatterns = [
     path('cadastrar/produtos_entrada', Produtos_EntradaCreate.as_view(), name='cadastrar-produtos_entrada'),
     path('cadastrar/saida', SaidaCreate.as_view(), name='cadastrar-saida'),
     path('cadastrar/produtos_saida', Produtos_SaidaCreate.as_view(), name='cadastrar-produtos_saida'),
+    path('cadastrar/controle_maquina', Controle_MaquinaCreate.as_view(), name='cadastrar-controle_maquina'),
     
     ############################  UPDATE  ############################
     
@@ -37,6 +38,7 @@ urlpatterns = [
     path('editar/produtos_entrada/<int:pk>/', Produtos_EntradaUpdate.as_view(), name="editar-produtos_entrada"),
     path('editar/saida/<int:pk>/', SaidaUpdate.as_view(), name="editar-saida"),
     path('editar/produtos_saida/<int:pk>/', Produtos_SaidaUpdate.as_view(), name="editar-produtos_saida"),
+    path('editar/controle_maquina/<int:pk>/', Controle_MaquinaUpdate.as_view(), name="editar-controle_maquina"),
     ############################  DELETE  ############################
         
 
@@ -50,6 +52,7 @@ urlpatterns = [
     path('excluir/produtos_entrada/<int:pk>/', Produtos_EntradaDelete.as_view(), name="excluir-produtos_entrada"),
     path('excluir/saida/<int:pk>/', SaidaDelete.as_view(), name="excluir-saida"),
     path('excluir/produtos_saida/<int:pk>/', Produtos_SaidaDelete.as_view(), name="excluir-produtos_saida"),
+    path('excluir/controle_maquina/<int:pk>/', Controle_MaquinaDelete.as_view(), name="excluir-controle_maquina"),
     ############################  LIST  ############################
     
 
@@ -63,6 +66,7 @@ urlpatterns = [
     path('listar/produtos_entrada', Produtos_EntradaList.as_view(), name="listar-produtos_entrada"),
     path('listar/saida', SaidaList.as_view(), name="listar-saida"),
     path('listar/produtos_saida', Produtos_SaidaList.as_view(), name="listar-produtos_saida"),
+    path('listar/controle_maquina', Controle_MaquinaList.as_view(), name="listar-controle_maquina"),
    
     ############################  Detalhes  ############################
     

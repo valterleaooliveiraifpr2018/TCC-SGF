@@ -90,6 +90,18 @@ class Maquina(models.Model):
         verbose_name = "Máquina"
         ordering = ['-ano']
 
+class Controle_Maquina(models.Model):
+    maquina = models.ForeignKey(Maquina, on_delete=models.PROTECT)
+
+    ultimo_horimetro = models.IntegerField(verbose_name="Último Horimetro")
+
+    def __str__(self):
+        return "Máquina: {}/Prefixo: {} ({})Horimetro atual: {} / Ultimo Horimetro: {}".format(self.maquina.descricao, self.maquina.prefixo, self.maquina.ano, self.maquina.horimetro, self.ultimo_horimetro)
+
+    class Meta:
+        verbose_name = "Máquina"
+        
+
 
 class Fornecedor(models.Model):
     cnpj = models.CharField(max_length=18, verbose_name="CNPJ")
