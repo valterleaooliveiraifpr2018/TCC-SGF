@@ -123,7 +123,7 @@ class Produto(models.Model):
     quantidade_minima = models.IntegerField(verbose_name="Quantidade mínima", 
         help_text="Informe a quantidade mínima para gerar um alerta de estoque.")
     def __str__(self):
-        return "{}".format(self.nome)
+        return "{} - Estoque atual: {}".format(self.nome, self.quantidade_atual)
 
 
 class Entrada(models.Model):

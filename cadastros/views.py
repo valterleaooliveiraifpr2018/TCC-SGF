@@ -121,6 +121,26 @@ class Produtos_SaidaCreate(CreateView):
     template_name = "cadastros/form.html"
     success_url = reverse_lazy("listar-saida")
 
+    def form_valid(self, form):
+        
+        # Se a quantidade digitada no form for maior que a quanttidade atual do produto selecionado
+        if(form.instance.quantidade > form.instance.produto.quantidade_atual):
+            # Adicionar um erro no formulário/cadastro
+            form.add_error(None, 'A quantidade desejada é maior do que a presente no estoque!')
+            return self.form_invalid(form) 
+                
+        # Aqui que cria objeto e salva no banco
+        url = super().form_valid(form)
+
+        # Já que a quantidade está ok, vamos diminuir do estoque e salvar a alteração no banco também
+        # Objeto que acabou de ser criado do tipo que está no Model ali em cima
+        self.object.produto.quantidade_atual = self.object.produto.quantidade_atual - self.object.quantidade
+        # Salvar o produto
+        self.object.produto.save()
+
+        # Fim do método
+        return url
+
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context["titulo"] = "Saída de Produtos"
@@ -362,6 +382,17 @@ class Produtos_SaidaDelete(DeleteView):
     model = Produtos_Saida
     template_name = 'cadastros/form-excluir.html'
     success_url = reverse_lazy('listar-saida')
+
+    def delete(self, *args, **kwargs):
+        # Busca o objeto atual a ser excluído
+        self.object = self.get_object()
+        # Volta a quantidade atual do PRODUTO somando o que vai ser excluído
+        self.object.produto.quantidade_atual = self.object.produto.quantidade_atual + self.object.quantidade
+        # Salva o produto
+        self.object.produto.save()
+        # Exclui essa baixa registrada como saída
+        return super().delete(*args, **kwargs)
+
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)

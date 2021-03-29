@@ -42,9 +42,6 @@
                     <td>{{ prod.produto }}</td>
                     <td>{{ prod.quantidade }}</td>
                     <td>
-                        <a href="{% url 'editar-produtos_saida' prod.pk %}" class="btn btn-warning btn-sm" title="Editar">
-                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                        </a>
                         <a href="{% url 'excluir-produtos_saida' prod.pk %}" class="btn btn-danger btn-sm" title="Excluir">
                             <i class="fa fa-trash" aria-hidden="true"></i>
                         </a>
