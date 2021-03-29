@@ -16,7 +16,7 @@ class UsuarioCreate(CreateView):
 
     def form_valid(self, form):
 
-        grupo = get_object_or_404(Group, name="Docente")
+        grupo = get_object_or_404(Group, name="funcionarios")
 
         url = super().form_valid(form)
 

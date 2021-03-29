@@ -4,29 +4,47 @@
 
 
 {% block titulo %}
-<title>Detalhamento de Fornecedor</title>
+<title>Detalhamento de Saida</title>
 {% endblock %}
 
 
 {% block conteudo %}
 <div class="container">
-    <h3>Saída: {{ object }}</h3>
-    
-    <p class="lead">Todos os dados registrados desta saída.</p>
+    <h3>Saida: {{ object }}</h3>
+    <h3>{{ titulo }}</h3>
+    <p class="lead">Todos os dados registrados deste Saida.</p>
 
-    <p>
-        Dados da saída
-    </p>
 
-    <h4>Produtos:</h4>
-    <p>
-        <strong>P:</strong>
-        <!-- nome que criou no get_context_data -->
-        <!-- fazer um for igual na no list para listar todos os produtos -->
-        {{ produtos }}
-    </p>
-    
-    
+    <div class="table-responsive">
+        <table class="table table-striped" id="tabela-listar">
+            <thead>
+                <tr>
+                    
+                    <th>Detalhes</th>
+                    <th>Maquina</th>
+                    <th>Funcionario</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    
+                    <td>{{ saida.detalhes }}</td>
+                    <td>{{ saida.maquina }}</td>
+                    <td>{{ saida.funcionario }}</td>
+                    
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+
+
+
+
     {% endblock %}
 
 
@@ -38,7 +56,38 @@
         // });
         $(document).ready(function () {
 
-            
+            $("#tabela-funcionario").DataTable({
+                responsive: true,
+                // "bSort": false,
+                "aaSorting": [],
+                "pageLength": 50,
+                "language": {
+                    "decimal": "",
+                    "emptyTable": "Sem dados disponíveis",
+                    "info": "Mostrando de _START_ até _END_ de _TOTAL_ registos",
+                    "infoEmpty": "Mostrando de 0 até 0 de 0 registos",
+                    "infoFiltered": "(filtrado de _MAX_ registos no total)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Mostrar _MENU_ registos",
+                    "loadingRecords": "A carregar dados...",
+                    "processing": "A processar...",
+                    "search": "Procurar:",
+                    "zeroRecords": "Não foram encontrados resultados",
+                    "paginate": {
+                        "first": "Primeiro",
+                        "last": "Último",
+                        "next": "Seguinte",
+                        "previous": "Anterior"
+                    },
+                    "aria": {
+                        "sortAscending": ": ordem crescente",
+                        "sortDescending": ": ordem decrescente"
+                    }
+                }
+
+
+            });
         })
     </script>
 </div>
