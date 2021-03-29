@@ -53,9 +53,9 @@ class Cidade(models.Model):
     def __str__(self):
         return "{}/{}".format(self.nome, self.estado)
 
+
 class Funcionario(models.Model):
     cargo = models.CharField(max_length=5, choices=CARGO_CHOICES, verbose_name="Cargo do Trabalhador")
-
     nome = models.CharField(max_length=50)
     data_nascimento = models.DateField()
     setor = models.CharField(max_length=5, choices=SETOR_CHOICES, verbose_name="Setor de Trabalho")
@@ -84,15 +84,15 @@ class Maquina(models.Model):
     cidade = models.ForeignKey(Cidade, on_delete=models.PROTECT)
 
     def __str__(self):
-        return "Máquina: {}/Prefixo: {} ({})".format(self.descricao, self.prefixo, self.ano)
+        return "{}/Prefixo: {} ({})".format(self.descricao, self.prefixo, self.ano)
 
     class Meta:
         verbose_name = "Máquina"
         ordering = ['-ano']
 
+
 class Controle_Maquina(models.Model):
     maquina = models.ForeignKey(Maquina, on_delete=models.PROTECT)
-
     ultimo_horimetro = models.IntegerField(verbose_name="Último Horimetro")
 
     def __str__(self):
@@ -101,7 +101,6 @@ class Controle_Maquina(models.Model):
     class Meta:
         verbose_name = "Máquina"
         
-
 
 class Fornecedor(models.Model):
     cnpj = models.CharField(max_length=18, verbose_name="CNPJ")
@@ -141,7 +140,6 @@ class Entrada(models.Model):
         verbose_name = "Movimentação da entrada"
 
 
-
 class Produtos_Entrada(models.Model):
     entrada = models.ForeignKey(Entrada, on_delete=models.PROTECT)
     produto = models.ForeignKey(Produto, on_delete=models.PROTECT)
@@ -150,10 +148,11 @@ class Produtos_Entrada(models.Model):
 
     def __str__(self):
         return "{}".format(self.produto)
+
+
 class Saida(models.Model):
-    detalhes = models.ForeignKey(Produtos_Entrada, on_delete=models.PROTECT)
-    # detalhes = models.CharField(max_length=100, help_text="Informe mais detalhes da saída, Nº do Pedido, Ordem de serviço, etc.")
-    
+    # detalhes = models.ForeignKey(Produtos_Entrada, on_delete=models.PROTECT)
+    detalhes = models.CharField(max_length=100, help_text="Informe mais detalhes da saída, Nº do Pedido, Ordem de serviço, etc.")
     data = models.DateField(auto_now_add=True)
     maquina = models.ForeignKey(Maquina, on_delete=models.PROTECT, verbose_name="máquina")
     funcionario = models.ForeignKey(Funcionario, on_delete=models.PROTECT, help_text="Informe o funcionário que fez esta solicitação de saída.")

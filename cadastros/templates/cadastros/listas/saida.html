@@ -19,7 +19,7 @@
             <thead>
                 <tr>
                     
-                    
+                    <th>Código</th>
                     <th>Máquina</th>
                     <th>Funcionário</th>
                     
@@ -29,6 +29,7 @@
             {% for saida in object_list %}
             <tbody>
                 <tr>
+                    <td>#{{saida.pk}}</td>
                     <td>{{saida.maquina}}</td>
                     <td>{{saida.funcionario}}</td>
                               

@@ -96,6 +96,12 @@ class Produtos_EntradaCreate(CreateView):
     template_name = "cadastros/form.html"
     success_url = reverse_lazy("listar-produtos_entrada")
 
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["titulo"] = "Entrada de Produtos"
+        context["botao"] = "Inserir nessa entrada"
+        return context
+
 
 class SaidaCreate(CreateView):    
     model= Saida
@@ -114,6 +120,12 @@ class Produtos_SaidaCreate(CreateView):
     fields= ["saida", "produto", "quantidade"]
     template_name = "cadastros/form.html"
     success_url = reverse_lazy("listar-produtos_saida")
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["titulo"] = "Saída de Produtos"
+        context["botao"] = "Registrar saída"
+        return context
 
 class Controle_MaquinaCreate(CreateView):    
     model= Controle_Maquina
@@ -212,6 +224,12 @@ class Produtos_EntradaUpdate(UpdateView):
     template_name = 'cadastros/form.html'
     success_url = reverse_lazy('listar-produtos_entrada')
 
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["titulo"] = "Entrada de Produtos"
+        context["botao"] = "Atualizar entrada"
+        return context
+
 
 class SaidaUpdate(UpdateView):
     # login_url = reverse_lazy('login')
@@ -222,8 +240,8 @@ class SaidaUpdate(UpdateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context["titulo"] = "Atualizar a saida"
-        context["botao"] = "Atualizar"
+        context["titulo"] = "Atualizar dados da Saída"
+        context["botao"] = "Atualizar saída"
         return context
     
 class Produtos_SaidaUpdate(UpdateView):
@@ -231,7 +249,13 @@ class Produtos_SaidaUpdate(UpdateView):
     model = Produtos_Saida
     fields = ["saida", "produto", "quantidade"]
     template_name = 'cadastros/form.html'
-    success_url = reverse_lazy('listar-produtos_saida')
+    success_url = reverse_lazy('listar-saida')
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["titulo"] = "Saída de Produtos"
+        context["botao"] = "Atualizar saída"
+        return context
 
 class Controle_MaquinaUpdate(UpdateView):
     # login_url = reverse_lazy('login')
@@ -463,6 +487,8 @@ class FuncionarioDetalhes(DetailView):
         context["titulo"] = "Apresentação Detalhada do funcionário"
         return context
        
+
+################## DETAIL #############################
 
 
 class SaidaDetalhes(DetailView):
