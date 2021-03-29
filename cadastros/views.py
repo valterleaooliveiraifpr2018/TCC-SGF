@@ -119,7 +119,7 @@ class Produtos_SaidaCreate(CreateView):
     model= Produtos_Saida
     fields= ["saida", "produto", "quantidade"]
     template_name = "cadastros/form.html"
-    success_url = reverse_lazy("listar-produtos_saida")
+    success_url = reverse_lazy("listar-saida")
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -236,7 +236,7 @@ class SaidaUpdate(UpdateView):
     model = Saida
     fields = ["detalhes", "maquina", "funcionario"]
     template_name = 'cadastros/form.html'
-    success_url = reverse_lazy('listar-Saida')
+    success_url = reverse_lazy('listar-saida')
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -361,7 +361,13 @@ class Produtos_SaidaDelete(DeleteView):
     # login_url = reverse_lazy('login')
     model = Produtos_Saida
     template_name = 'cadastros/form-excluir.html'
-    success_url = reverse_lazy('listar-produtos_saida'),
+    success_url = reverse_lazy('listar-saida')
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["titulo"] = "Excluir Produto de uma Saída"
+        context["botao"] = "Excluir"
+        return context
 
 class Controle_MaquinaDelete(DeleteView):
     # login_url = reverse_lazy('login')

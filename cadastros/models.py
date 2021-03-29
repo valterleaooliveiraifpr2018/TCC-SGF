@@ -147,7 +147,7 @@ class Produtos_Entrada(models.Model):
     preco_unitario = models.DecimalField(decimal_places=2, max_digits=6, verbose_name="Preço unitário")
 
     def __str__(self):
-        return "{}".format(self.produto)
+        return "Produto '{}' da Entrada #'{}'".format(self.produto.nome, self.entrada.pk)
 
 
 class Saida(models.Model):
@@ -162,6 +162,7 @@ class Saida(models.Model):
 
     class Meta:
         verbose_name = "Movimentação de retirada/saída"
+        ordering = ["-pk"]
     
 
 class Produtos_Saida(models.Model):
@@ -169,7 +170,5 @@ class Produtos_Saida(models.Model):
     produto = models.ForeignKey(Produto, on_delete= models.PROTECT)
     quantidade = models.DecimalField(decimal_places=2, max_digits=6, verbose_name="Quantidade retirada")
     
-
-
-
-
+    def __str__(self):
+        return "Produto '{}' da Saída #'{}'".format(self.produto.nome, self.saida.pk)
