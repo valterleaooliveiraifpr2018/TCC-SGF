@@ -84,7 +84,7 @@ class Maquina(models.Model):
     cidade = models.ForeignKey(Cidade, on_delete=models.PROTECT)
 
     def __str__(self):
-        return "{}/Prefixo: {} ({})".format(self.descricao, self.prefixo, self.ano)
+        return "{}/Prefixo: {} ({}) - {} horas".format(self.descricao, self.prefixo, self.ano, self.horimetro)
 
     class Meta:
         verbose_name = "Máquina"
@@ -123,8 +123,12 @@ class Produto(models.Model):
     quantidade_minima = models.IntegerField(verbose_name="Quantidade mínima", 
         help_text="Informe a quantidade mínima para gerar um alerta de estoque.")
     validade = models.IntegerField(default=0, blank=True, help_text="Informe a validade em horas, caso tenha.")
+
     def __str__(self):
-        return "{} - Estoque atual: {}".format(self.nome, self.quantidade_atual)
+        if(self.validade == 0):
+            return "{} - Estoque atual: {}".format(self.nome, self.quantidade_atual)
+        else:
+            return "{} - Estoque atual: {} - Validade: {} horas".format(self.nome, self.quantidade_atual, self.validade)
 
 
 class Entrada(models.Model):
@@ -181,3 +185,9 @@ class Revisao(models.Model):
     produto = models.ForeignKey(Produto, on_delete= models.PROTECT) 
     horimetro_revisao = models.IntegerField()
     feita = models.BooleanField(default=False)
+
+    def __str__(self):
+        return "Revisão com: {} horas -- Máquina: {}/{}h -- Produto: {}".format(self.horimetro_revisao, self.maquina.descricao, self.maquina.horimetro, self.produto.nome)
+
+    class Meta:
+        ordering = ["-pk"]

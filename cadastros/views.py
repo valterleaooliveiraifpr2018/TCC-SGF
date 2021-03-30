@@ -1,7 +1,7 @@
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from .models import Fornecedor, Funcionario, Cidade, Maquina, Produto, Entrada, Saida, Produtos_Entrada, Produtos_Saida, Controle_Maquina
+from .models import Fornecedor, Funcionario, Cidade, Maquina, Produto, Entrada, Saida, Produtos_Entrada, Produtos_Saida, Controle_Maquina, Revisao
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from braces.views import GroupRequiredMixin
@@ -67,7 +67,7 @@ class MaquinaCreate(CreateView):
 
 class ProdutoCreate(CreateView):
     model = Produto
-    fields = ["nome", "quantidade_atual", "quantidade_minima"]
+    fields = ["nome", "quantidade_atual", "quantidade_minima", "validade"]
     template_name = "cadastros/form.html"
     success_url = reverse_lazy("listar-produto")
 
@@ -106,9 +106,21 @@ class Produtos_EntradaCreate(CreateView):
 
 class SaidaCreate(CreateView):
     model = Saida
-    fields = ["detalhes", "maquina", "funcionario"]
+    fields = ["detalhes", "maquina", "horimetro", "funcionario"]
     template_name = "cadastros/form.html"
     success_url = reverse_lazy("listar-saida")
+
+    def form_valid(self, form):
+
+        # Aqui que cria objeto e salva no banco
+        url = super().form_valid(form)
+
+        # Atualiza horímetro da máquina
+        self.object.maquina.horimetro = self.object.horimetro
+        self.object.maquina.save()
+
+        # Fim do método
+        return url
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -141,6 +153,20 @@ class Produtos_SaidaCreate(CreateView):
             self.object.quantidade
         # Salvar o produto
         self.object.produto.save()
+
+        # Se a validade é maior do que 0 é porque vai precisar de revisão
+        if(self.object.produto.validade > 0):
+            prod = self.object.produto # pega o produto
+            maq = self.object.saida.maquina # pega a máquina
+            hora_rev = self.object.saida.horimetro + prod.validade # soma horímetro atual da máquina com a validade do produto
+            # Verificar se já existe uma revisão em aberto
+            revisao_antiga = Revisao.objects.filter(produto=prod, maquina=maq, feita=False)
+            # Se existe uma revisão a ser feita, muda ela para feita = True e salva
+            if(revisao_antiga.exists()):
+                revisao_antiga.feita = True
+                revisao_antiga.save()
+            # Cria uma nova revisão
+            Revisao.objects.create(produto=prod, maquina=maq, horimetro_revisao=hora_rev)
 
         # Fim do método
         return url
@@ -222,7 +248,7 @@ class MaquinaUpdate(UpdateView):
 class ProdutoUpdate(UpdateView):
     # login_url = reverse_lazy('login')
     model = Produto
-    fields = ["nome", "quantidade_atual", "quantidade_minima"]
+    fields = ["nome", "quantidade_atual", "quantidade_minima", "validade"]
     template_name = 'cadastros/form.html'
     success_url = reverse_lazy('listar-produto')
 
@@ -264,9 +290,21 @@ class Produtos_EntradaUpdate(UpdateView):
 class SaidaUpdate(UpdateView):
     # login_url = reverse_lazy('login')
     model = Saida
-    fields = ["detalhes", "maquina", "funcionario"]
+    fields = ["detalhes", "maquina", "horimetro", "funcionario"]
     template_name = 'cadastros/form.html'
     success_url = reverse_lazy('listar-saida')
+
+    def form_valid(self, form):
+
+        # Aqui que cria objeto e salva no banco
+        url = super().form_valid(form)
+
+        # Atualiza horímetro da máquina
+        self.object.maquina.horimetro = self.object.horimetro
+        self.object.maquina.save()
+
+        # Fim do método
+        return url
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -410,6 +448,15 @@ class Produtos_SaidaDelete(DeleteView):
             self.object.quantidade
         # Salva o produto
         self.object.produto.save()
+        # Remove a revisão que foi lançada
+        revisao = Revisao.objects.filter(
+            produto=self.object.produto, 
+            maquina=self.object.saida.maquina, 
+            horimetro_revisao=self.object.produto.validade + self.object.saida.horimetro,
+            feita=False)
+        if(revisao.exists()):
+            revisao.delete()
+
         # Exclui essa baixa registrada como saída
         return super().delete(*args, **kwargs)
 
@@ -528,6 +575,26 @@ class Controle_MaquinaList(ListView):
         context = super().get_context_data(*args, **kwargs)
         context["titulo"] = "Apresentar os controle_maquina"
         return context
+
+
+class RevisaoFeitaList(ListView):
+    # login_url = reverse_lazy('login')
+    model = Revisao
+    template_name = 'cadastros/listas/controle_maquina.html'
+    
+    def get_queryset(self):
+        self.object_list = Revisao.objects.filter(feita=True).order_by('maquina')
+        return self.object_list
+
+
+class RevisaoNaoFeitaList(ListView):
+    # login_url = reverse_lazy('login')
+    model = Revisao
+    template_name = 'cadastros/listas/controle_maquina.html'
+
+    def get_queryset(self):
+        self.object_list = Revisao.objects.filter(feita=False).order_by('maquina')
+        return self.object_list
 
 
 ############################  DetailView  ############################
