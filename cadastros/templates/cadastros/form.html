@@ -47,6 +47,7 @@
             };
 
         $('#id_telefone').mask(SPMaskBehavior, spOptions);
+        $('input[name*=telefone_]').mask(SPMaskBehavior, spOptions);
     });
 </script>
 {% endblock %} 
