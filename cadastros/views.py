@@ -13,7 +13,7 @@ from django.shortcuts import get_object_or_404
 class FornecedorCreate(CreateView):
     model = Fornecedor
     fields = ["cnpj", "razao_social", "nome_fantasia",
-              "vendedor","email", "telefone", "site", "cidade"]
+              "vendedor", "email", "telefone", "site", "cidade"]
     template_name = "cadastros/form.html"
     success_url = reverse_lazy("listar-fornecedor")
 
@@ -41,7 +41,7 @@ class FuncionarioCreate(CreateView):
 
 class CidadeCreate(CreateView):
     model = Cidade
-    fields = ["nome","estado"]
+    fields = ["nome", "estado"]
     template_name = "cadastros/form.html"
     success_url = reverse_lazy("listar-cidade")
 
@@ -50,7 +50,6 @@ class CidadeCreate(CreateView):
         context["titulo"] = "Registrar uma nova cidade"
         context["botao"] = "Cadastrar"
         return context
-
 
 
 class MaquinaCreate(CreateView):
@@ -65,6 +64,7 @@ class MaquinaCreate(CreateView):
         context["botao"] = "Cadastrar"
         return context
 
+
 class ProdutoCreate(CreateView):
     model = Produto
     fields = ["nome", "quantidade_atual", "quantidade_minima"]
@@ -78,10 +78,10 @@ class ProdutoCreate(CreateView):
         return context
 
 
-class EntradaCreate(CreateView):    
-    model= Entrada
+class EntradaCreate(CreateView):
+    model = Entrada
     fields = ["detalhes", "data", "fornecedor", "valor_total"]
-    template_name ="cadastros/form.html"
+    template_name = "cadastros/form.html"
     success_url = reverse_lazy("listar-entrada")
 
     def get_context_data(self, *args, **kwargs):
@@ -90,7 +90,8 @@ class EntradaCreate(CreateView):
         context["botao"] = "Cadastrar"
         return context
 
-class Produtos_EntradaCreate(CreateView): 
+
+class Produtos_EntradaCreate(CreateView):
     model = Produtos_Entrada
     fields = ["entrada", "produto", "quantidade", "preco_unitario"]
     template_name = "cadastros/form.html"
@@ -103,8 +104,8 @@ class Produtos_EntradaCreate(CreateView):
         return context
 
 
-class SaidaCreate(CreateView):    
-    model= Saida
+class SaidaCreate(CreateView):
+    model = Saida
     fields = ["detalhes", "maquina", "funcionario"]
     template_name = "cadastros/form.html"
     success_url = reverse_lazy("listar-saida")
@@ -115,26 +116,29 @@ class SaidaCreate(CreateView):
         context["botao"] = "Cadastrar"
         return context
 
-class Produtos_SaidaCreate(CreateView):    
-    model= Produtos_Saida
-    fields= ["saida", "produto", "quantidade"]
+
+class Produtos_SaidaCreate(CreateView):
+    model = Produtos_Saida
+    fields = ["saida", "produto", "quantidade"]
     template_name = "cadastros/form.html"
     success_url = reverse_lazy("listar-saida")
 
     def form_valid(self, form):
-        
+
         # Se a quantidade digitada no form for maior que a quanttidade atual do produto selecionado
         if(form.instance.quantidade > form.instance.produto.quantidade_atual):
             # Adicionar um erro no formulário/cadastro
-            form.add_error(None, 'A quantidade desejada é maior do que a presente no estoque!')
-            return self.form_invalid(form) 
-                
+            form.add_error(
+                None, 'A quantidade desejada é maior do que a presente no estoque!')
+            return self.form_invalid(form)
+
         # Aqui que cria objeto e salva no banco
         url = super().form_valid(form)
 
         # Já que a quantidade está ok, vamos diminuir do estoque e salvar a alteração no banco também
         # Objeto que acabou de ser criado do tipo que está no Model ali em cima
-        self.object.produto.quantidade_atual = self.object.produto.quantidade_atual - self.object.quantidade
+        self.object.produto.quantidade_atual = self.object.produto.quantidade_atual - \
+            self.object.quantidade
         # Salvar o produto
         self.object.produto.save()
 
@@ -147,9 +151,10 @@ class Produtos_SaidaCreate(CreateView):
         context["botao"] = "Registrar saída"
         return context
 
-class Controle_MaquinaCreate(CreateView):    
-    model= Controle_Maquina
-    fields= ["maquina", "ultimo_horimetro"]
+
+class Controle_MaquinaCreate(CreateView):
+    model = Controle_Maquina
+    fields = ["maquina", "ultimo_horimetro"]
     template_name = "cadastros/form.html"
     success_url = reverse_lazy("listar-controle_maquina")
 
@@ -185,6 +190,7 @@ class FuncionarioUpdate(UpdateView):
         context["botao"] = "Atualizar"
         return context
 
+
 class CidadeUpdate(UpdateView):
     # login_url = reverse_lazy('login')
     model = Cidade
@@ -197,6 +203,7 @@ class CidadeUpdate(UpdateView):
         context["titulo"] = "Atualizar a cidade"
         context["botao"] = "Atualizar"
         return context
+
 
 class MaquinaUpdate(UpdateView):
     # login_url = reverse_lazy('login')
@@ -211,6 +218,7 @@ class MaquinaUpdate(UpdateView):
         context["botao"] = "Atualizar"
         return context
 
+
 class ProdutoUpdate(UpdateView):
     # login_url = reverse_lazy('login')
     model = Produto
@@ -224,6 +232,7 @@ class ProdutoUpdate(UpdateView):
         context["botao"] = "Atualizar"
         return context
 
+
 class EntradaUpdate(UpdateView):
     # login_url = reverse_lazy('login')
     model = Entrada
@@ -236,6 +245,7 @@ class EntradaUpdate(UpdateView):
         context["titulo"] = "Atualizar a entrada"
         context["botao"] = "Atualizar"
         return context
+
 
 class Produtos_EntradaUpdate(UpdateView):
     # login_url = reverse_lazy('login')
@@ -263,7 +273,8 @@ class SaidaUpdate(UpdateView):
         context["titulo"] = "Atualizar dados da Saída"
         context["botao"] = "Atualizar saída"
         return context
-    
+
+
 class Produtos_SaidaUpdate(UpdateView):
     # login_url = reverse_lazy('login')
     model = Produtos_Saida
@@ -276,6 +287,7 @@ class Produtos_SaidaUpdate(UpdateView):
         context["titulo"] = "Saída de Produtos"
         context["botao"] = "Atualizar saída"
         return context
+
 
 class Controle_MaquinaUpdate(UpdateView):
     # login_url = reverse_lazy('login')
@@ -298,6 +310,7 @@ class FornecedorDelete(DeleteView):
         context["botao"] = "Excluir"
         return context
 
+
 class FuncionarioDelete(DeleteView):
     # login_url = reverse_lazy('login')
     model = Funcionario
@@ -309,6 +322,7 @@ class FuncionarioDelete(DeleteView):
         context["titulo"] = "Deletar o funcionário"
         context["botao"] = "Excluir"
         return context
+
 
 class CidadeDelete(DeleteView):
     # login_url = reverse_lazy('login')
@@ -322,6 +336,7 @@ class CidadeDelete(DeleteView):
         context["botao"] = "Excluir"
         return context
 
+
 class MaquinaDelete(DeleteView):
     # login_url = reverse_lazy('login')
     model = Maquina
@@ -333,6 +348,7 @@ class MaquinaDelete(DeleteView):
         context["titulo"] = "Deletar a máquina"
         context["botao"] = "Excluir"
         return context
+
 
 class ProdutoDelete(DeleteView):
     # login_url = reverse_lazy('login')
@@ -346,6 +362,7 @@ class ProdutoDelete(DeleteView):
         context["botao"] = "Excluir"
         return context
 
+
 class EntradaDelete(DeleteView):
     # login_url = reverse_lazy('login')
     model = Entrada
@@ -357,6 +374,7 @@ class EntradaDelete(DeleteView):
         context["titulo"] = "Deletar a entrada"
         context["botao"] = "Excluir"
         return context
+
 
 class Produtos_EntradaDelete(DeleteView):
     # login_url = reverse_lazy('login')
@@ -377,6 +395,7 @@ class SaidaDelete(DeleteView):
         context["botao"] = "Excluir"
         return context
 
+
 class Produtos_SaidaDelete(DeleteView):
     # login_url = reverse_lazy('login')
     model = Produtos_Saida
@@ -387,18 +406,19 @@ class Produtos_SaidaDelete(DeleteView):
         # Busca o objeto atual a ser excluído
         self.object = self.get_object()
         # Volta a quantidade atual do PRODUTO somando o que vai ser excluído
-        self.object.produto.quantidade_atual = self.object.produto.quantidade_atual + self.object.quantidade
+        self.object.produto.quantidade_atual = self.object.produto.quantidade_atual + \
+            self.object.quantidade
         # Salva o produto
         self.object.produto.save()
         # Exclui essa baixa registrada como saída
         return super().delete(*args, **kwargs)
-
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context["titulo"] = "Excluir Produto de uma Saída"
         context["botao"] = "Excluir"
         return context
+
 
 class Controle_MaquinaDelete(DeleteView):
     # login_url = reverse_lazy('login')
@@ -419,7 +439,7 @@ class FornecedorList(ListView):
         context = super().get_context_data(*args, **kwargs)
         context["titulo"] = "Apresentar os fornecedores"
         return context
-        
+
 
 class FuncionarioList(ListView):
     # login_url = reverse_lazy('login')
@@ -431,6 +451,7 @@ class FuncionarioList(ListView):
         context["titulo"] = "Apresentar os funcionários"
         return context
 
+
 class CidadeList(ListView):
     # login_url = reverse_lazy('login')
     model = Cidade
@@ -440,6 +461,7 @@ class CidadeList(ListView):
         context = super().get_context_data(*args, **kwargs)
         context["titulo"] = "Apresentar as cidades"
         return context
+
 
 class EntradaList(ListView):
     # login_url = reverse_lazy('login')
@@ -451,6 +473,7 @@ class EntradaList(ListView):
         context["titulo"] = "Apresentar as entradas"
         return context
 
+
 class MaquinaList(ListView):
     # login_url = reverse_lazy('login')
     model = Maquina
@@ -460,6 +483,7 @@ class MaquinaList(ListView):
         context = super().get_context_data(*args, **kwargs)
         context["titulo"] = "Apresentar as máquinas"
         return context
+
 
 class Produtos_EntradaList(ListView):
     # login_url = reverse_lazy('login')
@@ -477,6 +501,7 @@ class SaidaList(ListView):
         context["titulo"] = "Apresentar as saidas"
         return context
 
+
 class ProdutoList(ListView):
     # login_url = reverse_lazy('login')
     model = Produto
@@ -488,11 +513,11 @@ class ProdutoList(ListView):
         return context
 
 
-        
 class Produtos_SaidaList(ListView):
     # login_url = reverse_lazy('login')
     model = Produtos_Saida
     template_name = 'cadastros/listas/produtos_saida.html'
+
 
 class Controle_MaquinaList(ListView):
     # login_url = reverse_lazy('login')
@@ -512,8 +537,8 @@ class FornecedorDetalhes(DetailView):
     model = Fornecedor
     template_name = 'cadastros/detalhes/fornecedor.html'
 
-    def get_context_data(self,*args, **kwargs):
-        context = super().get_context_data(*args,**kwargs)
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
         context["titulo"] = "Apresentação Detalhada do fornecedor"
         return context
 
@@ -522,11 +547,11 @@ class FuncionarioDetalhes(DetailView):
     model = Funcionario
     template_name = 'cadastros/detalhes/funcionario.html'
 
-    def get_context_data(self,*args, **kwargs):
-        context = super().get_context_data(*args,**kwargs)
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
         context["titulo"] = "Apresentação Detalhada do funcionário"
         return context
-       
+
 
 class SaidaDetalhes(DetailView):
     model = Saida
@@ -534,7 +559,7 @@ class SaidaDetalhes(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
+
         # Enviando uma lista de Produtos_Saide conforme o objeto de Saída que está neste detailview
         context['produtos'] = Produtos_Saida.objects.filter(saida=self.object)
 
