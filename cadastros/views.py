@@ -504,7 +504,10 @@ class Controle_MaquinaList(ListView):
         context["titulo"] = "Apresentar os controle_maquina"
         return context
 
+
 ############################  DetailView  ############################
+
+
 class FornecedorDetalhes(DetailView):
     model = Fornecedor
     template_name = 'cadastros/detalhes/fornecedor.html'
@@ -524,9 +527,6 @@ class FuncionarioDetalhes(DetailView):
         context["titulo"] = "Apresentação Detalhada do funcionário"
         return context
        
-
-################## DETAIL #############################
-
 
 class SaidaDetalhes(DetailView):
     model = Saida

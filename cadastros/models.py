@@ -122,6 +122,7 @@ class Produto(models.Model):
     quantidade_atual = models.DecimalField(decimal_places=2, max_digits=6, help_text="Essa quantidade vai ser atualizada pelo movimento de entrada e saída.")
     quantidade_minima = models.IntegerField(verbose_name="Quantidade mínima", 
         help_text="Informe a quantidade mínima para gerar um alerta de estoque.")
+    validade = models.IntegerField(default=0, blank=True, help_text="Informe a validade em horas, caso tenha.")
     def __str__(self):
         return "{} - Estoque atual: {}".format(self.nome, self.quantidade_atual)
 
@@ -155,6 +156,7 @@ class Saida(models.Model):
     detalhes = models.CharField(max_length=100, help_text="Informe mais detalhes da saída, Nº do Pedido, Ordem de serviço, etc.")
     data = models.DateField(auto_now_add=True)
     maquina = models.ForeignKey(Maquina, on_delete=models.PROTECT, verbose_name="máquina")
+    horimetro = models.IntegerField(verbose_name="Horímetro", help_text="Informe o horímetro atual da máquina.")
     funcionario = models.ForeignKey(Funcionario, on_delete=models.PROTECT, help_text="Informe o funcionário que fez esta solicitação de saída.")
     
     def __str__(self):
@@ -172,3 +174,10 @@ class Produtos_Saida(models.Model):
     
     def __str__(self):
         return "Produto '{}' da Saída #'{}'".format(self.produto.nome, self.saida.pk)
+
+
+class Revisao(models.Model):
+    maquina = models.ForeignKey(Maquina, on_delete= models.PROTECT) 
+    produto = models.ForeignKey(Produto, on_delete= models.PROTECT) 
+    horimetro_revisao = models.IntegerField()
+    feita = models.BooleanField(default=False)
