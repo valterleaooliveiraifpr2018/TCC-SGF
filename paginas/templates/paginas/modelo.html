@@ -36,7 +36,7 @@
                     </button>
                     <a class="navbar-brand " href="#">Painel do Sistema de Gerenciamento de Frotas</a>
                 </div>
-                
+
                 {% if request.user.is_authenticated %}
                 <li class="nav-item dropdown">
                     <a class="nav-link text-white dropdown-toggle pull-left mb-0" href="#" id="navbarDropdownMenuLink"
@@ -106,7 +106,7 @@
                         <a class="nav-link" href="{% url 'cards' %}"> <i class="oi oi-plus"></i>
                             <span>Cadastrar</span>
                         </a>
-                    </li>                    
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'listar-cidade' %}"> <i class="oi oi-spreadsheet"></i>
                             <span>Cidade</span>
@@ -142,25 +142,8 @@
                             <span>Saídas (Baixas)</span>
                         </a>
                     </li>
+
                     
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'listar-controle_maquina' %}"> <i class="oi oi-spreadsheet"></i>
-                            <span>Controle Máquina</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-item border-primary border-top">
-                        <a class="nav-link" href="{% url 'listar-produtos_entrada' %}"> <i class="oi oi-spreadsheet"></i>
-                            <span>Produtos_Entrada</span>
-                        </a>
-                    </li>
-                    <li class="nav-item border-primary border-bottom">
-                        <a class="nav-link" href="{% url 'listar-produtos_saida' %}"> <i class="oi oi-spreadsheet"></i>
-                            <span>Produtos Saida</span>
-                        </a>
-                    </li>
-
-
                     {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'ajuda' %}"> <i class="oi oi-spreadsheet"></i>
@@ -174,49 +157,52 @@
         {% endblock %}
 
         <section class="layout-content">
-            
+
             <div class="p-4">
-            {% block conteudo %}
-            <div class="container">
-                <div id="list-home" class="row">
-                    <div class="col-4">
-                        <div class="list-group" id="list-tab" role="tablist">
-                            <a class="list-group-item list-group-item-action active" id="list-spring-boot-list"
-                                data-toggle="list" href="#sobre-sgf" role="tab" aria-controls="sobre-sgf">Sobre</a>
-                            <a class="list-group-item list-group-item-action" id="list-sgf-list" data-toggle="list"
-                                href="#sgf" role="tab" aria-controls="sgf">Ajuda</a>
+                {% block conteudo %}
+                <div class="container">
+                    <div id="list-home" class="row">
+                        <div class="col-4">
+                            <div class="list-group" id="list-tab" role="tablist">
+                                <a class="list-group-item list-group-item-action active" id="list-spring-boot-list"
+                                    data-toggle="list" href="#sobre-sgf" role="tab" aria-controls="sobre-sgf">Sobre</a>
+                                <a class="list-group-item list-group-item-action" id="list-sgf-list" data-toggle="list"
+                                    href="#sgf" role="tab" aria-controls="sgf">Ajuda</a>
 
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-8">
-                        <div class="tab-content" id="nav-tabContent">
-                            <div class="tab-pane fade show active" id="sobre-sgf" role="tabpanel"
-                                aria-labelledby="list-spring-boot-list">
-                                <a href="#">Sgf - Sistema de gerenciamento de frotas.</a>
-                                O custo da manutenção de máquina pesada é altíssimo se negligenciado pode levar alguns
-                                proprietários de empresa de
-                                terraplanagem a falir devido ao custo do equipamento, o investimento é alto, e este
-                                equipamento estiver parado porque o
-                                reparo é elevado, muitos proprietários chegam a uma situação complicada tendo de
-                                desfazer da máquina, por preço inferior
-                                de mercado assim o prejuízo é altíssimo.
-                                Sendo assim, o objetivo deste trabalho é o desenvolvimento do Sistema de Gerenciamento
-                                de Frotas (SGF). Esse sistema tem
-                                como objetivo auxiliar no gerenciamento do almoxarifado e da manutenção de equipamentos
-                                de pavimentação.
+                        <div class="col-8">
+                            <div class="tab-content" id="nav-tabContent">
+                                <div class="tab-pane fade show active" id="sobre-sgf" role="tabpanel"
+                                    aria-labelledby="list-spring-boot-list">
+                                    <a href="#">Sgf - Sistema de gerenciamento de frotas.</a>
+                                    O custo da manutenção de máquina pesada é altíssimo se negligenciado pode levar
+                                    alguns
+                                    proprietários de empresa de
+                                    terraplanagem a falir devido ao custo do equipamento, o investimento é alto, e este
+                                    equipamento estiver parado porque o
+                                    reparo é elevado, muitos proprietários chegam a uma situação complicada tendo de
+                                    desfazer da máquina, por preço inferior
+                                    de mercado assim o prejuízo é altíssimo.
+                                    Sendo assim, o objetivo deste trabalho é o desenvolvimento do Sistema de
+                                    Gerenciamento
+                                    de Frotas (SGF). Esse sistema tem
+                                    como objetivo auxiliar no gerenciamento do almoxarifado e da manutenção de
+                                    equipamentos
+                                    de pavimentação.
+
+                                </div>
+                                <div class="tab-pane fade" id="sgf" role="tabpanel" aria-labelledby="list-sts-list">
+                                    Se tiver algum problema por favor enviar um email para nossa equipe de suporte <span
+                                        style="color: #4286f4"><a href="#">leodiceo@gmail.com</a></span> que
+                                    entraremos em contato com você obrigado pela sua preferência
+                                </div>
 
                             </div>
-                            <div class="tab-pane fade" id="sgf" role="tabpanel" aria-labelledby="list-sts-list">
-                                Se tiver algum problema por favor enviar um email para nossa equipe de suporte <span
-                                    style="color: #4286f4"><a href="#">leodiceo@gmail.com</a></span> que
-                                entraremos em contato com você obrigado pela sua preferência
-                            </div>
-
                         </div>
                     </div>
                 </div>
-            </div>
-            {% endblock %}
+                {% endblock %}
             </div>
 
         </section>

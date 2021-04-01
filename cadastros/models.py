@@ -2,16 +2,16 @@ from django.db import models
 from django.contrib.auth.models import User
 
 SETOR_CHOICES = (
-    ('1', 'Agricultura'),
-    ('2', 'Infraestrutura'),
-    ('3', 'Saúde'),
+    ('Agricultura', 'Agricultura'),
+    ('Infraestrutura', 'Infraestrutura'),
+    ('Saúde', 'Saúde'),
 )
 
 
 CARGO_CHOICES = (
-    ('1', 'Operador de Maquinas Pesadas'),
-    ('2', 'Administrativos'),
-    ('3', 'Ajudante Geral'),
+    ('Operador de Maquinas Pesadas', 'Operador de Maquinas Pesadas'),
+    ('Administrativos', 'Administrativos'),
+    ('Ajudante Geral', 'Ajudante Geral'),
 )
 UF_CHOICES = (
     ('AC', 'Acre'),
@@ -55,16 +55,17 @@ class Cidade(models.Model):
 
 
 class Funcionario(models.Model):
-    cargo = models.CharField(max_length=5, choices=CARGO_CHOICES, verbose_name="Cargo do Trabalhador")
+    cargo = models.CharField(max_length=100, choices=CARGO_CHOICES, verbose_name="Cargo do Trabalhador")
     nome = models.CharField(max_length=50)
     data_nascimento = models.DateField()
-    setor = models.CharField(max_length=5, choices=SETOR_CHOICES, verbose_name="Setor de Trabalho")
+    setor = models.CharField(max_length=100, choices=SETOR_CHOICES, verbose_name="Setor de Trabalho")
     telefone_celular = models.CharField(max_length=15, blank=True, null=True)
     telefone_fixo = models.CharField(max_length=15, blank=True, null=True)
     cpf = models.CharField(max_length=14, verbose_name="CPF")
     rg = models.CharField(max_length=14, verbose_name="RG")
     email = models.CharField(max_length=50, blank=True, null=True)
     cnh = models.CharField(max_length=13, verbose_name="CNH")    
+    
     cidade = models.ForeignKey(Cidade, on_delete=models.PROTECT)
     
     def __str__(self):
@@ -81,6 +82,7 @@ class Maquina(models.Model):
     ano = models.CharField(max_length=4, verbose_name="Ano da Máquina")
     horimetro = models.IntegerField(verbose_name="Horímetro")
     prefixo = models.CharField(max_length=50, help_text="Identificação da máquina, placa, número, etc.")
+    
     cidade = models.ForeignKey(Cidade, on_delete=models.PROTECT)
 
     def __str__(self):
@@ -91,17 +93,6 @@ class Maquina(models.Model):
         ordering = ['-ano']
 
 
-class Controle_Maquina(models.Model):
-    maquina = models.ForeignKey(Maquina, on_delete=models.PROTECT)
-    ultimo_horimetro = models.IntegerField(verbose_name="Último Horimetro")
-
-    def __str__(self):
-        return "Máquina: {}/Prefixo: {} ({})Horimetro atual: {} / Ultimo Horimetro: {}".format(self.maquina.descricao, self.maquina.prefixo, self.maquina.ano, self.maquina.horimetro, self.ultimo_horimetro)
-
-    class Meta:
-        verbose_name = "Máquina"
-        
-
 class Fornecedor(models.Model):
     cnpj = models.CharField(max_length=18, verbose_name="CNPJ")
     razao_social = models.CharField(max_length=50, verbose_name="Razão Social")
@@ -109,7 +100,7 @@ class Fornecedor(models.Model):
     vendedor = models.CharField(max_length=50, verbose_name="Nome do vendedor")
     email = models.CharField(max_length=50)
     telefone = models.CharField(max_length=15)
-    site = models.CharField(max_length=50, verbose_name="URL do Site", null=True, blank=True)
+    site = models.CharField(max_length=50,default="http://", verbose_name="URL do Site", null=True, blank=True)
     
     cidade = models.ForeignKey(Cidade, on_delete=models.PROTECT)
 
@@ -120,8 +111,7 @@ class Fornecedor(models.Model):
 class Produto(models.Model):
     nome = models.CharField(max_length=50, help_text="Nome ou descrição do produto.")
     quantidade_atual = models.DecimalField(decimal_places=2, max_digits=6, help_text="Essa quantidade vai ser atualizada pelo movimento de entrada e saída.")
-    quantidade_minima = models.IntegerField(verbose_name="Quantidade mínima", 
-        help_text="Informe a quantidade mínima para gerar um alerta de estoque.")
+    quantidade_minima = models.IntegerField(verbose_name="Quantidade mínima", help_text="Informe a quantidade mínima para gerar um alerta de estoque.")
     validade = models.IntegerField(default=0, blank=True, help_text="Informe a validade em horas, caso tenha.")
 
     def __str__(self):
@@ -131,38 +121,40 @@ class Produto(models.Model):
             return "{} - Estoque atual: {} - Validade: {} horas".format(self.nome, self.quantidade_atual, self.validade)
 
 
-class Entrada(models.Model):
-    # detalhes = models.ForeignKey(Produto, on_delete=models.PROTECT)
+class Entrada(models.Model):    
     detalhes = models.CharField(max_length=100, help_text="Informe mais detalhes da entrada, como NF, Nº do Pedido, etc.")
     data = models.DateField(verbose_name="Data de entrada")
-    fornecedor = models.ForeignKey(Fornecedor, on_delete=models.PROTECT)
     valor_total = models.DecimalField(decimal_places=2, max_digits=8)
+
+    fornecedor = models.ForeignKey(Fornecedor, on_delete=models.PROTECT)
 
     def __str__(self):
         return "Id: {} - {}/{}".format(self.pk, self.detalhes, self.data)
 
     class Meta:
         verbose_name = "Movimentação da entrada"
-
+        ordering = ["-pk"]
 
 class Produtos_Entrada(models.Model):
-    entrada = models.ForeignKey(Entrada, on_delete=models.PROTECT)
-    produto = models.ForeignKey(Produto, on_delete=models.PROTECT)
     quantidade = models.IntegerField()
     preco_unitario = models.DecimalField(decimal_places=2, max_digits=6, verbose_name="Preço unitário")
+
+    entrada = models.ForeignKey(Entrada, on_delete=models.PROTECT)
+    produto = models.ForeignKey(Produto, on_delete=models.PROTECT)
 
     def __str__(self):
         return "Produto '{}' da Entrada #'{}'".format(self.produto.nome, self.entrada.pk)
 
 
 class Saida(models.Model):
-    # detalhes = models.ForeignKey(Produtos_Entrada, on_delete=models.PROTECT)
+   
     detalhes = models.CharField(max_length=100, help_text="Informe mais detalhes da saída, Nº do Pedido, Ordem de serviço, etc.")
     data = models.DateField(auto_now_add=True)
-    maquina = models.ForeignKey(Maquina, on_delete=models.PROTECT, verbose_name="máquina")
     horimetro = models.IntegerField(verbose_name="Horímetro", help_text="Informe o horímetro atual da máquina.")
-    funcionario = models.ForeignKey(Funcionario, on_delete=models.PROTECT, help_text="Informe o funcionário que fez esta solicitação de saída.")
     
+    maquina = models.ForeignKey(Maquina, on_delete=models.PROTECT, verbose_name="máquina")
+    funcionario = models.ForeignKey(Funcionario, on_delete=models.PROTECT, help_text="Informe o funcionário que fez esta solicitação de saída.")
+
     def __str__(self):
         return "Id: {} - {}/{}".format(self.pk, self.detalhes, self.data)
 
@@ -172,19 +164,21 @@ class Saida(models.Model):
     
 
 class Produtos_Saida(models.Model):
-    saida = models.ForeignKey(Saida, on_delete= models.PROTECT) 
-    produto = models.ForeignKey(Produto, on_delete= models.PROTECT)
     quantidade = models.DecimalField(decimal_places=2, max_digits=6, verbose_name="Quantidade retirada")
     
+    saida = models.ForeignKey(Saida, on_delete= models.PROTECT) 
+    produto = models.ForeignKey(Produto, on_delete= models.PROTECT)
+
     def __str__(self):
         return "Produto '{}' da Saída #'{}'".format(self.produto.nome, self.saida.pk)
 
 
 class Revisao(models.Model):
-    maquina = models.ForeignKey(Maquina, on_delete= models.PROTECT) 
-    produto = models.ForeignKey(Produto, on_delete= models.PROTECT) 
     horimetro_revisao = models.IntegerField()
     feita = models.BooleanField(default=False)
+
+    maquina = models.ForeignKey(Maquina, on_delete= models.PROTECT) 
+    produto = models.ForeignKey(Produto, on_delete= models.PROTECT)
 
     def __str__(self):
         return "Revisão com: {} horas -- Máquina: {}/{}h -- Produto: {}".format(self.horimetro_revisao, self.maquina.descricao, self.maquina.horimetro, self.produto.nome)

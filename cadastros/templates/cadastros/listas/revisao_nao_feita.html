@@ -3,54 +3,58 @@
 
 
 {% block titulo %}
-<title>Lista de controle_maquina</title>
+<title>Lista de revisão</title>
 {% endblock %}
 
 
 {% block conteudo %}
 <div class="container-fluid">
     <h3>{{ titulo }}</h3>
-    <a class="btn btn-primary btn-sm float-right" href="{% url 'cadastrar-controle_maquina' %}">Cadastrar um novo produto</a>
-    <p class="lead">aqui está apresentado todos os controle_maquina registrados</p>
-   
+    
+    <p class="lead">aqui está apresentado todas as revisões registradas</p>
+
     <div class="table responsive">
 
-        <table class="table table-striped" id="tabela-produto">
+        <table class="table table-striped" id="tabela-revisao">
             <thead>
-                <tr>                      
-                    <th>maquina</th>
-                    <th>ultimo_horimetro</th>
+                <tr>
+                    <th>Máquina</th>
+                    <th>Produto</th>
+                    <th>Horímetro da Revisão</th>
+                    <th>Feito</th>
+                    <th>Opção</th>
+
                     <th>Opções</th>
                 </tr>
             </thead>
-            {% for controle_maquina in object_list %}
+            {% for revisao_nao_feita in object_list %}
             <tbody>
-                <tr>                    
-                    <td>{{controle_maquina.maquina}}</td>
-                    <td>{{controle_maquina.ultimo_horimetro}}</td>
-                    
+                <tr>
+
+                    <td>{{revisao_nao_feita.maquina}}</td>
+                    <td>{{revisao_nao_feita.produto}}</td>
+                    <td>{{revisao_nao_feita.horimetro_revisao}}</td>
+                    <td>{{revisao_nao_feita.feito}}</td>
+
                     <td>
-                        <a href="{% url 'editar-controle_maquina' controle_maquina.pk %}" class="btn btn-warning btn-sm" title="Editar">
+                        <a href="{% url 'editar-revisao' revisao.pk %}" class="btn btn-warning btn-sm" title="Editar">
                             <i class="fa fa-pencil" aria-hidden="true"></i>
                         </a>
-                        <a href="{% url 'excluir-controle_maquina' controle_maquina.pk %}" class="btn btn-danger btn-sm" title="Excluir">
+                        <a href="{% url 'excluir-revisao' revisao.pk %}" class="btn btn-danger btn-sm" title="Excluir">
                             <i class="fa fa-trash" aria-hidden="true"></i>
                         </a>
+
                     </td>
                 </tr>
 
                 {% empty %}
-                <td colspan="3">Nenhum controle_maquina registrado.</td>
+                <td colspan="100%">Nenhum revisão registrada.</td>
                 {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
 {% endblock %}
-                   
-                    
-                   
-                    
 
 
 {% block script %}
@@ -61,7 +65,7 @@
     // });
     $(document).ready(function () {
 
-        $("#tabela-produto").DataTable({
+        $("#tabela-revisao").DataTable({
             responsive: true,
             // "bSort": false,
             "aaSorting": [],
@@ -96,5 +100,3 @@
     })
 </script>
 {% endblock %}
-
-

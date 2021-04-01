@@ -4,37 +4,70 @@
 
 
 {% block titulo %}
-<title>Detalhamento de funcionario</title>
+<title>Detalhamento de entrada</title>
 {% endblock %}
 
 
 {% block conteudo %}
 <div class="container-fluid">
-    <div class="container-fluid">
-        <hr>
-        <div class="row">
-            <div class="col-sm">
-                <h2>Detalhes do Funcionário #{{ object.pk }}</h2>
-                <h5>Nome: {{ object.nome }}</h5>
-                <h5>Data Nascimento: {{ object.data_nascimento }}</h5>
-                <h5>Telefone Celular: {{ object.telefone_celular }}</h5>
-                <h5>Telefone Fixo: {{ object.telefone_fixo }}</h5>
-                <h5>Setor: {{ object.setor }}</h5>
-                <h5>Cargo: {{ object.cargo }}</h5>
-
-            </div>
-            <div class="col-sm">
-                <h2>Documentos pessoais</h2>                
-                <h5>RG: {{ object.rg }}</h5>
-                <h5>CPF: {{ object.cpf }}</h5>
-                <h5>CNH: {{ object.cnh }}</h5>
-                <h5>Email: {{ object.email }}</h5>
-                <h5>Cidade: {{ object.cidade }}</h5>
-            </div>
-
-        </div>
-    </div>
+    <h2>Detalhes das entradas #{{ object.pk }}</h2>
     <hr>
+    <h5>Descrição: {{ object.descricao }}</h5>
+    <h5>Data: {{ object.data }}</h5>
+    <h5>Fornecedor: {{ object.fornecedor }}</h5>
+    <h5>Valor Total: {{ object.valor_total }}</h5>
+    
+    <hr>
+    
+    <div class="table-responsive">
+        <table class="table table-striped" id="tabela-listar">
+            <thead>
+                <tr>
+    
+                    <th>Descrição</th>
+                    <th>Valor Total</th>
+                    <th>Fornecedor</th>
+                    
+                    <th>Opções</th>
+    
+                </tr>
+            </thead>
+            <tbody>
+                {% for prod in produtos %}
+                <tr>
+    
+                    <td>{{ prod.produto }}</td>
+                    <td>{{ prod.preco_unitario }}</td>
+                    
+                    
+                    <td>
+                        <a href="{% url 'excluir-entrada' prod.pk %}" class="btn btn-danger btn-sm" title="Excluir">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </a>
+                    </td>
+    
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="100%">Nenhum produto registrado para esta saída.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    
+    
+    </div>
+
+
+
+
+
+
+
+
+    {% endblock %}
+
+
     {% block script %}
     <script>
 
@@ -77,6 +110,5 @@
             });
         })
     </script>
-    {% endblock %}
 </div>
 {% endblock %}

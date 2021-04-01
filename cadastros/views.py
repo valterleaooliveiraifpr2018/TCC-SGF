@@ -1,7 +1,7 @@
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from .models import Fornecedor, Funcionario, Cidade, Maquina, Produto, Entrada, Saida, Produtos_Entrada, Produtos_Saida, Controle_Maquina, Revisao
+from .models import Fornecedor, Funcionario, Cidade, Maquina, Produto, Entrada, Saida, Produtos_Entrada, Produtos_Saida, Revisao
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from braces.views import GroupRequiredMixin
@@ -84,12 +84,19 @@ class EntradaCreate(CreateView):
     template_name = "cadastros/form.html"
     success_url = reverse_lazy("listar-entrada")
 
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        context["titulo"] = "Registrar uma nova fornecedor"
-        context["botao"] = "Cadastrar"
-        return context
+    # def form_valid(self, form):
 
+        # Aqui que cria objeto e salva no banco
+        # url = super().form_valid(form)
+
+        # Atualiza horímetro da máquina
+        # self.object.maquina.horimetro = self.object.horimetro
+        # self.object.maquina.save()
+
+        # Fim do método
+        # return url
+
+    
 
 class Produtos_EntradaCreate(CreateView):
     model = Produtos_Entrada
@@ -178,11 +185,11 @@ class Produtos_SaidaCreate(CreateView):
         return context
 
 
-class Controle_MaquinaCreate(CreateView):
-    model = Controle_Maquina
-    fields = ["maquina", "ultimo_horimetro"]
-    template_name = "cadastros/form.html"
-    success_url = reverse_lazy("listar-controle_maquina")
+# class Controle_MaquinaCreate(CreateView):
+#     model = Controle_Maquina
+#     fields = ["maquina", "ultimo_horimetro"]
+#     template_name = "cadastros/form.html"
+#     success_url = reverse_lazy("listar-controle_maquina")
 
 ############################  UPDATE  ############################
 
@@ -327,12 +334,12 @@ class Produtos_SaidaUpdate(UpdateView):
         return context
 
 
-class Controle_MaquinaUpdate(UpdateView):
-    # login_url = reverse_lazy('login')
-    model = Controle_Maquina
-    fields = ["maquina", "ultimo_horimetro"]
-    template_name = 'cadastros/form.html'
-    success_url = reverse_lazy('listar-controle_maquina')
+# class Controle_MaquinaUpdate(UpdateView):
+#     # login_url = reverse_lazy('login')
+#     model = Controle_Maquina
+#     fields = ["maquina", "ultimo_horimetro"]
+#     template_name = 'cadastros/form.html'
+#     success_url = reverse_lazy('listar-controle_maquina')
 ############################  DELETE  ############################
 
 
@@ -420,6 +427,20 @@ class Produtos_EntradaDelete(DeleteView):
     template_name = 'cadastros/form-excluir.html'
     success_url = reverse_lazy('listar-produtos_entrada')
 
+    def delete(self, *args, **kwargs):
+        # Busca o objeto atual a ser excluído
+        self.object = self.get_object()
+        # Volta a quantidade atual do PRODUTO somando o que vai ser excluído
+        self.object.produto.quantidade_atual = self.object.produto.quantidade_atual - \
+            self.object.quantidade
+        # Salva o produto
+        self.object.produto.save()
+               
+
+        # Exclui essa baixa registrada como saída
+        return super().delete(*args, **kwargs)
+
+
 
 class SaidaDelete(DeleteView):
     # login_url = reverse_lazy('login')
@@ -435,7 +456,7 @@ class SaidaDelete(DeleteView):
 
 
 class Produtos_SaidaDelete(DeleteView):
-    # login_url = reverse_lazy('login')
+    
     model = Produtos_Saida
     template_name = 'cadastros/form-excluir.html'
     success_url = reverse_lazy('listar-saida')
@@ -467,11 +488,7 @@ class Produtos_SaidaDelete(DeleteView):
         return context
 
 
-class Controle_MaquinaDelete(DeleteView):
-    # login_url = reverse_lazy('login')
-    model = Controle_Maquina
-    template_name = 'cadastros/form-excluir.html'
-    success_url = reverse_lazy('listar-controle_maquina')
+
 
 
 ############################  LISTA  ############################
@@ -566,31 +583,30 @@ class Produtos_SaidaList(ListView):
     template_name = 'cadastros/listas/produtos_saida.html'
 
 
-class Controle_MaquinaList(ListView):
-    # login_url = reverse_lazy('login')
-    model = Controle_Maquina
-    template_name = 'cadastros/listas/controle_maquina.html'
-
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        context["titulo"] = "Apresentar os controle_maquina"
-        return context
-
-
 class RevisaoFeitaList(ListView):
     # login_url = reverse_lazy('login')
     model = Revisao
-    template_name = 'cadastros/listas/controle_maquina.html'
+    template_name = 'cadastros/listas/revisao_feita.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["titulo"] = "Apresentação Detalhada das revisões"
+        return context
     
     def get_queryset(self):
         self.object_list = Revisao.objects.filter(feita=True).order_by('maquina')
         return self.object_list
 
 
-class RevisaoNaoFeitaList(ListView):
+class Revisao_Nao_FeitaList(ListView):
     # login_url = reverse_lazy('login')
     model = Revisao
-    template_name = 'cadastros/listas/controle_maquina.html'
+    template_name = 'cadastros/listas/revisao_nao_feita.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["titulo"] = "Apresentação Detalhada das revisões não feita"
+        return context
 
     def get_queryset(self):
         self.object_list = Revisao.objects.filter(feita=False).order_by('maquina')
@@ -617,17 +633,40 @@ class FuncionarioDetalhes(DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context["titulo"] = "Apresentação Detalhada do funcionário"
+        
         return context
+
+
+
 
 
 class SaidaDetalhes(DetailView):
     model = Saida
     template_name = 'cadastros/detalhes/saida.html'
+    success_url = reverse_lazy("detalhar-saida")
+ 
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         # Enviando uma lista de Produtos_Saide conforme o objeto de Saída que está neste detailview
         context['produtos'] = Produtos_Saida.objects.filter(saida=self.object)
+
+        return context
+
+class EntradaDetalhes(DetailView):
+    model = Entrada
+    template_name = 'cadastros/detalhes/entrada.html'
+    success_url = reverse_lazy("detalhar-entrada")
+ 
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Enviando uma lista de Produtos_Saide conforme o objeto de Saída que está neste detailview
+        context['produtos'] = Produtos_Entrada.objects.filter(entrada=self.object)
+        
 
         return context

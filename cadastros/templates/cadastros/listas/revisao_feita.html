@@ -3,51 +3,49 @@
 
 
 {% block titulo %}
-<title>Lista de maquina</title>
+<title>Lista de revisão</title>
 {% endblock %}
 
 
 {% block conteudo %}
 <div class="container-fluid">
     <h3>{{ titulo }}</h3>
-    <a class="btn btn-primary btn-sm float-right" href="{% url 'cadastrar-maquina' %}">Cadastrar um novo maquina</a>
-    <p class="lead">aqui está apresentado todos os maquinas registrados</p>
     
+    <p class="lead">aqui está apresentado todas as revisões registradas</p>
+
     <div class="table responsive">
 
-        <table class="table table-striped" id="tabela-maquina">
+        <table class="table table-striped" id="tabela-revisao">
             <thead>
-                <tr>
-                    <th>Descrição</th>
-                    <th>Ano</th>
-                    <th>Horímetro</th>
-                    <th>Prefixo</th>
-                    
-                    <th>Opções</th>
+                <tr>                   
+                    <th>Máquina</th>
+                    <th>Produto</th>
+                    <th>Horímetro da Revisão</th>
+                    <th>Feito</th>
+                    <th>Opção</th>                    
                 </tr>
             </thead>
-            {% for maquina in object_list %}
+            {% for revisao_feita in object_list %}
             <tbody>
-                <tr>
-                    
-                    <td>{{maquina.descricao}}</td>
-                    <td>{{maquina.ano}}</td>
-                    <td>{{maquina.horimetro}}</td>
-                    <td>{{maquina.prefixo}}</td>
-                    
+                <tr>                    
+                    <td>{{revisao_feita.maquina}}</td>
+                    <td>{{revisao_feita.produto}}</td>
+                    <td>{{revisao_feita.horimetro_revisao}}</td>
+                    <td>{{revisao_feita.feito}}</td>
+
                     <td>
-                        <a href="{% url 'editar-maquina' maquina.pk %}" class="btn btn-warning btn-sm" title="Editar">
+                        <a href="{% url 'editar-revisao_feita' revisao_feita.pk %}" class="btn btn-warning btn-sm" title="Editar">
                             <i class="fa fa-pencil" aria-hidden="true"></i>
                         </a>
-                        <a href="{% url 'excluir-maquina' maquina.pk %}" class="btn btn-danger btn-sm" title="Excluir">
+                        <a href="{% url 'excluir-revisao_feita' revisao_feita.pk %}" class="btn btn-danger btn-sm" title="Excluir">
                             <i class="fa fa-trash" aria-hidden="true"></i>
                         </a>
-                        
+
                     </td>
                 </tr>
 
                 {% empty %}
-                <td colspan="100%">Nenhum maquina registrado.</td>
+                <td colspan="100%">Nenhum revisão registrada.</td>
                 {% endfor %}
             </tbody>
         </table>
@@ -64,7 +62,7 @@
     // });
     $(document).ready(function () {
 
-        $("#tabela-maquina").DataTable({
+        $("#tabela-revisao").DataTable({
             responsive: true,
             // "bSort": false,
             "aaSorting": [],
@@ -99,5 +97,3 @@
     })
 </script>
 {% endblock %}
-
-

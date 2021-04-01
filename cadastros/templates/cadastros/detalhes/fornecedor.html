@@ -9,49 +9,29 @@
 
 
 {% block conteudo %}
-<div class="container-fluid">
-    <h3>fornecedor: CNPJ{{ object }}</h3>
-    <h3>{{ titulo }}</h3>
-    <p class="lead">Todos os dados registrados deste fornecedor.</p>
-    
+<div class="container-fluid">    
+    <div class="container-fluid">
+        <hr>
+        <div class="row">
+            <div class="col-sm">
+                <h2>Detalhes do Fornecedor #{{ object.pk }}</h2>                
+                <h5>Empresa: {{ object.nome_fantasia }}</h5>
+                <h5>Colabordor representante: {{ object.vendedor }}</h5>
+                <h5>Telefone: {{ object.telefone }}</h5>
+                <h5>Email: {{ object.email }}</h5>
+            </div>
+            <div class="col-sm">               
+                </br>
+                </br>
+                <h5>Razão Social da Empresa: {{ object.razao_social }}</h5>
+                <h5>CNPJ: {{ object.cnpj }}</h5>
+                <h5>Site: {{ object.site }}</h5>
+                <h5>Cidade: {{ object.cidade }}</h5>
+            </div>
 
-    <div class="table-responsive">
-        <table class="table table-striped" id="tabela-listar">
-            <thead>
-                <tr>
-                    <th>CNPJ</th>
-                    <th>Razão Social</th>
-                    <th>Nome Fantasia</th>
-                    <th>Vendedor da Empresa</th>
-                    <th>Telefone</th>
-                    <th>Email</th>
-                    <th>Site</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>{{ fornecedor.cnpj }}</td>
-                    <td>{{ fornecedor.razao_social }}</td>
-                    <td>{{ fornecedor.nome_fantasia }}</td>
-                    <td>{{ fornecedor.vendedor }}</td>
-                    <td>{{ fornecedor.telefone }}</td>
-                    <td>{{ fornecedor.email }}</td>
-                    <td>{{ fornecedor.site }}</td>
-                </tr>
-            </tbody>
-        </table>
+        </div>
     </div>
-                    
-
-
-                
-                
-               
-
-    
-    {% endblock %}
-
-
+    <hr>
     {% block script %}
     <script>
 
@@ -94,5 +74,6 @@
             });
         })
     </script>
+    {% endblock %}
 </div>
 {% endblock %}

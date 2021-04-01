@@ -35,6 +35,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('input[name*=data_]').mask('00/00/0000');
+        $('#id_rg').mask('0000000-0');
         $('#id_data').mask('00/00/0000');
         $('#id_cpf').mask('000.000.000-00');
         var SPMaskBehavior = function (val) {
@@ -48,6 +49,8 @@
 
         $('#id_telefone').mask(SPMaskBehavior, spOptions);
         $('input[name*=telefone_]').mask(SPMaskBehavior, spOptions);
+        $('input[name*=telefone]').mask(SPMaskBehavior, spOptions);
+        
     });
 </script>
 {% endblock %} 
