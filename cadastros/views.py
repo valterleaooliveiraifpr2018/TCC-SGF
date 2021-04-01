@@ -84,25 +84,26 @@ class EntradaCreate(CreateView):
     template_name = "cadastros/form.html"
     success_url = reverse_lazy("listar-entrada")
 
-    # def form_valid(self, form):
-
-        # Aqui que cria objeto e salva no banco
-        # url = super().form_valid(form)
-
-        # Atualiza horímetro da máquina
-        # self.object.maquina.horimetro = self.object.horimetro
-        # self.object.maquina.save()
-
-        # Fim do método
-        # return url
-
-    
 
 class Produtos_EntradaCreate(CreateView):
     model = Produtos_Entrada
     fields = ["entrada", "produto", "quantidade", "preco_unitario"]
     template_name = "cadastros/form.html"
     success_url = reverse_lazy("listar-produtos_entrada")
+
+    def form_valid(self, form):
+
+            # Aqui que cria objeto e salva no banco
+            url = super().form_valid(form)
+            
+            # Objeto que acabou de ser criado do tipo que está no Model ali em cima
+            self.object.produto.quantidade_atual = self.object.produto.quantidade_atual - \
+                self.object.quantidade
+            # Salvar o produto
+            self.object.produto.save()
+            # Fim do método
+            return url
+
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -183,13 +184,6 @@ class Produtos_SaidaCreate(CreateView):
         context["titulo"] = "Saída de Produtos"
         context["botao"] = "Registrar saída"
         return context
-
-
-# class Controle_MaquinaCreate(CreateView):
-#     model = Controle_Maquina
-#     fields = ["maquina", "ultimo_horimetro"]
-#     template_name = "cadastros/form.html"
-#     success_url = reverse_lazy("listar-controle_maquina")
 
 ############################  UPDATE  ############################
 
@@ -334,12 +328,6 @@ class Produtos_SaidaUpdate(UpdateView):
         return context
 
 
-# class Controle_MaquinaUpdate(UpdateView):
-#     # login_url = reverse_lazy('login')
-#     model = Controle_Maquina
-#     fields = ["maquina", "ultimo_horimetro"]
-#     template_name = 'cadastros/form.html'
-#     success_url = reverse_lazy('listar-controle_maquina')
 ############################  DELETE  ############################
 
 
