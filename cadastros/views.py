@@ -90,6 +90,26 @@ class EntradaCreate(LoginRequiredMixin, CreateView):
     template_name = "cadastros/form.html"
     success_url = reverse_lazy("listar-entrada")
 
+    # def form_valid(self, form):
+
+    #     # Aqui que cria objeto e salva no banco
+    #     url = super().form_valid(form)
+
+    #     # Objeto que acabou de ser criado do tipo que está no Model ali em cima
+    #     self.object.valor_total = self.object.preco_unitario * self.object.quantidade
+    #     # Salvar o produto
+    #     self.object.produto.save()
+    #     # Fim do método
+    #     return url
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["titulo"] = "Registrar um novo produto"
+        context["botao"] = "Cadastrar"
+        return context
+
+
+
+
 
 class Produtos_EntradaCreate(GroupRequiredMixin, LoginRequiredMixin, CreateView):
     group_required = u"Administrador"
@@ -100,20 +120,19 @@ class Produtos_EntradaCreate(GroupRequiredMixin, LoginRequiredMixin, CreateView)
 
     def form_valid(self, form):
 
-            # Aqui que cria objeto e salva no banco
-            url = super().form_valid(form)
-            
-            # Objeto que acabou de ser criado do tipo que está no Model ali em cima
-            self.object.produto.quantidade_atual = self.object.produto.quantidade_atual + self.object.quantidade
-            # Salvar o produto
-            self.object.produto.save()
-            # Fim do método
-            return url
-
+        # Aqui que cria objeto e salva no banco
+        url = super().form_valid(form)
+        
+        # Objeto que acabou de ser criado do tipo que está no Model ali em cima
+        self.object.produto.quantidade_atual = self.object.produto.quantidade_atual + self.object.quantidade
+        # Salvar o produto
+        self.object.produto.save()
+        # Fim do método
+        return url
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context["titulo"] = "Entrada de Produtos"
+        context["titulo"] = "Entradas de Produtos"
         context["botao"] = "Inserir nessa entrada"
         return context
 
@@ -173,17 +192,20 @@ class Produtos_SaidaCreate(GroupRequiredMixin, LoginRequiredMixin, CreateView):
 
         # Se a validade é maior do que 0 é porque vai precisar de revisão
         if(self.object.produto.validade > 0):
-            prod = self.object.produto # pega o produto
-            maq = self.object.saida.maquina # pega a máquina
-            hora_rev = self.object.saida.horimetro + prod.validade # soma horímetro atual da máquina com a validade do produto
+            prod = self.object.produto  # pega o produto
+            maq = self.object.saida.maquina  # pega a máquina
+            # soma horímetro atual da máquina com a validade do produto
+            hora_rev = self.object.saida.horimetro + prod.validade
             # Verificar se já existe uma revisão em aberto
-            revisao_antiga = Revisao.objects.filter(produto=prod, maquina=maq, feita=False)
+            revisao_antiga = Revisao.objects.filter(
+                produto=prod, maquina=maq, feita=False)
             # Se existe uma revisão a ser feita, muda ela para feita = True e salva
             if(revisao_antiga.exists()):
                 revisao_antiga.feita = True
                 revisao_antiga.save()
             # Cria uma nova revisão
-            Revisao.objects.create(produto=prod, maquina=maq, horimetro_revisao=hora_rev)
+            Revisao.objects.create(
+                produto=prod, maquina=maq, horimetro_revisao=hora_rev)
 
         # Fim do método
         return url
@@ -428,15 +450,18 @@ class Produtos_EntradaDelete(LoginRequiredMixin, DeleteView):
         # Busca o objeto atual a ser excluído
         self.object = self.get_object()
         # Volta a quantidade atual do PRODUTO somando o que vai ser excluído
-        self.object.produto.quantidade_atual = self.object.produto.quantidade_atual - \
-            self.object.quantidade
+        self.object.produto.quantidade_atual = self.object.produto.quantidade_atual - self.object.quantidade
         # Salva o produto
         self.object.produto.save()
-               
 
         # Exclui essa baixa registrada como saída
         return super().delete(*args, **kwargs)
 
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["titulo"] = "Deletar a Entrada"
+        context["botao"] = "Excluir"
+        return context
 
 
 class SaidaDelete(LoginRequiredMixin, DeleteView):
@@ -468,8 +493,8 @@ class Produtos_SaidaDelete(LoginRequiredMixin, DeleteView):
         self.object.produto.save()
         # Remove a revisão que foi lançada
         revisao = Revisao.objects.filter(
-            produto=self.object.produto, 
-            maquina=self.object.saida.maquina, 
+            produto=self.object.produto,
+            maquina=self.object.saida.maquina,
             horimetro_revisao=self.object.produto.validade + self.object.saida.horimetro,
             feita=False)
         if(revisao.exists()):
@@ -483,9 +508,6 @@ class Produtos_SaidaDelete(LoginRequiredMixin, DeleteView):
         context["titulo"] = "Excluir Produto de uma Saída"
         context["botao"] = "Excluir"
         return context
-
-
-
 
 
 ############################  LISTA  ############################
@@ -589,9 +611,10 @@ class RevisaoFeitaList(LoginRequiredMixin, ListView):
         context = super().get_context_data(*args, **kwargs)
         context["titulo"] = "Apresentação Detalhada das revisões"
         return context
-    
+
     def get_queryset(self):
-        self.object_list = Revisao.objects.filter(feita=True).order_by('maquina')
+        self.object_list = Revisao.objects.filter(
+            feita=True).order_by('maquina')
         return self.object_list
 
 
@@ -606,7 +629,8 @@ class Revisao_Nao_FeitaList(LoginRequiredMixin, ListView):
         return context
 
     def get_queryset(self):
-        self.object_list = Revisao.objects.filter(feita=False).order_by('maquina')
+        self.object_list = Revisao.objects.filter(
+            feita=False).order_by('maquina')
         return self.object_list
 
 
@@ -632,11 +656,8 @@ class FuncionarioDetalhes(LoginRequiredMixin, DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context["titulo"] = "Apresentação Detalhada do funcionário"
-        
+
         return context
-
-
-
 
 
 class SaidaDetalhes(LoginRequiredMixin, DetailView):
@@ -644,8 +665,6 @@ class SaidaDetalhes(LoginRequiredMixin, DetailView):
     model = Saida
     template_name = 'cadastros/detalhes/saida.html'
     success_url = reverse_lazy("detalhar-saida")
- 
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -655,13 +674,12 @@ class SaidaDetalhes(LoginRequiredMixin, DetailView):
 
         return context
 
+
 class EntradaDetalhes(LoginRequiredMixin, DetailView):
     login_url = reverse_lazy("login")
     model = Entrada
     template_name = 'cadastros/detalhes/entrada.html'
     success_url = reverse_lazy("detalhar-entrada")
- 
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

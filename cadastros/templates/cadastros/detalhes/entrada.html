@@ -12,38 +12,44 @@
 <div class="container-fluid">
     <h2>Detalhes das entradas #{{ object.pk }}</h2>
     <hr>
-    <h5>Descrição: {{ object.descricao }}</h5>
+    <h5>Descrição: {{ object.detalhes }}</h5>
     <h5>Data: {{ object.data }}</h5>
     <h5>Fornecedor: {{ object.fornecedor }}</h5>
-    <h5>Valor Total: {{ object.valor_total }}</h5>
-    
-    
+    <h5>Valor total: {{ object.valor_total }}</h5>
+    <p class="lead">
+        Produtos registrados nesta saída
+        <a class="btn btn-primary btn-sm float-right" href="{% url 'cadastrar-produtos_entrada' %}">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            Informar outro produto
+        </a>
+    </p>
+   
+
+
     <div class="table-responsive">
         <table class="table table-striped" id="tabela-listar">
             <thead>
                 <tr>
-                    <th>Id#</th>
+    
                     <th>Descrição</th>
-                    <th>Valor unitário</th>
-                    <th>Fornecedor</th>
-                    <th>quantidade</th>
-                    <th>Opções</th>   
+                    <th>Quantidade</th>
+                    <th>Opções</th>
+    
                 </tr>
             </thead>
             <tbody>
                 {% for prod in produtos %}
-                <tr>    
-                    <td>{{ prod.pk }}</td>
+                <tr>
+    
                     <td>{{ prod.produto }}</td>
-                    <td>{{ prod.preco_unitario }}</td> 
-                    <td>{{ prod.entrada.fornecedor }}</td> 
-                    <td>{{ prod.quantidade }}</td> 
-
+                    <td>{{ prod.quantidade }}</td>
                     <td>
-                        <a href="{% url 'excluir-entrada' prod.pk %}" class="btn btn-danger btn-sm" title="Excluir">
+                        <a href="{% url 'excluir-produtos_entrada' prod.pk %}" class="btn btn-danger btn-sm" title="Excluir">
                             <i class="fa fa-trash" aria-hidden="true"></i>
                         </a>
-                    </td>    
+                        
+                    </td>
+    
                 </tr>
                 {% empty %}
                 <tr>
@@ -51,7 +57,9 @@
                 </tr>
                 {% endfor %}
             </tbody>
-        </table>    
+        </table>
+    
+    
     </div>
     {% endblock %}
 

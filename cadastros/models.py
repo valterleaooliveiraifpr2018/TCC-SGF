@@ -110,8 +110,8 @@ class Fornecedor(models.Model):
 
 class Produto(models.Model):
     nome = models.CharField(max_length=50, help_text="Nome ou descrição do produto.")
-    quantidade_atual = models.DecimalField(decimal_places=2, max_digits=6, help_text="Essa quantidade vai ser atualizada pelo movimento de entrada e saída.")
-    quantidade_minima = models.IntegerField(verbose_name="Quantidade mínima", help_text="Informe a quantidade mínima para gerar um alerta de estoque.")
+    quantidade_atual = models.DecimalField(decimal_places=2, max_digits=6, help_text="Essa quantidade vai ser atualizada pelo movimento de entrada e saída.", default=0, blank=True)
+    quantidade_minima = models.IntegerField(verbose_name="Quantidade mínima", help_text="Informe a quantidade mínima para gerar um alerta de estoque.", default=1, blank=True)
     validade = models.IntegerField(default=0, blank=True, help_text="Informe a validade em horas, caso tenha.")
 
     def __str__(self):
