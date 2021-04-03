@@ -3,7 +3,7 @@ from .views import CidadeCreate, FornecedorCreate, FuncionarioCreate, MaquinaCre
 from .views import CidadeUpdate, FornecedorUpdate, FuncionarioUpdate, MaquinaUpdate, ProdutoUpdate, EntradaUpdate, Produtos_EntradaUpdate, SaidaUpdate, Produtos_SaidaUpdate   
 from .views import CidadeDelete, FornecedorDelete, FuncionarioDelete, MaquinaDelete, ProdutoDelete, EntradaDelete, Produtos_EntradaDelete, SaidaDelete, Produtos_SaidaDelete
 from .views import CidadeList, FornecedorList, FuncionarioList, MaquinaList, ProdutoList, EntradaList, Produtos_EntradaList, SaidaList, Produtos_SaidaList, RevisaoFeitaList, Revisao_Nao_FeitaList
-from .views import FornecedorDetalhes, FuncionarioDetalhes, SaidaDetalhes, EntradaDetalhes
+from .views import FornecedorDetalhes, FuncionarioDetalhes, SaidaDetalhes, EntradaDetalhes, MaquinaDetalhes
 
 
 
@@ -70,6 +70,7 @@ urlpatterns = [
     path('detalhes/funcionario/<int:pk>/', FuncionarioDetalhes.as_view(), name="detalhar-funcionario"),
     path('detalhes/saida/<int:pk>/', SaidaDetalhes.as_view(), name="detalhar-saida"),
     path('detalhes/entrada/<int:pk>/', EntradaDetalhes.as_view(), name="detalhar-entrada"),
+    path('detalhes/maquina/<int:pk>/', MaquinaDetalhes.as_view(), name="detalhar-maquina"),
     
 
 

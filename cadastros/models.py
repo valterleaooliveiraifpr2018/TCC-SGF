@@ -174,7 +174,7 @@ class Produtos_Saida(models.Model):
 
 
 class Revisao(models.Model):
-    horimetro_revisao = models.IntegerField()
+    horimetro_revisao = models.IntegerField(verbose_name="Horímetro da revisão")
     feita = models.BooleanField(default=False)
 
     maquina = models.ForeignKey(Maquina, on_delete= models.PROTECT) 

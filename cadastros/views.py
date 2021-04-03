@@ -111,8 +111,7 @@ class EntradaCreate(LoginRequiredMixin, CreateView):
 
 
 
-class Produtos_EntradaCreate(GroupRequiredMixin, LoginRequiredMixin, CreateView):
-    group_required = u"Administrador"
+class Produtos_EntradaCreate(LoginRequiredMixin, CreateView):    
     model = Produtos_Entrada
     fields = ["entrada", "produto", "quantidade", "preco_unitario"]
     template_name = "cadastros/form.html"
@@ -163,8 +162,8 @@ class SaidaCreate(LoginRequiredMixin, CreateView):
         return context
 
 
-class Produtos_SaidaCreate(GroupRequiredMixin, LoginRequiredMixin, CreateView):
-    group_required = u"Administrador"
+class Produtos_SaidaCreate(LoginRequiredMixin, CreateView):
+    
     login_url = reverse_lazy("login")
     model = Produtos_Saida
     fields = ["saida", "produto", "quantidade"]
@@ -440,7 +439,8 @@ class EntradaDelete(LoginRequiredMixin, DeleteView):
         return context
 
 
-class Produtos_EntradaDelete(LoginRequiredMixin, DeleteView):
+class Produtos_EntradaDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
+    group_required = u"Administrador"
     login_url = reverse_lazy('login')
     model = Produtos_Entrada
     template_name = 'cadastros/form-excluir.html'
@@ -477,7 +477,8 @@ class SaidaDelete(LoginRequiredMixin, DeleteView):
         return context
 
 
-class Produtos_SaidaDelete(LoginRequiredMixin, DeleteView):
+class Produtos_SaidaDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
+    group_required = u"Administrador"
     login_url = reverse_lazy("login")
     model = Produtos_Saida
     template_name = 'cadastros/form-excluir.html'
@@ -688,4 +689,26 @@ class EntradaDetalhes(LoginRequiredMixin, DetailView):
         context['produtos'] = Produtos_Entrada.objects.filter(entrada=self.object)
         
 
+        return context
+
+
+class MaquinaDetalhes(LoginRequiredMixin, DetailView):
+    login_url = reverse_lazy("login")
+    model = Maquina
+    template_name = 'cadastros/detalhes/maquinas.html'
+    success_url = reverse_lazy("detalhar-maquina")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Enviando uma lista de Produtos_Saide conforme o objeto de Saída que está neste detailview
+        context['produtos'] = Produtos_Entrada.objects.filter(produto=self.object),
+        contex['revisao_nao_feita'] = Revisao.objects.filter(maquina=self.object, feita=False),
+        contex['revisao_feita']=Revisao.objects.filter(maquina=self.object, feita=True),
+
+        return context
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["titulo"] = "Apresentação Detalhada da máquina"
         return context

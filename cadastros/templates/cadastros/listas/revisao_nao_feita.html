@@ -10,8 +10,9 @@
 {% block conteudo %}
 <div class="container-fluid">
     <h3>{{ titulo }}</h3>
+    <a class="btn btn-primary btn-sm float-right" href="#">Cadastrar um novo revisão</a>
+    <p class="lead">aqui está apresentado todos os maquinas registrados</p>
     
-    <p class="lead">aqui está apresentado todas as revisões registradas</p>
 
     <div class="table responsive">
 
@@ -23,30 +24,18 @@
                     <th>Horímetro da Revisão</th>
                     <th>Feito</th>
                     <th>Opção</th>
-
                     <th>Opções</th>
                 </tr>
             </thead>
-            {% for revisao_nao_feita in object_list %}
+            {% for object_list in object_list %}
             <tbody>
                 <tr>
-
-                    <td>{{revisao_nao_feita.maquina}}</td>
-                    <td>{{revisao_nao_feita.produto}}</td>
-                    <td>{{revisao_nao_feita.horimetro_revisao}}</td>
-                    <td>{{revisao_nao_feita.feito}}</td>
-
-                    <td>
-                        <a href="{% url 'editar-revisao' revisao.pk %}" class="btn btn-warning btn-sm" title="Editar">
-                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                        </a>
-                        <a href="{% url 'excluir-revisao' revisao.pk %}" class="btn btn-danger btn-sm" title="Excluir">
-                            <i class="fa fa-trash" aria-hidden="true"></i>
-                        </a>
-
-                    </td>
+                    <td>{{object_list.maquina}}</td>
+                    <td>{{object_list.produto}}</td>
+                    <td>{{object_list.horimetro_revisao}}</td>
+                    <td>{{object_list.feito}}</td>
+                  
                 </tr>
-
                 {% empty %}
                 <td colspan="100%">Nenhum revisão registrada.</td>
                 {% endfor %}

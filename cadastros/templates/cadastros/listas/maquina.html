@@ -17,14 +17,12 @@
 
         <table class="table table-striped" id="tabela-maquina">
             <thead>
-                <tr>
+                <tr>                    
                     <th>Descrição</th>
                     <th>Ano</th>
                     <th>Horímetro</th>
                     <th>Prefixo</th>
-                    <th>Cidade</th>
-
-                    
+                    <th>Cidade</th>                    
                     <th>Opções</th>
                 </tr>
             </thead>
@@ -45,17 +43,22 @@
                         <a href="{% url 'excluir-maquina' maquina.pk %}" class="btn btn-danger btn-sm" title="Excluir">
                             <i class="fa fa-trash" aria-hidden="true"></i>
                         </a>
-                        <a href="#" class="btn btn-info btn-sm" title="Ver dados completos">
+                        <a href="{% url 'detalhar-maquina'  maquina.pk %}" class="btn btn-info btn-sm" title="Ver dados completos">
                             <i class="fa fa-search" aria-hidden="true"></i>
                         </a>
                     </td>
                 </tr>
-
+                
                 {% empty %}
                 <td colspan="100%">Nenhum maquina registrado.</td>
                 {% endfor %}
+                
             </tbody>
+            
         </table>
+        <a href="{% url 'listar-revisao_nao_feita' %}" class="btn btn-info btn-sm" title="Ver dados completos">
+            <i class="fa fa-search" aria-hidden="true"></i>
+        </a>
     </div>
 </div>
 {% endblock %}
