@@ -10,7 +10,8 @@ from django.shortcuts import get_object_or_404
 
 # Create your views here.
 ############################  CREATE  ############################
-class FornecedorCreate(CreateView):
+class FornecedorCreate(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy("login")
     model = Fornecedor
     fields = ["cnpj", "razao_social", "nome_fantasia",
               "vendedor", "email", "telefone", "site", "cidade"]
@@ -25,7 +26,8 @@ class FornecedorCreate(CreateView):
         return context
 
 
-class FuncionarioCreate(CreateView):
+class FuncionarioCreate(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy("login")
     model = Funcionario
     fields = ["nome", "data_nascimento", "setor",
               "telefone_celular", "telefone_fixo", "cpf", "rg", "email", "cnh", "cargo", "cidade"]
@@ -39,7 +41,8 @@ class FuncionarioCreate(CreateView):
         return context
 
 
-class CidadeCreate(CreateView):
+class CidadeCreate(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy("login")
     model = Cidade
     fields = ["nome", "estado"]
     template_name = "cadastros/form.html"
@@ -52,7 +55,8 @@ class CidadeCreate(CreateView):
         return context
 
 
-class MaquinaCreate(CreateView):
+class MaquinaCreate(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy("login")
     model = Maquina
     fields = ["descricao", "ano", "horimetro", "prefixo", "cidade"]
     template_name = "cadastros/form.html"
@@ -65,7 +69,8 @@ class MaquinaCreate(CreateView):
         return context
 
 
-class ProdutoCreate(CreateView):
+class ProdutoCreate(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy("login")
     model = Produto
     fields = ["nome", "quantidade_atual", "quantidade_minima", "validade"]
     template_name = "cadastros/form.html"
@@ -78,14 +83,16 @@ class ProdutoCreate(CreateView):
         return context
 
 
-class EntradaCreate(CreateView):
+class EntradaCreate(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy("login")
     model = Entrada
     fields = ["detalhes", "data", "fornecedor", "valor_total"]
     template_name = "cadastros/form.html"
     success_url = reverse_lazy("listar-entrada")
 
 
-class Produtos_EntradaCreate(CreateView):
+class Produtos_EntradaCreate(GroupRequiredMixin, LoginRequiredMixin, CreateView):
+    group_required = u"Administrador"
     model = Produtos_Entrada
     fields = ["entrada", "produto", "quantidade", "preco_unitario"]
     template_name = "cadastros/form.html"
@@ -97,8 +104,7 @@ class Produtos_EntradaCreate(CreateView):
             url = super().form_valid(form)
             
             # Objeto que acabou de ser criado do tipo que está no Model ali em cima
-            self.object.produto.quantidade_atual = self.object.produto.quantidade_atual - \
-                self.object.quantidade
+            self.object.produto.quantidade_atual = self.object.produto.quantidade_atual + self.object.quantidade
             # Salvar o produto
             self.object.produto.save()
             # Fim do método
@@ -112,7 +118,8 @@ class Produtos_EntradaCreate(CreateView):
         return context
 
 
-class SaidaCreate(CreateView):
+class SaidaCreate(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy("login")
     model = Saida
     fields = ["detalhes", "maquina", "horimetro", "funcionario"]
     template_name = "cadastros/form.html"
@@ -137,7 +144,9 @@ class SaidaCreate(CreateView):
         return context
 
 
-class Produtos_SaidaCreate(CreateView):
+class Produtos_SaidaCreate(GroupRequiredMixin, LoginRequiredMixin, CreateView):
+    group_required = u"Administrador"
+    login_url = reverse_lazy("login")
     model = Produtos_Saida
     fields = ["saida", "produto", "quantidade"]
     template_name = "cadastros/form.html"
@@ -188,8 +197,8 @@ class Produtos_SaidaCreate(CreateView):
 ############################  UPDATE  ############################
 
 
-class FornecedorUpdate(UpdateView):
-    # login_url = reverse_lazy('login')
+class FornecedorUpdate(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     model = Fornecedor
     fields = ["cnpj", "razao_social", "nome_fantasia",
               "vendedor", "email", "telefone", "site"]
@@ -203,8 +212,8 @@ class FornecedorUpdate(UpdateView):
         return context
 
 
-class FuncionarioUpdate(UpdateView):
-    # login_url = reverse_lazy('login')
+class FuncionarioUpdate(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     model = Funcionario
     fields = ["nome", "data_Nascimento", "setor",
               "telefone_Celular", "telefone_Fixo", "cpf", "rg", "email", "cnh", "cargo"]
@@ -218,8 +227,8 @@ class FuncionarioUpdate(UpdateView):
         return context
 
 
-class CidadeUpdate(UpdateView):
-    # login_url = reverse_lazy('login')
+class CidadeUpdate(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     model = Cidade
     fields = ["nome", "estado"]
     template_name = 'cadastros/form.html'
@@ -232,8 +241,8 @@ class CidadeUpdate(UpdateView):
         return context
 
 
-class MaquinaUpdate(UpdateView):
-    # login_url = reverse_lazy('login')
+class MaquinaUpdate(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     model = Maquina
     fields = ["descricao", "ano", "horimetro", "prefixo", "cidade"]
     template_name = 'cadastros/form.html'
@@ -246,8 +255,8 @@ class MaquinaUpdate(UpdateView):
         return context
 
 
-class ProdutoUpdate(UpdateView):
-    # login_url = reverse_lazy('login')
+class ProdutoUpdate(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     model = Produto
     fields = ["nome", "quantidade_atual", "quantidade_minima", "validade"]
     template_name = 'cadastros/form.html'
@@ -260,8 +269,8 @@ class ProdutoUpdate(UpdateView):
         return context
 
 
-class EntradaUpdate(UpdateView):
-    # login_url = reverse_lazy('login')
+class EntradaUpdate(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     model = Entrada
     fields = ["detalhes", "data", "fornecedor", "valor_total"]
     template_name = 'cadastros/form.html'
@@ -274,8 +283,8 @@ class EntradaUpdate(UpdateView):
         return context
 
 
-class Produtos_EntradaUpdate(UpdateView):
-    # login_url = reverse_lazy('login')
+class Produtos_EntradaUpdate(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     model = Produtos_Entrada
     fields = ["entrada", "produto", "quantidade", "preco_unitario"]
     template_name = 'cadastros/form.html'
@@ -288,8 +297,8 @@ class Produtos_EntradaUpdate(UpdateView):
         return context
 
 
-class SaidaUpdate(UpdateView):
-    # login_url = reverse_lazy('login')
+class SaidaUpdate(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     model = Saida
     fields = ["detalhes", "maquina", "horimetro", "funcionario"]
     template_name = 'cadastros/form.html'
@@ -314,8 +323,8 @@ class SaidaUpdate(UpdateView):
         return context
 
 
-class Produtos_SaidaUpdate(UpdateView):
-    # login_url = reverse_lazy('login')
+class Produtos_SaidaUpdate(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('login')
     model = Produtos_Saida
     fields = ["saida", "produto", "quantidade"]
     template_name = 'cadastros/form.html'
@@ -331,8 +340,8 @@ class Produtos_SaidaUpdate(UpdateView):
 ############################  DELETE  ############################
 
 
-class FornecedorDelete(DeleteView):
-    # login_url = reverse_lazy('login')
+class FornecedorDelete(LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
     model = Fornecedor
     template_name = 'cadastros/form-excluir.html'
     success_url = reverse_lazy('listar-fornecedor')
@@ -344,8 +353,8 @@ class FornecedorDelete(DeleteView):
         return context
 
 
-class FuncionarioDelete(DeleteView):
-    # login_url = reverse_lazy('login')
+class FuncionarioDelete(LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
     model = Funcionario
     template_name = 'cadastros/form-excluir.html'
     success_url = reverse_lazy('listar-funcionario')
@@ -357,8 +366,8 @@ class FuncionarioDelete(DeleteView):
         return context
 
 
-class CidadeDelete(DeleteView):
-    # login_url = reverse_lazy('login')
+class CidadeDelete(LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
     model = Cidade
     template_name = 'cadastros/form-excluir.html'
     success_url = reverse_lazy('listar-cidade')
@@ -370,8 +379,8 @@ class CidadeDelete(DeleteView):
         return context
 
 
-class MaquinaDelete(DeleteView):
-    # login_url = reverse_lazy('login')
+class MaquinaDelete(LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
     model = Maquina
     template_name = 'cadastros/form-excluir.html'
     success_url = reverse_lazy('listar-maquina')
@@ -383,8 +392,8 @@ class MaquinaDelete(DeleteView):
         return context
 
 
-class ProdutoDelete(DeleteView):
-    # login_url = reverse_lazy('login')
+class ProdutoDelete(LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
     model = Produto
     template_name = 'cadastros/form-excluir.html'
     success_url = reverse_lazy('listar-produto')
@@ -396,8 +405,8 @@ class ProdutoDelete(DeleteView):
         return context
 
 
-class EntradaDelete(DeleteView):
-    # login_url = reverse_lazy('login')
+class EntradaDelete(LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
     model = Entrada
     template_name = 'cadastros/form-excluir.html'
     success_url = reverse_lazy('listar-entrada')
@@ -409,8 +418,8 @@ class EntradaDelete(DeleteView):
         return context
 
 
-class Produtos_EntradaDelete(DeleteView):
-    # login_url = reverse_lazy('login')
+class Produtos_EntradaDelete(LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
     model = Produtos_Entrada
     template_name = 'cadastros/form-excluir.html'
     success_url = reverse_lazy('listar-produtos_entrada')
@@ -430,8 +439,8 @@ class Produtos_EntradaDelete(DeleteView):
 
 
 
-class SaidaDelete(DeleteView):
-    # login_url = reverse_lazy('login')
+class SaidaDelete(LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('login')
     model = Saida
     template_name = 'cadastros/form-excluir.html'
     success_url = reverse_lazy('listar-saida')
@@ -443,8 +452,8 @@ class SaidaDelete(DeleteView):
         return context
 
 
-class Produtos_SaidaDelete(DeleteView):
-    
+class Produtos_SaidaDelete(LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy("login")
     model = Produtos_Saida
     template_name = 'cadastros/form-excluir.html'
     success_url = reverse_lazy('listar-saida')
@@ -482,8 +491,8 @@ class Produtos_SaidaDelete(DeleteView):
 ############################  LISTA  ############################
 
 
-class FornecedorList(ListView):
-    # login_url = reverse_lazy('login')
+class FornecedorList(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('login')
     model = Fornecedor
     template_name = 'cadastros/listas/fornecedor.html'
 
@@ -493,8 +502,8 @@ class FornecedorList(ListView):
         return context
 
 
-class FuncionarioList(ListView):
-    # login_url = reverse_lazy('login')
+class FuncionarioList(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('login')
     model = Funcionario
     template_name = 'cadastros/listas/funcionario.html'
 
@@ -504,8 +513,8 @@ class FuncionarioList(ListView):
         return context
 
 
-class CidadeList(ListView):
-    # login_url = reverse_lazy('login')
+class CidadeList(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('login')
     model = Cidade
     template_name = 'cadastros/listas/Cidade.html'
 
@@ -515,8 +524,8 @@ class CidadeList(ListView):
         return context
 
 
-class EntradaList(ListView):
-    # login_url = reverse_lazy('login')
+class EntradaList(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('login')
     model = Entrada
     template_name = 'cadastros/listas/entrada.html'
 
@@ -526,8 +535,8 @@ class EntradaList(ListView):
         return context
 
 
-class MaquinaList(ListView):
-    # login_url = reverse_lazy('login')
+class MaquinaList(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('login')
     model = Maquina
     template_name = 'cadastros/listas/maquina.html'
 
@@ -537,14 +546,14 @@ class MaquinaList(ListView):
         return context
 
 
-class Produtos_EntradaList(ListView):
-    # login_url = reverse_lazy('login')
+class Produtos_EntradaList(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('login')
     model = Produtos_Entrada
     template_name = 'cadastros/listas/produtos_entrada.html'
 
 
-class SaidaList(ListView):
-    # login_url = reverse_lazy('login')
+class SaidaList(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('login')
     model = Saida
     template_name = 'cadastros/listas/saida.html'
 
@@ -554,8 +563,8 @@ class SaidaList(ListView):
         return context
 
 
-class ProdutoList(ListView):
-    # login_url = reverse_lazy('login')
+class ProdutoList(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('login')
     model = Produto
     template_name = 'cadastros/listas/produto.html'
 
@@ -565,14 +574,14 @@ class ProdutoList(ListView):
         return context
 
 
-class Produtos_SaidaList(ListView):
-    # login_url = reverse_lazy('login')
+class Produtos_SaidaList(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('login')
     model = Produtos_Saida
     template_name = 'cadastros/listas/produtos_saida.html'
 
 
-class RevisaoFeitaList(ListView):
-    # login_url = reverse_lazy('login')
+class RevisaoFeitaList(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('login')
     model = Revisao
     template_name = 'cadastros/listas/revisao_feita.html'
 
@@ -586,8 +595,8 @@ class RevisaoFeitaList(ListView):
         return self.object_list
 
 
-class Revisao_Nao_FeitaList(ListView):
-    # login_url = reverse_lazy('login')
+class Revisao_Nao_FeitaList(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('login')
     model = Revisao
     template_name = 'cadastros/listas/revisao_nao_feita.html'
 
@@ -604,7 +613,8 @@ class Revisao_Nao_FeitaList(ListView):
 ############################  DetailView  ############################
 
 
-class FornecedorDetalhes(DetailView):
+class FornecedorDetalhes(LoginRequiredMixin, DetailView):
+    login_url = reverse_lazy("login")
     model = Fornecedor
     template_name = 'cadastros/detalhes/fornecedor.html'
 
@@ -614,7 +624,8 @@ class FornecedorDetalhes(DetailView):
         return context
 
 
-class FuncionarioDetalhes(DetailView):
+class FuncionarioDetalhes(LoginRequiredMixin, DetailView):
+    login_url = reverse_lazy("login")
     model = Funcionario
     template_name = 'cadastros/detalhes/funcionario.html'
 
@@ -628,7 +639,8 @@ class FuncionarioDetalhes(DetailView):
 
 
 
-class SaidaDetalhes(DetailView):
+class SaidaDetalhes(LoginRequiredMixin, DetailView):
+    login_url = reverse_lazy("login")
     model = Saida
     template_name = 'cadastros/detalhes/saida.html'
     success_url = reverse_lazy("detalhar-saida")
@@ -638,12 +650,13 @@ class SaidaDetalhes(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # Enviando uma lista de Produtos_Saide conforme o objeto de Saída que está neste detailview
+        # Enviando uma lista de Produtos_Saide conforme o objeto de Saída que está neste DetailView
         context['produtos'] = Produtos_Saida.objects.filter(saida=self.object)
 
         return context
 
-class EntradaDetalhes(DetailView):
+class EntradaDetalhes(LoginRequiredMixin, DetailView):
+    login_url = reverse_lazy("login")
     model = Entrada
     template_name = 'cadastros/detalhes/entrada.html'
     success_url = reverse_lazy("detalhar-entrada")

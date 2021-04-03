@@ -17,35 +17,33 @@
     <h5>Fornecedor: {{ object.fornecedor }}</h5>
     <h5>Valor Total: {{ object.valor_total }}</h5>
     
-    <hr>
     
     <div class="table-responsive">
         <table class="table table-striped" id="tabela-listar">
             <thead>
                 <tr>
-    
+                    <th>Id#</th>
                     <th>Descrição</th>
-                    <th>Valor Total</th>
+                    <th>Valor unitário</th>
                     <th>Fornecedor</th>
-                    
-                    <th>Opções</th>
-    
+                    <th>quantidade</th>
+                    <th>Opções</th>   
                 </tr>
             </thead>
             <tbody>
                 {% for prod in produtos %}
-                <tr>
-    
+                <tr>    
+                    <td>{{ prod.pk }}</td>
                     <td>{{ prod.produto }}</td>
-                    <td>{{ prod.preco_unitario }}</td>
-                    
-                    
+                    <td>{{ prod.preco_unitario }}</td> 
+                    <td>{{ prod.entrada.fornecedor }}</td> 
+                    <td>{{ prod.quantidade }}</td> 
+
                     <td>
                         <a href="{% url 'excluir-entrada' prod.pk %}" class="btn btn-danger btn-sm" title="Excluir">
                             <i class="fa fa-trash" aria-hidden="true"></i>
                         </a>
-                    </td>
-    
+                    </td>    
                 </tr>
                 {% empty %}
                 <tr>
@@ -53,27 +51,14 @@
                 </tr>
                 {% endfor %}
             </tbody>
-        </table>
-    
-    
+        </table>    
     </div>
-
-
-
-
-
-
-
-
     {% endblock %}
 
 
     {% block script %}
     <script>
 
-        // $("seletor").evento(function () {
-        // $("seletor").acao();
-        // });
         $(document).ready(function () {
 
             $("#tabela-funcionario").DataTable({
