@@ -702,7 +702,7 @@ class MaquinaDetalhes(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
 
         # Enviando uma lista de Produtos_Saide conforme o objeto de Saída que está neste detailview
-        context['produtos'] = Produtos_Entrada.objects.filter(produto=self.object),
+        context['produtos'] = Produtos_Saida.objects.filter(maquina=self.object),
         contex['revisao_nao_feita'] = Revisao.objects.filter(maquina=self.object, feita=False),
         contex['revisao_feita']=Revisao.objects.filter(maquina=self.object, feita=True),
 
