@@ -703,8 +703,8 @@ class MaquinaDetalhes(LoginRequiredMixin, DetailView):
 
         # Enviando uma lista de Produtos_Saide conforme o objeto de Saída que está neste detailview
         context['produtos']= Produtos_Saida.objects.filter(maquina=self.object)
-        contex['revisao_nao_feita']= Revisao.objects.filter(maquina=self.object, feita=False)
-        contex['revisao_feita']=Revisao.objects.filter(maquina=self.object, feita=True)
+        context['revisao_nao_feita']= Revisao.objects.filter(maquina=self.object, feita=False)
+        context['revisao_feita']=Revisao.objects.filter(maquina=self.object, feita=True)
 
         return context
 
