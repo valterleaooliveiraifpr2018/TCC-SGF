@@ -180,6 +180,8 @@ class Revisao(models.Model):
     maquina = models.ForeignKey(Maquina, on_delete= models.PROTECT) 
     produto = models.ForeignKey(Produto, on_delete= models.PROTECT)
 
+    data = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return "Revisão com: {} horas -- Máquina: {}/{}h -- Produto: {}".format(self.horimetro_revisao, self.maquina.descricao, self.maquina.horimetro, self.produto.nome)
 

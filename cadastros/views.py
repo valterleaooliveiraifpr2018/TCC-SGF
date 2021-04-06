@@ -700,15 +700,11 @@ class MaquinaDetalhes(LoginRequiredMixin, DetailView):
 
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
+        print("\n\nMáquina: {}\n\n".format(self.object))
 
         # Enviando uma lista de Produtos_Saide conforme o objeto de Saída que está neste detailview
-        context['produtos']= Produtos_Saida.objects.filter(saida=self.object)
+        # context['produtos']= Produtos_Saida.objects.filter(saida=self.object)
         context['revisao_nao_feita']= Revisao.objects.filter(maquina=self.object, feita=False)
         context['revisao_feita']= Revisao.objects.filter(maquina=self.object, feita=True)
 
-        return context
-
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        context["titulo"] = "Apresentação Detalhada da máquina"
         return context
