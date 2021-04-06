@@ -2,7 +2,7 @@ from django.urls import path
 from .views import CidadeCreate, FornecedorCreate, FuncionarioCreate, MaquinaCreate, ProdutoCreate, EntradaCreate, Produtos_EntradaCreate, SaidaCreate, Produtos_SaidaCreate
 from .views import CidadeUpdate, FornecedorUpdate, FuncionarioUpdate, MaquinaUpdate, ProdutoUpdate, EntradaUpdate, Produtos_EntradaUpdate, SaidaUpdate, Produtos_SaidaUpdate   
 from .views import CidadeDelete, FornecedorDelete, FuncionarioDelete, MaquinaDelete, ProdutoDelete, EntradaDelete, Produtos_EntradaDelete, SaidaDelete, Produtos_SaidaDelete
-from .views import CidadeList, FornecedorList, FuncionarioList, MaquinaList, ProdutoList, EntradaList, Produtos_EntradaList, SaidaList, Produtos_SaidaList, RevisaoFeitaList, Revisao_Nao_FeitaList
+from .views import CidadeList, FornecedorList, FuncionarioList, MaquinaList, ProdutoList, EntradaList, Produtos_EntradaList, SaidaList, Produtos_SaidaList, Revisao_FeitaList, Revisao_Nao_FeitaList
 from .views import FornecedorDetalhes, FuncionarioDetalhes, SaidaDetalhes, EntradaDetalhes, MaquinaDetalhes
 
 
@@ -61,7 +61,7 @@ urlpatterns = [
     path('listar/produtos_entrada', Produtos_EntradaList.as_view(), name="listar-produtos_entrada"),
     path('listar/saida', SaidaList.as_view(), name="listar-saida"),
     path('listar/produtos_saida', Produtos_SaidaList.as_view(), name="listar-produtos_saida"),
-    path('listar/revisao_feita', RevisaoFeitaList.as_view(), name="listar-revisao_feita"),
+    path('listar/revisao_feita', Revisao_FeitaList.as_view(), name="listar-revisao_feita"),
     path('listar/revisao_nao_feita', Revisao_Nao_FeitaList.as_view(), name="listar-revisao_nao_feita"),
    
     ############################  Detalhes  ############################

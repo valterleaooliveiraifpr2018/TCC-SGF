@@ -603,7 +603,7 @@ class Produtos_SaidaList(LoginRequiredMixin, ListView):
     template_name = 'cadastros/listas/produtos_saida.html'
 
 
-class RevisaoFeitaList(LoginRequiredMixin, ListView):
+class Revisao_FeitaList(LoginRequiredMixin, ListView):
     login_url = reverse_lazy('login')
     model = Revisao
     template_name = 'cadastros/listas/revisao_feita.html'
@@ -698,13 +698,13 @@ class MaquinaDetalhes(LoginRequiredMixin, DetailView):
     template_name = 'cadastros/detalhes/maquinas.html'
     success_url = reverse_lazy("detalhar-maquina")
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
 
         # Enviando uma lista de Produtos_Saide conforme o objeto de Saída que está neste detailview
-        context['produtos']= Produtos_Saida.objects.filter(maquina=self.object)
+        context['produtos']= Produtos_Saida.objects.filter(saida=self.object)
         context['revisao_nao_feita']= Revisao.objects.filter(maquina=self.object, feita=False)
-        context['revisao_feita']=Revisao.objects.filter(maquina=self.object, feita=True)
+        context['revisao_feita']= Revisao.objects.filter(maquina=self.object, feita=True)
 
         return context
 

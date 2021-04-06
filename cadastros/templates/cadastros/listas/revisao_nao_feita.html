@@ -19,21 +19,30 @@
         <table class="table table-striped" id="tabela-revisao">
             <thead>
                 <tr>
+                    <!-- <th>#</th>
+                    <th>#</th> -->
                     <th>Máquina</th>
                     <th>Produto</th>
+                    <!-- <th>#</th> -->
                     <th>Horímetro da Revisão</th>
-                    <th>Feito</th>
-                    <th>Opção</th>
-                    <th>Opções</th>
+                    <!-- <th>#</th>
+                    <th>#</th> -->
+                    
+
+               
                 </tr>
             </thead>
             {% for object_list in object_list %}
             <tbody>
                 <tr>
+                    <!-- <td>{{object_list.descricao}}</td> -->
+                    <!-- <td>{{object_list.ano}}</td> -->
                     <td>{{object_list.maquina}}</td>
                     <td>{{object_list.produto}}</td>
+                    <!-- <td>{{object_list.horimetro}}</td> -->
                     <td>{{object_list.horimetro_revisao}}</td>
-                    <td>{{object_list.feito}}</td>
+                    <!-- <td>{{object_list.prefixo}}</td> -->
+                    <!-- <td>{{object_list.cidade}}</td> -->
                   
                 </tr>
                 {% empty %}

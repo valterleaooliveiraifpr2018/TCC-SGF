@@ -21,21 +21,17 @@
         <h3>Revisões da Máquina</h3>
         <table class="table table-striped" id="tabela-maquina">
             <thead>
-                <tr>
-                    
+                <tr>                    
                     <th>Descrição</th>
                     <th>Produto</th>
-                    <th>Horímetro da Revisão</th>
-                    
-               
+                    <th>Horímetro da Revisão</th>    
                     
                 </tr>
             </thead>
             <tbody>
                 {% for prod in revisao_feita %}
-                <tr>
-                    
-                    <td>{{ prod.maquina }}</td>
+                <tr>                    
+                    <td>{{ prod.saida.maquina }}</td>
                     <td>{{ prod.produto }}</td>
                     <td>{{ prod.horimetro_revisao }}</td>
                     
@@ -54,98 +50,70 @@
               
             </tbody>
         </table>
-
-
     </div>
-    
+    <hr>    
     <div class="table-responsive">
         <h3>Revisões não feitas da Máquina</h3>
         <table class="table table-striped" id="tabela-maquina">
             <thead>
                 <tr>
-                    
                     <th>Descrição</th>
                     <th>Produto</th>
-                    <th>Horímetro da Revisão</th>
-                    
-               
-                    
+                    <th>Horímetro da Revisão</th>                   
                 </tr>
             </thead>
             <tbody>
                 {% for prod in revisao_nao_feita %}
-                <tr>
-                    
+                <tr>                    
                     <td>{{ prod.maquina }}</td>
-                    <td>{{ prod.produto }}</td>
-                    <td>{{ prod.horimetro_revisao }}</td>
-                    
+                    <td>{{ prod.produto.nome }}</td>
+                    <td>{{ prod.horimetro_revisao }}</td>                    
                     <td>
                         <a href="#" class="btn btn-danger btn-sm" title="Excluir">
                             <i class="fa fa-trash" aria-hidden="true"></i>
                         </a>
-                    </td>
-                    
+                    </td>                    
                 </tr>
                 {% empty %}
                 <tr>
                     <td colspan="100%">Nenhum produto registrado para esta saída.</td>
                 </tr>
-                {% endfor %}
-              
+                {% endfor %}              
             </tbody>
         </table>
-
-
     </div>
+    <hr>
     <div class="table-responsive">
         <h3>Produtos utilizado nas revisões da Máquina</h3>
         <table class="table table-striped" id="tabela-maquina">
             <thead>
-                <tr>
-    
+                <tr>    
                     <th>Descrição</th>
-                    <th>produtos</th>
-    
-    
-    
+                    <th>produtos</th>   
                 </tr>
             </thead>
             <tbody>
                 {% for prod in produtos %}
-                <tr>
-    
+                <tr>    
                     <td>{{ prod.maquina }}</td>
-                    <td>{{ prod.nome }}</td>
-                    <td>{{ prod.horimetro_revisao }}</td>
-    
+                    <td>{{ prod.produto }}</td>
+                    <td>{{ prod.horimetro_revisao }}</td>    
                     <td>
                         <a href="#" class="btn btn-danger btn-sm" title="Excluir">
                             <i class="fa fa-trash" aria-hidden="true"></i>
                         </a>
-                    </td>
-    
+                    </td>    
                 </tr>
                 {% empty %}
                 <tr>
                     <td colspan="100%">Nenhum produto registrado para esta saída.</td>
                 </tr>
-                {% endfor %}
-    
+                {% endfor %}    
             </tbody>
-        </table>
-    
+        </table> 
     
     </div>
-    
-
-
-
-
-
-
-
-
+  
     {% endblock %}
 
 
