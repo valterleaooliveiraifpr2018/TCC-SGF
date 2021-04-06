@@ -4,13 +4,13 @@
 
 
 {% block titulo %}
-<title>Detalhamento de Saida</title>
+<title>Detalhamento das máquinas</title>
 {% endblock %}
 
 
 {% block conteudo %}
 <div class="container-fluid">
-    <h2>Detalhes da saída #{{ object.pk }}</h2>
+    <h2>Detalhes da Revisões #{{ object.pk }}</h2>
     <hr>
     <h5>Descricao: {{ object.descricao }}</h5>
     <h5>Ano: {{ object.ano }}</h5>
@@ -111,7 +111,7 @@
         // });
         $(document).ready(function () {
 
-            $("#tabela-funcionario").DataTable({
+            $("#tabela-listar").DataTable({
                 responsive: true,
                 // "bSort": false,
                 "aaSorting": [],
