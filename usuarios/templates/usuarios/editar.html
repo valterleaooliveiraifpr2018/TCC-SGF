@@ -1,0 +1,34 @@
+{% extends 'paginas/modelo.html' %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+
+
+{% block conteudo %}
+
+<div class="row">
+    <div class="col-md mx-auto">
+        <h3>{{titulo}}</h3>
+        <hr>
+        <h4>Gerenciar usuário: <strong>{{ object }}</strong></h4>
+
+        <!-- <p class="lead">
+            Preencha todos os campos obrigatórios.
+        </p> -->
+
+        <hr>
+        <form action="" method="POST">
+
+            {% csrf_token %}
+
+            {{ form|crispy }}
+
+            <button type="submit" class="btn btn-primary mt-3">{{botao}}</button>
+
+        </form>
+    </div>
+</div>
+
+{% endblock %}

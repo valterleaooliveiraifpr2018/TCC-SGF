@@ -12,7 +12,7 @@ from .models import Perfil
 class UsuarioCreate(CreateView):
     template_name = "cadastros/form.html"
     form_class = UsuarioForm
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('login') # Vai para a página com mensagem personalizada
 
     def form_valid(self, form):
 
@@ -21,6 +21,8 @@ class UsuarioCreate(CreateView):
         url = super().form_valid(form)
 
         self.object.groups.add(grupo)
+        # Não vai ativar o usuário, o Admin vai aprovar o usuário
+        self.object.is_active = False
         self.object.save()
 
         Perfil.objects.create(usuario=self.object)
@@ -51,5 +53,22 @@ class PerfilUpdate(UpdateView):
 
         context["titulo"] = "Meus dados pessoais"
         context["botao"] = "Atualizar"
+
+        return context
+
+# CRiar uma ListView de User que só o administrador pode acessar
+
+# Colocar só para o administrador fazer isso
+class GerenciarUsuario(UpdateView):
+    template_name = "usuarios/editar.html"
+    model = User
+    fields = ["is_active"]
+    success_url = reverse_lazy("index") # Vai para a lista de usuários
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+
+        context["titulo"] = "Ativar ou desativar usuários"
+        context["botao"] = "Salvar"
 
         return context
