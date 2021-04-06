@@ -667,8 +667,8 @@ class SaidaDetalhes(LoginRequiredMixin, DetailView):
     template_name = 'cadastros/detalhes/saida.html'
     success_url = reverse_lazy("detalhar-saida")
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
 
         # Enviando uma lista de Produtos_Saide conforme o objeto de Saída que está neste DetailView
         context['produtos'] = Produtos_Saida.objects.filter(saida=self.object)
@@ -682,8 +682,8 @@ class EntradaDetalhes(LoginRequiredMixin, DetailView):
     template_name = 'cadastros/detalhes/entrada.html'
     success_url = reverse_lazy("detalhar-entrada")
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def get_context_dataself(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
 
         # Enviando uma lista de Produtos_Saide conforme o objeto de Saída que está neste detailview
         context['produtos'] = Produtos_Entrada.objects.filter(entrada=self.object)
@@ -698,13 +698,11 @@ class MaquinaDetalhes(LoginRequiredMixin, DetailView):
     template_name = 'cadastros/detalhes/maquinas.html'
     success_url = reverse_lazy("detalhar-maquina")
 
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        print("\n\nMáquina: {}\n\n".format(self.object))
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
 
-        # Enviando uma lista de Produtos_Saide conforme o objeto de Saída que está neste detailview
-        # context['produtos']= Produtos_Saida.objects.filter(saida=self.object)
-        context['revisao_nao_feita']= Revisao.objects.filter(maquina=self.object, feita=False)
+        # Consulta todas as revisões dessa máquina
+        context['revisao_nao_feita']= Revisao.objects.filter(maquina=self.object, feita=False).order_by("horimetro_revisao")
         context['revisao_feita']= Revisao.objects.filter(maquina=self.object, feita=True)
 
         return context

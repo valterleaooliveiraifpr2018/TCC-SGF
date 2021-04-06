@@ -2,6 +2,7 @@
 
 {% load static %}
 
+{% load novas_tags %}
 
 {% block titulo %}
 <title>Detalhamento das máquinas</title>
@@ -10,17 +11,18 @@
 
 {% block conteudo %}
 <div class="container-fluid">
-    <h2>Detalhes da Máquina ID #{{ object.pk }}</h2>
-    <hr>
-    <h5>Descrição: {{ object.descricao }}</h5>
-    <h5>Ano: {{ object.ano }}</h5>
-    <h5>Horímetro: {{ object.horimetro }}</h5>
-    <h5>Prefixo: {{ object.prefixo }}</h5>
-    
-    <hr>
-    
-    <div class="table-responsive">
-        <h4>Revisões a fazer</h4>
+
+    <div class="border-bottom border-top p-3 mb-4 bg-light shadow">
+        <h2>Detalhes da Máquina ID #{{ object.pk }}</h2>
+        <hr>
+        <h5>Descrição: {{ object.descricao }}</h5>
+        <h5>Ano: {{ object.ano }}</h5>
+        <h5>Horímetro: {{ object.horimetro }}</h5>
+        <h5>Prefixo: {{ object.prefixo }}</h5>
+    </div>
+        
+    <div class="table-responsive border border-primary p-3 shadow">
+        <h4 class="text-primary">Revisões a fazer</h4>
         <table class="table table-striped" id="tabela-maquina">
             <thead>
                 <tr>                    
@@ -30,9 +32,15 @@
             </thead>
             <tbody>
                 {% for rev in revisao_nao_feita %}
+                {% if object.horimetro > rev.horimetro_revisao %}
+                <tr class="bg-danger text-white">                    
+                {% elif object.horimetro >= rev.horimetro_revisao|multiplicar:0.9 %}
+                <tr class="bg-warning text-white">                    
+                {% else %}
                 <tr>                    
-                    <td>{{ rev.produto }}</td>
+                {% endif %}
                     <td>{{ rev.horimetro_revisao }}</td>                    
+                    <td>{{ rev.produto.nome }}</td>
                 </tr>
                 {% empty %}
                 <tr>
@@ -44,10 +52,8 @@
         </table>
     </div>
 
-    <hr>  
-
-    <div class="table-responsive">
-        <h4>Revisões já realizadas</h4>
+    <div class="table-responsive border border-success p-3 mt-3 shadow">
+        <h4 class="text-success">Revisões já realizadas</h4>
         <table class="table table-striped" id="tabela-maquina">
             <thead>
                 <tr>
@@ -59,8 +65,8 @@
             <tbody>
                 {% for rev in revisao_feita %}
                 <tr>
-                    <td>{{ rev.produto }}</td>
                     <td>{{ rev.horimetro_revisao }}</td>
+                    <td>{{ rev.produto.nome }}</td>
                     <td>{{ rev.data }}</td>
                 </tr>
                 {% empty %}
@@ -70,39 +76,6 @@
                 {% endfor %}              
             </tbody>
         </table>
-    </div>
-
-    <hr>
-
-    <div class="table-responsive">
-        <h4>Produtos utilizado nas revisões da Máquina</h4>
-        <table class="table table-striped" id="tabela-maquina">
-            <thead>
-                <tr>    
-                    <th>Descrição</th>
-                    <th>produtos</th>   
-                </tr>
-            </thead>
-            <tbody>
-                {% for prod in produtos %}
-                <tr>    
-                    <td>{{ prod.maquina }}</td>
-                    <td>{{ prod.produto }}</td>
-                    <td>{{ prod.horimetro_revisao }}</td>    
-                    <td>
-                        <a href="#" class="btn btn-danger btn-sm" title="Excluir">
-                            <i class="fa fa-trash" aria-hidden="true"></i>
-                        </a>
-                    </td>    
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="100%">Nenhum produto registrado para esta saída.</td>
-                </tr>
-                {% endfor %}    
-            </tbody>
-        </table> 
-    
     </div>
   
     {% endblock %}
