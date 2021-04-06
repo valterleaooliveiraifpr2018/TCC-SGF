@@ -10,16 +10,15 @@
 
 {% block conteudo %}
 <div class="container-fluid">
-    <h2>Detalhes da Revisões #{{ object.pk }}</h2>
+    <h2>Detalhes das Revisões #{{ object.pk }}</h2>
     <hr>
     <h5>Descricao: {{ object.descricao }}</h5>
     <h5>Ano: {{ object.ano }}</h5>
     <h5>Horímetro: {{ object.horimetro }}</h5>
     <h5>Prefixo: {{ object.prefixo }}</h5>
     <hr>
-    
     <div class="table-responsive">
-        <h3>Revisão da Máquina</h3>
+        <h3>Revisões da Máquina</h3>
         <table class="table table-striped" id="tabela-maquina">
             <thead>
                 <tr>
@@ -58,6 +57,87 @@
 
 
     </div>
+    
+    <div class="table-responsive">
+        <h3>Revisões não feitas da Máquina</h3>
+        <table class="table table-striped" id="tabela-maquina">
+            <thead>
+                <tr>
+                    
+                    <th>Descrição</th>
+                    <th>Produto</th>
+                    <th>Horímetro da Revisão</th>
+                    
+               
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for prod in revisao_nao_feita %}
+                <tr>
+                    
+                    <td>{{ prod.maquina }}</td>
+                    <td>{{ prod.produto }}</td>
+                    <td>{{ prod.horimetro_revisao }}</td>
+                    
+                    <td>
+                        <a href="#" class="btn btn-danger btn-sm" title="Excluir">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="100%">Nenhum produto registrado para esta saída.</td>
+                </tr>
+                {% endfor %}
+              
+            </tbody>
+        </table>
+
+
+    </div>
+    <div class="table-responsive">
+        <h3>Produtos utilizado nas revisões da Máquina</h3>
+        <table class="table table-striped" id="tabela-maquina">
+            <thead>
+                <tr>
+    
+                    <th>Descrição</th>
+                    <th>produtos</th>
+    
+    
+    
+                </tr>
+            </thead>
+            <tbody>
+                {% for prod in revisao_nao_feita %}
+                <tr>
+    
+                    <td>{{ prod.maquina }}</td>
+                    <td>{{ prod.nome }}</td>
+                    <td>{{ prod.horimetro_revisao }}</td>
+    
+                    <td>
+                        <a href="#" class="btn btn-danger btn-sm" title="Excluir">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </a>
+                    </td>
+    
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="100%">Nenhum produto registrado para esta saída.</td>
+                </tr>
+                {% endfor %}
+    
+            </tbody>
+        </table>
+    
+    
+    </div>
+    
 
 
 
