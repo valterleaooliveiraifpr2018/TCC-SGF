@@ -1,18 +1,26 @@
 from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.list import ListView
 from django.contrib.auth.models import User, Group
 from .forms import UsuarioForm
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404
-
+from django.contrib.auth.mixins import LoginRequiredMixin
+from braces.views import GroupRequiredMixin
 from .models import Perfil
+from django.views.generic import TemplateView
+
+
 
 # Create your views here.
+class CadastroView(TemplateView):
+    template_name = "usuarios/confirmacao.html"
 
 
 class UsuarioCreate(CreateView):
     template_name = "cadastros/form.html"
     form_class = UsuarioForm
-    success_url = reverse_lazy('login') # Vai para a página com mensagem personalizada
+    # Vai para a página com mensagem personalizada
+    success_url = reverse_lazy('confirmacao-cadastro')
 
     def form_valid(self, form):
 
@@ -56,14 +64,28 @@ class PerfilUpdate(UpdateView):
 
         return context
 
+  
+
 # CRiar uma ListView de User que só o administrador pode acessar
 
+
+class UsuarioList(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy('login')
+    model = User
+    template_name = 'usuarios/List/gerenciar_aprovacao.html'
+    
+
+
 # Colocar só para o administrador fazer isso
-class GerenciarUsuario(UpdateView):
+
+
+class GerenciarUsuario(GroupRequiredMixin, LoginRequiredMixin, UpdateView):
+    group_required = u"Administrador"
     template_name = "usuarios/editar.html"
     model = User
     fields = ["is_active"]
-    success_url = reverse_lazy("index") # Vai para a lista de usuários
+    # Vai para a lista de usuários
+    success_url = reverse_lazy("listar-usuarios")
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)

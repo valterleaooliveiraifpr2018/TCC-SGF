@@ -100,8 +100,12 @@
                         </a></li>
                 </ul>
                 <ul class="nav nav-pills">
-                    <li class="nav-item"><span class="nav-link active">Usuários</span></li>
                     {% if request.user.is_authenticated %}
+                    <li class="nav-item"><span class="nav-link active">{{ request.user }}</span></li>
+                    
+                    
+
+
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'cards' %}"> <i class="oi oi-plus"></i>
                             <span>Cadastrar</span>
@@ -142,6 +146,14 @@
                             <span>Saídas (Baixas)</span>
                         </a>
                     </li>
+
+                    {% if request.user.is_superuser %}
+                    <li class="nav-item border-top border-bottom border-primary">
+                        <a class="nav-link" href="{% url 'listar-usuarios' %}"> <i class="oi oi-clipboard"></i>
+                            <span>Listar Usuários</span>
+                        </a>
+                    </li>
+                    {% endif %}
 
                     
                     {% endif %}

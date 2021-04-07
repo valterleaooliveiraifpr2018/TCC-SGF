@@ -196,12 +196,14 @@ class Produtos_SaidaCreate(LoginRequiredMixin, CreateView):
             # soma horímetro atual da máquina com a validade do produto
             hora_rev = self.object.saida.horimetro + prod.validade
             # Verificar se já existe uma revisão em aberto
-            revisao_antiga = Revisao.objects.filter(
-                produto=prod, maquina=maq, feita=False)
-            # Se existe uma revisão a ser feita, muda ela para feita = True e salva
-            if(revisao_antiga.exists()):
+            try:
+                revisao_antiga = Revisao.objects.get(produto=prod, maquina=maq, feita=False)
+                # Se existe uma revisão a ser feita, muda ela para feita = True e salva
                 revisao_antiga.feita = True
                 revisao_antiga.save()
+            except:
+                pass
+
             # Cria uma nova revisão
             Revisao.objects.create(
                 produto=prod, maquina=maq, horimetro_revisao=hora_rev)
@@ -493,13 +495,21 @@ class Produtos_SaidaDelete(GroupRequiredMixin, LoginRequiredMixin, DeleteView):
         # Salva o produto
         self.object.produto.save()
         # Remove a revisão que foi lançada
-        revisao = Revisao.objects.filter(
-            produto=self.object.produto,
-            maquina=self.object.saida.maquina,
-            horimetro_revisao=self.object.produto.validade + self.object.saida.horimetro,
-            feita=False)
-        if(revisao.exists()):
+        try:
+            revisao = Revisao.objects.get(
+                produto=self.object.produto,
+                maquina=self.object.saida.maquina,
+                horimetro_revisao=self.object.produto.validade + self.object.saida.horimetro,
+                feita=False)
             revisao.delete()
+
+            # Volta a última feita para a fazer
+            revisao = Revisao.objects.filter(produto=self.object.produto,maquina=self.object.saida.maquina,feita=True)[0]
+            revisao.feita = False
+            revisao.save()
+
+        except:
+            pass
 
         # Exclui essa baixa registrada como saída
         return super().delete(*args, **kwargs)
